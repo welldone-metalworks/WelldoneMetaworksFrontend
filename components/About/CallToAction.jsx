@@ -2,59 +2,139 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function CallToAction() {
   return (
-    <section className="relative w-full bg-gray-50 py-24 overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute -top-20 -left-20 w-72 h-72 bg-[var(--color-primary)] rounded-full opacity-20 animate-pulse-slow" />
-      <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[var(--color-accent)] rounded-full opacity-20 animate-pulse-slow" />
+    <section className="w-full py-24 bg-[#f9fafb]">
+      <div className="max-w-[1280px] mx-auto px-6">
 
-      <div className="max-w-[1280px] mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        {/* Left: Image */}
-        <div className="relative transform rotate-3 hover:rotate-0 transition-all duration-700">
-          <Image
-            src="/garden/garden03.jpg"
-            alt="Showcase"
-            width={700}
-            height={500}
-            className="rounded-3xl shadow-2xl w-full hover:scale-105 transition-transform duration-500"
-          />
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+          className="
+            relative
+            grid
+            lg:grid-cols-2
+            rounded-3xl
+            overflow-hidden
+            shadow-2xl
+            bg-white
+          "
+        >
 
-        {/* Right: Content */}
-        <div className="space-y-6">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--color-primary)] animate-fadeIn">
-            Let’s Build Something Extraordinary
-          </h2>
+          {/* LEFT CONTENT */}
+          <div className="p-10 md:p-14 flex flex-col justify-center">
 
-          <p className="text-gray-700 text-lg md:text-xl animate-fadeIn delay-200">
-            Collaborate with us for innovative metalwork solutions that deliver
-            precision, quality, and lasting impact.
-          </p>
+            <h2 className="
+              text-3xl
+              md:text-4xl
+              lg:text-5xl
+              font-bold
+              text-[#111827]
+              leading-tight
+            ">
+              Modern
+              <span className="
+                block
+                bg-gradient-to-r
+                from-[#981d13]
+                via-[#b72d2c]
+                to-[#cd2b14]
+                bg-clip-text
+                text-transparent
+              ">
+                Metal Interiors
+              </span>
+            </h2>
 
-          <div className="flex flex-wrap gap-4 mt-6 animate-fadeIn delay-400">
-            <Link
-              href="/contact"
-              className="bg-gradient-to-r from-[var(--color-secondary)] to-[var(--color-accent)]
-                         text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg
-                         hover:from-[var(--color-accent)] hover:to-[var(--color-secondary)]
-                         transition-all transform hover:-translate-y-1 hover:scale-105"
-            >
-              Contact Us
-            </Link>
+            <p className="mt-6 text-gray-600 text-lg leading-relaxed max-w-[520px]">
+              Welldone Metalworks creates custom metal decor,
+              wall shelves, railings, gates and architectural
+              metal elements that elevate modern homes and spaces.
+            </p>
 
-            <Link
-              href="/services"
-              className="border-2 border-[var(--color-primary)] text-[var(--color-primary)]
-                         px-8 py-3 rounded-full font-semibold text-lg
-                         hover:bg-[var(--color-primary)] hover:text-white
-                         transition-all transform hover:-translate-y-1 hover:scale-105"
-            >
-              Our Services
-            </Link>
+            <div className="mt-8 flex flex-wrap gap-4">
+
+              <Link
+                href="/contact"
+                className="
+                  px-8
+                  py-3
+                  rounded-full
+                  text-white
+                  font-semibold
+                  bg-gradient-to-r
+                  from-[#981d13]
+                  via-[#b72d2c]
+                  to-[#cd2b14]
+                  shadow-lg
+                  hover:shadow-xl
+                  transition
+                "
+              >
+                Start Your Project
+              </Link>
+
+              <Link
+                href="/services"
+                className="
+                  px-8
+                  py-3
+                  rounded-full
+                  font-semibold
+                  border
+                  border-gray-300
+                  text-gray-700
+                  hover:border-[#cd2b14]
+                  hover:text-[#cd2b14]
+                  transition
+                "
+              >
+                Explore Services
+              </Link>
+
+            </div>
           </div>
-        </div>
+
+          {/* RIGHT IMAGE */}
+          <div className="relative h-[360px] md:h-[460px] lg:h-full">
+
+            <Image
+              src="/HomeImg/AboutCallAction.webp"
+              alt="Metal wall shelves"
+              fill
+              className="object-cover object-center"
+            />
+
+            {/* overlay */}
+            <div className="absolute inset-0 bg-black/20"></div>
+
+            {/* floating badge */}
+            <div className="
+              absolute
+              bottom-6
+              right-6
+              bg-white
+              px-6
+              py-4
+              rounded-xl
+              shadow-xl
+            ">
+              <p className="font-bold text-[#cd2b14] text-lg">
+                Custom Metal Work
+              </p>
+              <p className="text-gray-500 text-sm">
+                Interior & Exterior Solutions
+              </p>
+            </div>
+
+          </div>
+
+        </motion.div>
+
       </div>
     </section>
   );

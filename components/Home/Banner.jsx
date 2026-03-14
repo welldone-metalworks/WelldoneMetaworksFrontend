@@ -1,108 +1,145 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
-const slidesData = [
+const slides = [
   {
-    image: "/banner/banner01.jpg",
-    title: "Custom Fabrication",
-    subtitle: "High-quality steel and metal structures",
-    cta: "Learn More",
+    image: "/banner/banner05.webp",
+    title: "Precision Metal Fabrication",
+    subtitle:
+      "High quality steel structures designed for durability and modern architecture.",
+    cta: "Explore Services",
   },
   {
-    image: "/banner/banner02.jpg",
-    title: "Gazebo & Garden Structures",
-    subtitle: "Designs that enhance outdoor spaces",
-    cta: "View Gallery",
+    image: "/banner/banner02.webp",
+    title: "Modern Gazebo Structures",
+    subtitle:
+      "Elegant outdoor metal structures crafted with premium fabrication.",
+    cta: "View Projects",
   },
   {
-    image: "/banner/banner03.jpg",
+    image: "/banner/banner03.webp",
     title: "Polycarbonate Roofing",
-    subtitle: "Durable & stylish roofing solutions",
-    cta: "Get a Quote",
+    subtitle:
+      "Stylish and weather resistant roofing solutions for modern spaces.",
+    cta: "Get Quote",
   },
 ];
 
 export default function Banner() {
-  const slides = useMemo(() => slidesData, []);
-  const [current, setCurrent] = useState(0);
+  const [[index, direction], setIndex] = useState([0, 0]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
+    const slider = setInterval(() => {
+      setIndex(([prev]) => [(prev + 1) % slides.length, 1]);
     }, 6000);
-    return () => clearInterval(interval);
-  }, [slides.length]);
+
+    return () => clearInterval(slider);
+  }, []);
+
+  const variants = {
+    enter: (direction) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 1,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction) => ({
+      x: direction > 0 ? "-100%" : "100%",
+      opacity: 1,
+    }),
+  };
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-screen overflow-hidden">
-      <AnimatePresence mode="wait">
+    <div className="relative w-full h-[520px] md:h-[650px] lg:h-[720px] overflow-hidden">
+
+      <AnimatePresence initial={false} custom={direction}>
         <motion.div
-          key={current}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-          className="absolute w-full h-full"
+          key={index}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { duration: 0.9, ease: "easeInOut" },
+          }}
+          className="absolute inset-0"
         >
           {/* Background Image */}
           <Image
-            src={slides[current].image}
-            alt={slides[current].title}
+            src={slides[index].image}
+            alt={slides[index].title}
             fill
             priority
-            className="object-cover brightness-75"
+            className="object-cover"
           />
 
           {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
 
           {/* Content */}
-          <div className="absolute inset-0 flex flex-col justify-center items-start px-4 sm:px-8 md:px-16 xl:px-32 text-white z-10">
-            <motion.h1
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              className="text-2xl sm:text-3xl md:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold mb-2 sm:mb-4 leading-tight"
-            >
-              {slides[current].title}
-            </motion.h1>
+          <div className="absolute inset-0 flex items-center text-white">
 
-            <motion.p
-              initial={{ x: -50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="text-sm sm:text-base md:text-xl xl:text-2xl 2xl:text-3xl mb-4 sm:mb-6 max-w-xl"
-            >
-              {slides[current].subtitle}
-            </motion.p>
+            <div className="max-w-[1280px] mx-auto w-full px-6 md:px-10 lg:px-12">
 
-            <motion.button
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 shadow-lg font-semibold hover:scale-105 transition text-sm sm:text-base"
-            >
-              {slides[current].cta}
-            </motion.button>
+              <motion.div
+                key={index + "text"}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="max-w-2xl"
+              >
+
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                  {slides[index].title}
+                </h1>
+
+                <p className="text-lg md:text-xl text-gray-200 mb-6">
+                  {slides[index].subtitle}
+                </p>
+
+                <div className="flex gap-4 flex-wrap">
+
+                  <button
+                    className="px-7 py-3 rounded-md font-semibold shadow-lg transition hover:opacity-90"
+                    style={{ background: "#cd2b14" }}
+                  >
+                    {slides[index].cta}
+                  </button>
+
+                  <button className="px-7 py-3 border border-white hover:bg-white hover:text-black transition rounded-md">
+                    Contact Us
+                  </button>
+
+                </div>
+
+              </motion.div>
+
+            </div>
+
           </div>
         </motion.div>
       </AnimatePresence>
 
       {/* Navigation Dots */}
-      <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-        {slides.map((_, idx) => (
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+        {slides.map((_, i) => (
           <button
-            key={idx}
-            onClick={() => setCurrent(idx)}
-            className={`w-3 sm:w-4 h-3 sm:h-4 rounded-full transition ${
-              current === idx ? "bg-cyan-500" : "bg-gray-400"
-            }`}
+            key={i}
+            onClick={() => setIndex([i, i > index ? 1 : -1])}
+            className="w-3 h-3 rounded-full transition"
+            style={{
+              background: i === index ? "#cd2b14" : "rgba(255,255,255,0.4)",
+            }}
           />
         ))}
       </div>
+
     </div>
   );
 }

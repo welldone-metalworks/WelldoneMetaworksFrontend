@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { FaRegLightbulb, FaTools, FaCheckCircle } from "react-icons/fa";
 
 const steps = [
@@ -25,52 +26,61 @@ const steps = [
 
 export default function ServiceProcess() {
   return (
-    <section className="py-20 bg-gradient-to-b from-[var(--color-primary)]/5 to-white">
+    <section className="py-10 bg-[#f9fafb]">
       <div className="max-w-[1280px] mx-auto px-6">
+
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-dark)] mb-4">
+
+          <h2 className="text-4xl md:text-5xl font-bold text-[#111827]">
             Our Process
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            From consultation to delivery, we follow a clear process to ensure
-            your satisfaction and top-quality metalwork.
+
+          <div className="w-20 h-[4px] bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] mx-auto mt-6 rounded-full"></div>
+
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto mt-6">
+            From consultation to final delivery, we follow a structured workflow
+            to ensure precision, quality, and customer satisfaction.
           </p>
+
         </div>
 
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
           {steps.map((step, index) => (
-            <div
+            <motion.div
               key={index}
-              className="relative bg-white rounded-xl p-8 shadow-lg flex flex-col items-center text-center
-                         transition-transform duration-300 hover:-translate-y-3 hover:shadow-2xl"
+              whileHover={{ y: -8 }}
+              transition={{ duration: 0.3 }}
+              className="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-gray-100 text-center"
             >
-              {/* Number Badge */}
-              <div className="absolute -top-5 bg-[var(--color-primary)] text-white
-                              w-12 h-12 flex items-center justify-center rounded-full
-                              font-bold text-lg shadow-md">
-                {index + 1}
+
+              {/* Step Number */}
+              <div className="absolute top-6 right-6 text-gray-200 text-5xl font-bold">
+                {`0${index + 1}`}
               </div>
 
               {/* Icon */}
-              <div className="text-5xl text-[var(--color-secondary)] mb-4
-                              transition-transform duration-500 hover:rotate-12">
+              <div className="w-16 h-16 mx-auto flex items-center justify-center rounded-2xl text-white text-2xl mb-6 bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
                 {step.icon}
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-bold mb-2 text-[var(--color-dark)]
-                             hover:text-[var(--color-accent)]
-                             transition-colors duration-300">
+              <h3 className="text-xl font-bold text-[#111827] mb-3">
                 {step.title}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-600">{step.description}</p>
-            </div>
+              <p className="text-gray-600 leading-relaxed">
+                {step.description}
+              </p>
+
+            </motion.div>
           ))}
+
         </div>
+
       </div>
     </section>
   );

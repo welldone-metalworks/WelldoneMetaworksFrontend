@@ -14,7 +14,7 @@ export default function ContactPage() {
       <HeroSection
         title="Contact Us"
         breadcrumb="Contact"
-        bgImage="/banner/banner02.jpg"
+        bgImage="/banner/banner02.webp"
       />
       <ContactInfo />
       <ContactForm />

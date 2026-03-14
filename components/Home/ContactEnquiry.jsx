@@ -9,12 +9,14 @@ import {
   Facebook,
   Instagram,
   Linkedin,
+  Send,
+  User,
+  MessageSquare,
 } from "lucide-react";
 
 import { sendEnquiry } from "../../lib/api";
 
 export default function ContactEnquiry() {
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,10 +30,12 @@ export default function ContactEnquiry() {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -40,7 +44,6 @@ export default function ContactEnquiry() {
     setStatus({ loading: true, success: null });
 
     try {
-
       await sendEnquiry(formData);
 
       setStatus({
@@ -68,140 +71,225 @@ export default function ContactEnquiry() {
   };
 
   return (
-    <section className="py-10 px-6 bg-gradient-to-b from-gray-150 to-gray-300">
+    <section className="py-12 bg-white relative overflow-hidden">
 
-      {/* Heading */}
-      <div className="max-w-[1280px] mx-auto text-center mb-16">
+      {/* Background Gradient Glow */}
+      <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-[#cd2b14]/10 blur-[160px]" />
+      <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-[#981d13]/10 blur-[160px]" />
 
-        <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-          Get in Touch With Us
-        </h1>
+      <div className="max-w-[1280px] mx-auto px-6">
 
-        <p className="text-gray-700 mt-4 max-w-3xl mx-auto">
-          Whether you have a question, a project idea, or need a quote,
-          our team is ready to assist you.
-        </p>
+        {/* Heading */}
+        <div className="text-center mb-20">
 
-      </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-[#111827]">
 
-      <div className="max-w-[1280px] mx-auto grid md:grid-cols-2 gap-12">
+            Start Your{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
+              Metal Project
+            </span>
 
-        {/* Contact Info */}
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="bg-white rounded-3xl shadow-2xl p-12 relative overflow-hidden flex flex-col justify-between"
-        >
-
-          <div>
-
-            <h2 className="text-4xl font-extrabold text-gray-800 mb-6">
-              Contact Info
-            </h2>
-
-            <div className="space-y-5 text-gray-700">
-
-              <p className="flex items-center gap-3">
-                <Mail size={20} className="text-cyan-500" />
-                panchalsourav32@gmail.com
-              </p>
-
-              <p className="flex items-center gap-3">
-                <Phone size={20} className="text-purple-500" />
-                +91 96499 57698
-              </p>
-
-              <p className="flex items-center gap-3">
-                <MapPin size={20} className="text-yellow-500" />
-                2 Laxmi Chuna Factory, Sola Gham, Ahmedabad
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className="mt-10">
-
-            <h3 className="text-lg font-semibold text-gray-800 mb-3">
-              Follow Us
-            </h3>
-
-            <div className="flex gap-4 text-gray-600">
-              <Facebook size={24} />
-              <Instagram size={24} />
-              <Linkedin size={24} />
-            </div>
-
-          </div>
-
-        </motion.div>
-
-
-        {/* Enquiry Form */}
-        <motion.div
-          initial={{ x: 50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="bg-white rounded-3xl shadow-2xl p-12"
-        >
-
-          <h2 className="text-4xl font-extrabold text-gray-800 mb-6">
-            Send an Enquiry
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <p className="text-gray-600 mt-5 max-w-2xl mx-auto">
+            Tell us about your fabrication requirements and our team will
+            contact you with the best possible solution.
+          </p>
 
-            {["name", "email", "subject"].map((field) => (
+        </div>
 
-              <input
-                key={field}
-                type={field === "email" ? "email" : "text"}
-                name={field}
-                value={formData[field]}
+        {/* GRID */}
+        <div className="grid lg:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl">
+
+          {/* LEFT SIDE DARK PANEL */}
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-[#111827] to-[#1f2937] text-white p-12 flex flex-col justify-between"
+          >
+
+            <div>
+
+              <h3 className="text-3xl font-bold mb-6">
+                Contact Welldone Metalworks
+              </h3>
+
+              <p className="text-gray-300 mb-10 max-w-sm">
+                From custom gates and railings to large steel fabrication,
+                we deliver precision craftsmanship and durable structures.
+              </p>
+
+              <div className="space-y-6">
+
+                {[
+                  {
+                    icon: Mail,
+                    text: "info@welldone-metalworks.in",
+                  },
+                  {
+                    icon: Phone,
+                    text: "+91 96499 57698",
+                  },
+                  {
+                    icon: MapPin,
+                    text: "Sola Gham, Ahmedabad",
+                  },
+                ].map((item, i) => {
+
+                  const Icon = item.icon;
+
+                  return (
+                    <motion.div
+                      key={i}
+                      whileHover={{ x: 5 }}
+                      className="flex items-center gap-4"
+                    >
+
+                      <div className="w-11 h-11 rounded-lg flex items-center justify-center bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
+                        <Icon size={18} />
+                      </div>
+
+                      <span className="text-gray-200">
+                        {item.text}
+                      </span>
+
+                    </motion.div>
+                  );
+                })}
+
+              </div>
+
+            </div>
+
+            {/* Social */}
+            <div className="flex gap-4 mt-10">
+
+              {[Facebook, Instagram, Linkedin].map((Icon, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.15 }}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#cd2b14] transition cursor-pointer"
+                >
+                  <Icon size={18} />
+                </motion.div>
+              ))}
+
+            </div>
+
+          </motion.div>
+
+          {/* RIGHT SIDE FORM */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="bg-white p-12"
+          >
+
+            <h3 className="text-2xl font-bold text-gray-800 mb-8">
+              Send Enquiry
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+
+              {/* Name */}
+              <div className="relative">
+
+                <User className="absolute left-4 top-4 text-gray-400" size={18} />
+
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your Name"
+                  required
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#cd2b14] outline-none"
+                />
+
+              </div>
+
+              {/* Email */}
+              <div className="relative">
+
+                <Mail className="absolute left-4 top-4 text-gray-400" size={18} />
+
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Your Email"
+                  required
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#cd2b14] outline-none"
+                />
+
+              </div>
+
+              {/* Subject */}
+              <div className="relative">
+
+                <MessageSquare
+                  className="absolute left-4 top-4 text-gray-400"
+                  size={18}
+                />
+
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Subject"
+                  required
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#cd2b14] outline-none"
+                />
+
+              </div>
+
+              {/* Message */}
+              <textarea
+                name="message"
+                value={formData.message}
                 onChange={handleChange}
-                placeholder={field}
+                rows={5}
+                placeholder="Your Message"
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-100"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#cd2b14] outline-none"
               />
 
-            ))}
+              {/* Button */}
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                type="submit"
+                disabled={status.loading}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] shadow-lg"
+              >
 
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Message"
-              rows={5}
-              required
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-100"
-            />
+                <Send size={18} />
 
-            <button
-              type="submit"
-              disabled={status.loading}
-              className="w-full py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold"
-            >
-              {status.loading ? "Sending..." : "Send Message"}
-            </button>
+                {status.loading ? "Sending..." : "Send Message"}
 
-            {status.success === true && (
-              <p className="text-green-500 font-semibold">
-                Message sent successfully!
-              </p>
-            )}
+              </motion.button>
 
-            {status.success === false && (
-              <p className="text-red-500 font-semibold">
-                Failed to send message.
-              </p>
-            )}
+              {status.success === true && (
+                <p className="text-green-600 font-medium">
+                  Message sent successfully!
+                </p>
+              )}
 
-          </form>
+              {status.success === false && (
+                <p className="text-red-500 font-medium">
+                  Failed to send message.
+                </p>
+              )}
 
-        </motion.div>
+            </form>
+
+          </motion.div>
+
+        </div>
 
       </div>
 

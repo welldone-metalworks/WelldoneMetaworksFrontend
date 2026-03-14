@@ -2,130 +2,217 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaYoutube,
-} from "react-icons/fa";
+import { MapPin, Phone, Mail } from "lucide-react";
+import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
-  const pages = [
+
+  const links = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Services", href: "/services" },
     { name: "Gallery", href: "/gallery" },
-    { name: "Enquiry", href: "/enquiry" },
     { name: "Contact", href: "/contact" },
   ];
 
+  const services = [
+    "Metal Gates",
+    "Railings",
+    "Gazebo Structures",
+    "Polycarbonate Roofing",
+    "Steel Structures",
+    "Custom Fabrication",
+  ];
+
+  const legal = [
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms & Conditions", href: "/terms" },
+    { name: "Sitemap", href: "/sitemap" },
+  ];
+
   return (
-    <footer className="relative bg-gradient-to-tr from-[#0f172a] to-[#1e293b] text-gray-200 pt-10 pb-10 overflow-hidden">
-      {/* Decorative Background Circles */}
-      <div className="absolute -top-24 -left-24 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+    <footer className="relative bg-gradient-to-b from-[#1f1f1f] via-[#242424] to-[#2a2a2a] text-gray-300 pt-16 pb-8 overflow-hidden">
 
-      <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-        {/* About */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-            About
-          </h2>
-          <p className="text-gray-400 leading-relaxed mb-4">
-            At Welldone Metalworks, we craft premium metal components with
-            precision and care, delivering high-quality fabrication solutions.
+      {/* Top Divider */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#cd2b14] to-transparent"></div>
+
+      {/* Background Glow */}
+      <div className="absolute -top-32 -left-32 w-[350px] h-[350px] bg-[#cd2b14]/10 blur-[160px]" />
+      <div className="absolute -bottom-32 -right-32 w-[350px] h-[350px] bg-[#981d13]/10 blur-[160px]" />
+
+      <div className="max-w-[1280px] mx-auto px-6">
+
+        <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-10">
+
+          {/* Brand */}
+          <div>
+
+            <Image
+              src="/logo.png"
+              alt="Welldone Metalworks"
+              width={110}
+              height={50}
+              className="mb-4"
+            />
+
+            <p className="text-gray-400 text-sm leading-relaxed mb-5">
+              Welldone Metalworks delivers premium fabrication solutions
+              including gates.
+            </p>
+
+            <div className="flex gap-3">
+
+              <a
+                href="#"
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2c2c2c] border border-white/10 hover:bg-[#cd2b14] transition"
+              >
+                <FaFacebookF />
+              </a>
+
+              <a
+                href="#"
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2c2c2c] border border-white/10 hover:bg-[#cd2b14] transition"
+              >
+                <FaInstagram />
+              </a>
+
+              <a
+                href="#"
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2c2c2c] border border-white/10 hover:bg-[#cd2b14] transition"
+              >
+                <FaWhatsapp />
+              </a>
+
+            </div>
+
+          </div>
+
+          {/* Quick Links */}
+          <div>
+
+            <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
+              Quick Links
+            </h3>
+
+            <ul className="space-y-2 text-sm">
+
+              {links.map((item, i) => (
+                <li key={i}>
+                  <Link
+                    href={item.href}
+                    className="flex items-center gap-2 hover:text-white transition"
+                  >
+                    <span className="text-[#cd2b14]">→</span>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+
+            </ul>
+
+          </div>
+
+          {/* Services */}
+          <div>
+
+            <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
+              Services
+            </h3>
+
+            <ul className="space-y-2 text-sm">
+
+              {services.map((service, i) => (
+                <li key={i}>
+                  <Link
+                    href="/services"
+                    className="flex items-center gap-2 hover:text-white transition"
+                  >
+                    <span className="text-[#cd2b14]">→</span>
+                    {service}
+                  </Link>
+                </li>
+              ))}
+
+            </ul>
+
+          </div>
+
+          {/* Contact */}
+          <div>
+
+            <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
+              Contact
+            </h3>
+
+            <div className="space-y-3 text-sm">
+
+              <div className="flex items-start gap-3">
+                <MapPin size={16} className="text-[#cd2b14]" />
+                <p>Sola Gham, Ahmedabad</p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Phone size={16} className="text-[#cd2b14]" />
+                <p>+91 96499 57698</p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Mail size={16} className="text-[#cd2b14]" />
+                <p>info@welldonemetalworks.com</p>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Legal */}
+          <div>
+
+            <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
+              Legal
+            </h3>
+
+            <ul className="space-y-2 text-sm">
+
+              {legal.map((item, i) => (
+                <li key={i}>
+                  <Link
+                    href={item.href}
+                    className="hover:text-white transition"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+
+            </ul>
+
+          </div>
+
+        </div>
+
+        {/* Divider */}
+        <div className="mt-12 h-[1px] w-full bg-gradient-to-r from-transparent via-[#b72d2c] to-transparent" />
+
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center mt-5 text-sm text-gray-400 gap-3">
+
+          <p>
+            © {new Date().getFullYear()} Welldone Metalworks. All rights reserved.
           </p>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-cyan-400 transition">
-              <FaFacebookF size={18} />
-            </a>
-            <a href="#" className="hover:text-blue-400 transition">
-              <FaTwitter size={18} />
-            </a>
-            <a href="#" className="hover:text-pink-400 transition">
-              <FaInstagram size={18} />
-            </a>
-            <a href="#" className="hover:text-red-500 transition">
-              <FaYoutube size={18} />
-            </a>
-          </div>
+
+          <p>
+            Crafted with precision metal engineering.
+          </p>
+
         </div>
 
-        {/* Pages */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-            Pages
-          </h2>
-          <ul className="space-y-2 text-gray-400">
-            {pages.map((page, idx) => (
-              <li key={idx}>
-                <Link
-                  href={page.href}
-                  className="hover:text-cyan-400 transition"
-                >
-                  {page.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Services */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-            Services
-          </h2>
-          <ul className="space-y-2 text-gray-400">
-            {[
-              "Custom Metal Fabrication",
-              "Structural Metalworks",
-              "Decorative Metalwork",
-              "Metal Finishing & Coating",
-              "Welding & Repairs",
-              "Polycarbonate Roofing",
-            ].map((service, idx) => (
-              <li key={idx}>
-                <Link href="/services" className="hover:text-cyan-400 transition">
-                  {service}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Gallery */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-            Gallery
-          </h2>
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              "/garden/garden01.jpg",
-              "/garden/garden02.jpg",
-              "/garden/garden03.jpg",
-              "/gazebo/gazebo01.jpg",
-              "/gazebo/gazebo02.jpg",
-              "/gazebo/gazebo03.jpg",
-            ].map((img, idx) => (
-              <Image
-                key={idx}
-                src={img}
-                alt="gallery"
-                width={100}
-                height={80}
-                className="rounded-lg h-20 w-full object-cover"
-              />
-            ))}
-          </div>
-        </div>
       </div>
 
-      {/* Bottom */}
-      <div className="border-t border-gray-700 mt-12 pt-6 text-center text-gray-500 text-sm">
-        <p>
-          © {new Date().getFullYear()} Welldone Metalworks. All Rights Reserved.
-        </p>
-      </div>
     </footer>
   );
 }

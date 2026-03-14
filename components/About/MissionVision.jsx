@@ -1,64 +1,112 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { FaBullseye, FaEye } from "react-icons/fa";
 
 export default function MissionVision() {
+  const items = [
+    {
+      icon: <FaBullseye />,
+      title: "Our Mission",
+      description:
+        "Deliver precision-driven metal fabrication solutions with unmatched quality, reliability, and craftsmanship for modern architectural projects.",
+    },
+    {
+      icon: <FaEye />,
+      title: "Our Vision",
+      description:
+        "To become a trusted leader in metal fabrication by continuously innovating and delivering sustainable structural solutions worldwide.",
+    },
+  ];
+
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-[1280px] mx-auto px-6">
+    <section className="relative py-24 bg-[#f9fafb] overflow-hidden">
+
+      {/* Background Typography */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <h1 className="text-[120px] md:text-[180px] font-extrabold text-gray-100 tracking-widest">
+          METALWORKS
+        </h1>
+      </div>
+
+      <div className="relative max-w-[1280px] mx-auto px-6">
+
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--color-primary)] mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#111827]">
             Our Mission & Vision
           </h2>
-          <p className="text-gray-500 max-w-xl mx-auto text-lg">
-            Driving innovation, quality, and excellence in every metalwork
-            project we undertake.
+
+          <div className="w-20 h-[4px] bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] mx-auto mt-6 rounded-full"></div>
+
+          <p className="text-gray-500 max-w-2xl mx-auto mt-6 text-lg">
+            Building the future of metal fabrication with innovation,
+            craftsmanship, and architectural excellence.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Mission Card */}
-          <div className="relative group bg-[var(--color-primary)]/10 rounded-3xl p-10 shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500">
-            {/* Decorative Circle */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-[var(--color-primary)]/20 rounded-full animate-ping" />
+        {/* Cards */}
+        <div className="grid md:grid-cols-2 gap-10">
 
-            <div className="flex items-center mb-6 space-x-4">
-              <div className="text-[var(--color-primary)] text-4xl">
-                <FaBullseye />
+          {items.map((item, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ y: -10 }}
+              className="
+                relative
+                backdrop-blur-xl
+                bg-white/80
+                border border-gray-200
+                rounded-3xl
+                p-10
+                shadow-xl
+                hover:shadow-2xl
+                transition
+              "
+            >
+
+              {/* icon */}
+              <div className="
+                w-16 h-16
+                flex items-center justify-center
+                rounded-2xl
+                text-white
+                text-2xl
+                mb-6
+                bg-gradient-to-r
+                from-[#981d13]
+                via-[#b72d2c]
+                to-[#cd2b14]
+              ">
+                {item.icon}
               </div>
-              <h3 className="text-2xl font-bold text-[var(--color-dark)]">
-                Our Mission
+
+              {/* title */}
+              <h3 className="text-2xl font-bold text-[#111827] mb-4">
+                {item.title}
               </h3>
-            </div>
 
-            <p className="text-gray-600 leading-relaxed">
-              Delivering top-notch metal fabrication solutions with precision
-              and creativity, empowering businesses with reliable and
-              sustainable metalworks.
-            </p>
-          </div>
+              {/* text */}
+              <p className="text-gray-600 leading-relaxed">
+                {item.description}
+              </p>
 
-          {/* Vision Card */}
-          <div className="relative group bg-[var(--color-accent)]/10 rounded-3xl p-10 shadow-md overflow-hidden hover:shadow-2xl transition-all duration-500">
-            {/* Decorative Circle */}
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-[var(--color-accent)]/20 rounded-full animate-ping" />
+              {/* decorative corner */}
+              <div className="
+                absolute
+                top-0
+                right-0
+                w-20
+                h-20
+                bg-gradient-to-br
+                from-[#981d13]/10
+                to-[#cd2b14]/10
+                rounded-bl-3xl
+              "></div>
 
-            <div className="flex items-center mb-6 space-x-4">
-              <div className="text-[var(--color-accent)] text-4xl">
-                <FaEye />
-              </div>
-              <h3 className="text-2xl font-bold text-[var(--color-dark)]">
-                Our Vision
-              </h3>
-            </div>
+            </motion.div>
+          ))}
 
-            <p className="text-gray-600 leading-relaxed">
-              To become a global leader in the metalworks industry, setting new
-              standards in quality, innovation, and sustainable solutions for
-              generations to come.
-            </p>
-          </div>
         </div>
       </div>
     </section>

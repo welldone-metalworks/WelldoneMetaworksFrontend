@@ -11,10 +11,10 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <div>
-      <HeroSection
+      <HeroSection 
         title="Our Services"
         breadcrumb="Services"
-        bgImage="/banner/banner02.jpg"
+        bgImage="/banner/banner02.webp"
       />
       <ServicesList />
       <ServiceProcess />

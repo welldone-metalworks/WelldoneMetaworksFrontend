@@ -4,10 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import { motion } from "framer-motion";
+import { ZoomIn } from "lucide-react";
 import HeroSection from "../../components/About/HeroSection";
 
 export default function GalleryPage() {
-  // Categories
   const categories = [
     "All",
     "Garden Structure",
@@ -17,7 +18,6 @@ export default function GalleryPage() {
     "Polycarbonate Roofing",
   ];
 
-  // Gallery data
   const galleryData = [
     {
       category: "Garden Structure",
@@ -147,7 +147,6 @@ export default function GalleryPage() {
       ],
     },
     {
-      category: "Heavy Conventional",
       images: [
         "/gallery/heavy/heavy_convenstional01.jpg",
         "/gallery/heavy/heavy_convenstional02.jpg",
@@ -177,7 +176,6 @@ export default function GalleryPage() {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Flatten all images
   const allImages = galleryData.flatMap((group) =>
     group.images.map((src) => ({
       src,
@@ -185,39 +183,70 @@ export default function GalleryPage() {
     }))
   );
 
-  // Filter images
   const filteredImages =
     activeCategory === "All"
       ? allImages
       : allImages.filter((img) => img.category === activeCategory);
 
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 40 },
+    show: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="pt-24">
-      {/* Hero */}
+    <div className="pt-24 bg-[#f9fafb]">
       <HeroSection
         title="Our Gallery"
         breadcrumb="Gallery"
-        bgImage="/banner/banner02.jpg"
+        bgImage="/banner/banner02.webp"
       />
 
-      <div className="pt-10 pb-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          {/* Title */}
-          <h1 className="text-4xl font-bold text-center mb-8 text-[var(--color-dark)]">
-            Our Gallery
-          </h1>
+      <section className="py-16">
+        <div className="max-w-[1280px] mx-auto px-6">
+          {/* Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold text-[#111827]">
+              Our Work Showcase
+            </h2>
+            <p className="text-[#6b7280] mt-3 max-w-xl mx-auto">
+              Explore our latest fabrication projects including gazebo
+              structures, railings, roofing systems, and custom metal work.
+            </p>
+          </motion.div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2 rounded-full border font-medium transition-all ${
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-md border ${
                   activeCategory === cat
-                    ? "bg-[var(--color-primary)] text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100"
+                    ? "text-white border-transparent"
+                    : "bg-white/70 border-gray-200 text-gray-700 hover:bg-gray-100"
                 }`}
+                style={
+                  activeCategory === cat
+                    ? {
+                        background:
+                          "linear-gradient(to right,#981d13,#b72d2c,#cd2b14)",
+                      }
+                    : {}
+                }
               >
                 {cat}
               </button>
@@ -225,16 +254,20 @@ export default function GalleryPage() {
           </div>
 
           {/* Gallery Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          >
             {filteredImages.map((img, index) => {
-              const globalIndex = allImages.findIndex(
-                (i) => i.src === img.src
-              );
+              const globalIndex = allImages.findIndex((i) => i.src === img.src);
 
               return (
-                <div
+                <motion.div
                   key={index}
-                  className="relative group cursor-pointer"
+                  variants={item}
+                  className="relative group cursor-pointer rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
                   onClick={() => {
                     setCurrentIndex(globalIndex);
                     setOpen(true);
@@ -242,29 +275,34 @@ export default function GalleryPage() {
                 >
                   <Image
                     src={img.src}
-                    alt={img.category}
-                    width={400}
-                    height={300}
-                    className="rounded-xl shadow-md w-full h-64 object-cover transform group-hover:scale-105 transition duration-300"
+                    alt={`Welldone Metalworks ${img.category}`}
+                    width={500}
+                    height={400}
+                    className="w-full h-72 object-cover transform group-hover:scale-110 transition duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white font-semibold rounded-xl">
-                    View
+
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center text-white">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md mb-3">
+                      <ZoomIn size={20} />
+                    </div>
+
+                    <span className="text-sm font-medium">{img.category}</span>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
+      </section>
 
-        {/* Lightbox */}
-        <Lightbox
-          open={open}
-          close={() => setOpen(false)}
-          index={currentIndex}
-          slides={allImages.map((img) => ({ src: img.src }))}
-        />
-      </div>
+      {/* Lightbox */}
+      <Lightbox
+        open={open}
+        close={() => setOpen(false)}
+        index={currentIndex}
+        slides={allImages.map((img) => ({ src: img.src }))}
+      />
     </div>
   );
 }
-  

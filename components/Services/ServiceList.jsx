@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   FaHammer,
   FaWrench,
@@ -12,31 +13,80 @@ import {
 
 function ServiceCard({ icon, title, description, id }) {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center text-center transition-transform duration-300 hover:-translate-y-4 hover:shadow-2xl hover:bg-gradient-to-r hover:from-[var(--color-primary)]/10 hover:to-[var(--color-secondary)]/10">
-      {/* Icon */}
-      <div className="text-[50px] mb-4 text-[var(--color-primary)] transition-transform duration-500 hover:scale-110">
+    <motion.div
+      whileHover={{ y: -12 }}
+      transition={{ duration: 0.3 }}
+      className="
+        relative
+        bg-white
+        rounded-3xl
+        p-8
+        shadow-lg
+        hover:shadow-2xl
+        border border-gray-100
+        transition
+        group
+      "
+    >
+      {/* gradient accent line */}
+      <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]" />
+
+      {/* icon */}
+      <div className="
+        w-16 h-16
+        flex items-center justify-center
+        rounded-2xl
+        text-white
+        text-2xl
+        mb-6
+        bg-gradient-to-r
+        from-[#981d13]
+        via-[#b72d2c]
+        to-[#cd2b14]
+        shadow-lg
+      ">
         {icon}
       </div>
 
-      {/* Title */}
-      <h3 className="text-xl font-bold mb-2 text-[var(--color-dark)] transition-all duration-300 hover:bg-gradient-to-r hover:from-[var(--color-primary)] hover:to-[var(--color-accent)] hover:bg-clip-text hover:text-transparent">
+      {/* title */}
+      <h3 className="text-xl font-bold text-[#111827] mb-3">
         {title}
       </h3>
 
-      {/* Description */}
-      <p className="text-gray-600">{description}</p>
+      {/* description */}
+      <p className="text-gray-600 leading-relaxed">
+        {description}
+      </p>
 
       {/* CTA */}
       <Link
         href={`/services/${id}`}
-        className="mt-4 inline-block text-white bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)]
-                   px-6 py-2 rounded-full font-semibold
-                   hover:from-[var(--color-secondary)] hover:to-[var(--color-accent)]
-                   transition-all duration-300 transform hover:-translate-y-1"
+        className="
+          inline-block
+          mt-6
+          font-semibold
+          text-[#cd2b14]
+          hover:underline
+        "
       >
-        Learn More
+        Learn More →
       </Link>
-    </div>
+
+      {/* hover glow */}
+      <div className="
+        absolute
+        -bottom-10
+        -right-10
+        w-32
+        h-32
+        bg-[#cd2b14]/10
+        rounded-full
+        blur-2xl
+        opacity-0
+        group-hover:opacity-100
+        transition
+      " />
+    </motion.div>
   );
 }
 
@@ -47,65 +97,88 @@ export default function ServicesList() {
       icon: <FaHammer />,
       title: "Custom Metal Fabrication",
       description:
-        "Precision metal fabrication tailored to your specifications.",
+        "Precision metal fabrication tailored to your exact specifications and structural needs.",
     },
     {
       id: "structural-metalworks",
       icon: <FaWrench />,
       title: "Structural Metalworks",
       description:
-        "Strong and durable structural components for industrial needs.",
+        "Durable and reliable structural metal components designed for strength and longevity.",
     },
     {
       id: "decorative-metalwork",
       icon: <FaTools />,
       title: "Decorative Metalwork",
       description:
-        "Stylish, elegant, and creative metal designs for interiors and exteriors.",
+        "Elegant and creative metal designs crafted for modern architectural spaces.",
     },
     {
       id: "metal-finishing",
       icon: <FaCogs />,
       title: "Metal Finishing & Coating",
       description:
-        "High-quality finishing and protective coatings for long-lasting performance.",
+        "High-quality finishing techniques and coatings that enhance durability and appearance.",
     },
     {
       id: "welding-repairs",
       icon: <FaShieldAlt />,
-      title: "Welding and Repairs",
+      title: "Welding & Repairs",
       description:
-        "Reliable welding and repair services for all metal structures.",
+        "Expert welding services and structural repairs for long-lasting performance.",
     },
     {
       id: "custom-painting",
       icon: <FaPaintBrush />,
       title: "Custom Painting & Design",
       description:
-        "Adding aesthetics with custom paint finishes and design elements.",
+        "Professional painting and finishing to give your metalwork a premium look.",
     },
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="relative py-24 bg-[#f9fafb] overflow-hidden">
+
+      {/* background glow */}
+      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-[#cd2b14]/20 blur-[140px] rounded-full"></div>
+      <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-[#981d13]/20 blur-[140px] rounded-full"></div>
+
       <div className="max-w-[1280px] mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-dark)] mb-4">
+
+        {/* header */}
+        <div className="text-center mb-16">
+
+          <h2 className="
+            text-4xl
+            md:text-5xl
+            font-bold
+            text-[#111827]
+          ">
             Our Services
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Welldone Metalworks provides high-quality metal services with
-            precision, durability, and creativity. Explore what we offer!
+
+          <div className="w-20 h-[4px] bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] mx-auto mt-6 rounded-full"></div>
+
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto mt-6">
+            Welldone Metalworks provides high-quality fabrication services
+            with precision engineering and modern craftsmanship.
           </p>
+
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {/* grid */}
+        <div className="
+          grid
+          grid-cols-1
+          sm:grid-cols-2
+          lg:grid-cols-3
+          gap-8
+        ">
           {services.map((service) => (
             <ServiceCard key={service.id} {...service} />
           ))}
         </div>
+
       </div>
     </section>
   );

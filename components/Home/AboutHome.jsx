@@ -1,87 +1,126 @@
 "use client";
 
-import { Users2, Hammer, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Users2, Hammer, Star } from "lucide-react";
 
 export default function AboutHome() {
-  const stats = [
-    {
-      icon: <Users2 size={26} className="text-cyan-500" />,
-      title: "Experienced Team",
-      value: "10+ Years",
-    },
-    {
-      icon: <Hammer size={26} className="text-purple-500" />,
-      title: "Projects Completed",
-      value: "500+",
-    },
-    {
-      icon: <Star size={26} className="text-yellow-400" />,
-      title: "Satisfied Clients",
-      value: "300+",
-    },
-  ];
-
   return (
-    <section className="relative bg-gradient-to-b from-gray-50 to-gray-100 px-6 py-16">
-      <div className="relative max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-        {/* LEFT: TEXT */}
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="flex flex-col gap-6 text-gray-800"
-        >
-          <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-500 to-purple-500 bg-clip-text text-transparent">
-            Welldone Metalworks
-          </h2>
+    <section className="relative py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
 
-          <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
-            At Welldone Metalworks, we provide top-notch fabrication services
-            tailored to your needs. From custom metal structures and gazebos to
-            polycarbonate roofing solutions, our skilled team ensures precision,
-            durability, and timely delivery for every project.
+      <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-10 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        {/* IMAGE SIDE */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="relative"
+        >
+
+          {/* Image container */}
+          <div className="relative h-[320px] sm:h-[380px] md:h-[420px]">
+
+            {/* Main Image */}
+            <div className="absolute w-[85%] h-[85%] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src="/HomeImg/AboutImg1.webp"
+                fill
+                alt="Metal Fabrication"
+                className="object-cover hover:scale-105 transition duration-700"
+              />
+            </div>
+
+            {/* Small Image */}
+            <div className="absolute bottom-0 right-0 w-[60%] h-[60%] rounded-xl md:rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+              <Image
+                src="/HomeImg/AboutImg.webp"
+                fill
+                alt="Metal Structure"
+                className="object-cover"
+              />
+            </div>
+
+          </div>
+
+          {/* Experience Badge */}
+          <div className="mt-6 md:absolute md:-bottom-6 md:left-10 flex justify-center md:justify-start">
+
+            <div className="bg-white shadow-lg rounded-xl px-6 py-4 border text-center md:text-left">
+
+              <p className="text-[#cd2b14] font-bold text-2xl md:text-3xl">
+                5+
+              </p>
+
+              <p className="text-gray-600 text-xs md:text-sm">
+                Years Experience
+              </p>
+
+            </div>
+
+          </div>
+
+        </motion.div>
+
+        {/* CONTENT SIDE */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+
+          <p className="text-[#cd2b14] text-sm font-semibold uppercase tracking-widest mb-3">
+            About Welldone Metalworks
           </p>
 
-          {/* STATS */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
-            {stats.map((item, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.05 }}
-                className="flex flex-col items-center text-center bg-white border border-gray-200 rounded-2xl p-6 shadow-md"
-              >
-                <div className="mb-2">{item.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {item.title}
-                </h3>
-                <p className="text-cyan-500 font-bold text-xl">
-                  {item.value}
-                </p>
-              </motion.div>
-            ))}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-gray-900 mb-5">
+
+            Strong Fabrication
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
+              Built With Precision
+            </span>
+
+          </h2>
+
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8">
+            Welldone Metalworks delivers high-quality metal fabrication
+            solutions for modern residential and commercial structures.
+            Our skilled team builds durable gazebos, railings, steel frames,
+            and polycarbonate roofing with precision craftsmanship.
+          </p>
+
+          {/* FEATURES */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6">
+
+            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl border bg-white shadow-sm hover:shadow-md transition">
+              <Users2 size={26} className="text-[#cd2b14]" />
+              <h4 className="mt-2 md:mt-3 text-sm md:text-base font-semibold text-gray-800">
+                Skilled Team
+              </h4>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl border bg-white shadow-sm hover:shadow-md transition">
+              <Hammer size={26} className="text-[#cd2b14]" />
+              <h4 className="mt-2 md:mt-3 text-sm md:text-base font-semibold text-gray-800">
+                Quality Work
+              </h4>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl border bg-white shadow-sm hover:shadow-md transition col-span-2 sm:col-span-1">
+              <Star size={26} className="text-[#cd2b14]" />
+              <h4 className="mt-2 md:mt-3 text-sm md:text-base font-semibold text-gray-800">
+                Trusted Clients
+              </h4>
+            </div>
+
           </div>
+
         </motion.div>
 
-        {/* RIGHT: IMAGE */}
-        <motion.div
-          initial={{ x: 50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-200 h-[360px] md:h-[400px]"
-        >
-          <Image
-            src="/gazebo/gazebo03.jpg"
-            alt="Fabrication Showcase"
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </motion.div>
       </div>
+
     </section>
   );
 }
