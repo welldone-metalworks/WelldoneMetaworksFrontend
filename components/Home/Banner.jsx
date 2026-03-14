@@ -6,21 +6,21 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
   {
-    image: "/banner/banner05.webp",
+    image: "/Banner/banner05.webp",
     title: "Precision Metal Fabrication",
     subtitle:
       "High quality steel structures designed for durability and modern architecture.",
     cta: "Explore Services",
   },
   {
-    image: "/banner/banner02.webp",
+    image: "/Banner/banner02.webp",
     title: "Modern Gazebo Structures",
     subtitle:
       "Elegant outdoor metal structures crafted with premium fabrication.",
     cta: "View Projects",
   },
   {
-    image: "/banner/banner03.webp",
+    image: "/Banner/banner03.webp",
     title: "Polycarbonate Roofing",
     subtitle:
       "Stylish and weather resistant roofing solutions for modern spaces.",
