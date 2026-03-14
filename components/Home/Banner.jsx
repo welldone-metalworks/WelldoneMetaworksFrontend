@@ -56,7 +56,6 @@ export default function Banner() {
 
   return (
     <div className="relative w-full h-[520px] md:h-[650px] lg:h-[720px] overflow-hidden">
-
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={index}
@@ -84,9 +83,7 @@ export default function Banner() {
 
           {/* Content */}
           <div className="absolute inset-0 flex items-center text-white">
-
             <div className="max-w-[1280px] mx-auto w-full px-6 md:px-10 lg:px-12">
-
               <motion.div
                 key={index + "text"}
                 initial={{ opacity: 0, y: 40 }}
@@ -94,7 +91,6 @@ export default function Banner() {
                 transition={{ delay: 0.3 }}
                 className="max-w-2xl"
               >
-
                 <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
                   {slides[index].title}
                 </h1>
@@ -104,7 +100,6 @@ export default function Banner() {
                 </p>
 
                 <div className="flex gap-4 flex-wrap">
-
                   <button
                     className="px-7 py-3 rounded-md font-semibold shadow-lg transition hover:opacity-90"
                     style={{ background: "#cd2b14" }}
@@ -115,13 +110,9 @@ export default function Banner() {
                   <button className="px-7 py-3 border border-white hover:bg-white hover:text-black transition rounded-md">
                     Contact Us
                   </button>
-
                 </div>
-
               </motion.div>
-
             </div>
-
           </div>
         </motion.div>
       </AnimatePresence>
@@ -139,7 +130,6 @@ export default function Banner() {
           />
         ))}
       </div>
-
     </div>
   );
 }
