@@ -9,6 +9,7 @@ import { ZoomIn } from "lucide-react";
 import HeroSection from "../../components/About/HeroSection";
 
 export default function GalleryPage() {
+
   const categories = [
     "All",
     "Garden Structure",
@@ -147,6 +148,7 @@ export default function GalleryPage() {
       ],
     },
     {
+      category: "Heavy Conventional",
       images: [
         "/gallery/heavy/heavy_convenstional01.jpg",
         "/gallery/heavy/heavy_convenstional02.jpg",
@@ -188,45 +190,71 @@ export default function GalleryPage() {
       ? allImages
       : allImages.filter((img) => img.category === activeCategory);
 
-  const container = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.08,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0 },
-  };
-
   return (
     <div className="pt-24 bg-[#f9fafb]">
+
+      {/* SEO Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ImageGallery",
+            name: "Welldone Metalworks Metal Fabrication Project Gallery",
+            url: "https://welldone-metalworks.in/gallery",
+            description:
+              "Gallery of metal fabrication projects including gazebo structures, garden metal structures, railing fabrication and roofing systems in Ahmedabad.",
+            publisher: {
+              "@type": "Organization",
+              name: "Welldone Metalworks",
+            },
+          }),
+        }}
+      />
+
       <HeroSection
         title="Our Gallery"
         breadcrumb="Gallery"
         bgImage="/Banner/banner02.webp"
       />
 
+      {/* SEO Content Section */}
+      <section className="py-14 bg-white">
+        <div className="max-w-[1100px] mx-auto px-6 text-center">
+
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Metal Fabrication Projects in Ahmedabad
+          </h2>
+
+          <p className="text-gray-600 leading-relaxed mb-6">
+            Welldone Metalworks showcases a wide range of completed metal fabrication projects across Ahmedabad.
+            Our gallery highlights real fabrication work including gazebo structures, garden metal structures,
+            railing fabrication, heavy conventional metal fabrication and polycarbonate roofing systems.
+          </p>
+
+          <p className="text-gray-600 leading-relaxed mb-6">
+            Each project represents our dedication to precision engineering, durable materials and modern fabrication
+            techniques. From residential garden structures to commercial metal installations, our team ensures that
+            every project is strong, reliable and architecturally impressive.
+          </p>
+
+          <p className="text-gray-600 leading-relaxed">
+            Explore our fabrication work to understand the quality and craftsmanship delivered by Welldone Metalworks.
+            If you are planning a custom metal fabrication project in Ahmedabad, our experienced team can provide
+            tailored solutions designed for durability and modern design.
+          </p>
+
+        </div>
+      </section>
+
       <section className="py-16">
         <div className="max-w-[1280px] mx-auto px-6">
-          {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
+
+          <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-[#111827]">
-              Our Work Showcase
+              Our Fabrication Work Showcase
             </h2>
-            <p className="text-[#6b7280] mt-3 max-w-xl mx-auto">
-              Explore our latest fabrication projects including gazebo
-              structures, railings, roofing systems, and custom metal work.
-            </p>
-          </motion.div>
+          </div>
 
           {/* Category Filter */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -234,10 +262,10 @@ export default function GalleryPage() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-md border ${
+                className={`px-6 py-2 rounded-full text-sm font-medium ${
                   activeCategory === cat
-                    ? "text-white border-transparent"
-                    : "bg-white/70 border-gray-200 text-gray-700 hover:bg-gray-100"
+                    ? "text-white"
+                    : "bg-white border text-gray-700"
                 }`}
                 style={
                   activeCategory === cat
@@ -254,55 +282,50 @@ export default function GalleryPage() {
           </div>
 
           {/* Gallery Grid */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
             {filteredImages.map((img, index) => {
+
               const globalIndex = allImages.findIndex((i) => i.src === img.src);
 
               return (
-                <motion.div
+                <div
                   key={index}
-                  variants={item}
-                  className="relative group cursor-pointer rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+                  className="relative group cursor-pointer rounded-2xl overflow-hidden shadow-lg"
                   onClick={() => {
                     setCurrentIndex(globalIndex);
                     setOpen(true);
                   }}
                 >
+
                   <Image
                     src={img.src}
-                    alt={`Welldone Metalworks ${img.category}`}
+                    alt={`Metal fabrication ${img.category} project by Welldone Metalworks Ahmedabad`}
                     width={500}
                     height={400}
-                    className="w-full h-72 object-cover transform group-hover:scale-110 transition duration-500"
+                    className="w-full h-72 object-cover group-hover:scale-110 transition duration-500"
                   />
 
-                  {/* Overlay */}
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center text-white">
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md mb-3">
-                      <ZoomIn size={20} />
-                    </div>
-
-                    <span className="text-sm font-medium">{img.category}</span>
+                    <ZoomIn size={20} />
+                    <span className="text-sm mt-2">{img.category}</span>
                   </div>
-                </motion.div>
+
+                </div>
               );
             })}
-          </motion.div>
+          </div>
+
         </div>
       </section>
 
-      {/* Lightbox */}
       <Lightbox
         open={open}
         close={() => setOpen(false)}
         index={currentIndex}
         slides={allImages.map((img) => ({ src: img.src }))}
       />
+
     </div>
   );
 }
