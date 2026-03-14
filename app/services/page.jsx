@@ -14,7 +14,7 @@ export default function ServicesPage() {
       <HeroSection 
         title="Our Services"
         breadcrumb="Services"
-        bgImage="/banner/banner02.webp"
+        bgImage="/Banner/banner02.webp"
       />
       <ServicesList />
       <ServiceProcess />

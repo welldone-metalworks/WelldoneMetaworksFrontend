@@ -207,7 +207,7 @@ export default function GalleryPage() {
       <HeroSection
         title="Our Gallery"
         breadcrumb="Gallery"
-        bgImage="/banner/banner02.webp"
+        bgImage="/Banner/banner02.webp"
       />
 
       <section className="py-16">

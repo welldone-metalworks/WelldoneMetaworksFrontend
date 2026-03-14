@@ -15,7 +15,7 @@ export default function EnquiryPage() {
       <HeroSection
         title="Enquiry Form"
         breadcrumb="Enquiry"
-        bgImage="/banner/banner02.webp"
+        bgImage="/Banner/banner02.webp"
       />
 
       {/* Contact Info */}

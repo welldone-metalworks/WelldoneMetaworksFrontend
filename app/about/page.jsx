@@ -16,7 +16,7 @@ export default function AboutPage() {
       <HeroSection
         title="About Us"
         breadcrumb="About"
-        bgImage="/banner/banner02.webp"
+        bgImage="/Banner/banner02.webp"
       />
 
       <CompanyIntro />

@@ -39,7 +39,7 @@ const services = [
     title: "Security Gates",
     description: "Heavy-duty metal gates designed for safety and durability.",
     slug: "security-gates",
-    image: "/HomeImg/gates.webp",
+    image: "/HomeImg/Gates.webp",
   },
   {
     icon: <Grid size={26} />,
