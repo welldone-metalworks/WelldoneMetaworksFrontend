@@ -6,7 +6,6 @@ import { MapPin, Phone, Mail } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
-
   const links = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
@@ -26,13 +25,12 @@ export default function Footer() {
 
   const legal = [
     { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Terms & Conditions", href: "/terms" },
+    { name: "Terms & Conditions", href: "/terms-and-conditions" },
     { name: "Sitemap", href: "/sitemap" },
   ];
 
   return (
     <footer className="relative bg-gradient-to-b from-[#1f1f1f] via-[#242424] to-[#2a2a2a] text-gray-300 pt-16 pb-8 overflow-hidden">
-
       {/* Top Divider */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#cd2b14] to-transparent"></div>
 
@@ -41,12 +39,9 @@ export default function Footer() {
       <div className="absolute -bottom-32 -right-32 w-[350px] h-[350px] bg-[#981d13]/10 blur-[160px]" />
 
       <div className="max-w-[1280px] mx-auto px-6">
-
         <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-10">
-
           {/* Brand */}
           <div>
-
             <Image
               src="/logo.png"
               alt="Welldone Metalworks"
@@ -61,7 +56,6 @@ export default function Footer() {
             </p>
 
             <div className="flex gap-3">
-
               <a
                 href="#"
                 className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2c2c2c] border border-white/10 hover:bg-[#cd2b14] transition"
@@ -82,21 +76,17 @@ export default function Footer() {
               >
                 <FaWhatsapp />
               </a>
-
             </div>
-
           </div>
 
           {/* Quick Links */}
           <div>
-
             <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
               <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
               Quick Links
             </h3>
 
             <ul className="space-y-2 text-sm">
-
               {links.map((item, i) => (
                 <li key={i}>
                   <Link
@@ -108,21 +98,17 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-
             </ul>
-
           </div>
 
           {/* Services */}
           <div>
-
             <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
               <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
               Services
             </h3>
 
             <ul className="space-y-2 text-sm">
-
               {services.map((service, i) => (
                 <li key={i}>
                   <Link
@@ -134,21 +120,17 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-
             </ul>
-
           </div>
 
           {/* Contact */}
           <div>
-
             <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
               <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
               Contact
             </h3>
 
             <div className="space-y-3 text-sm">
-
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-[#cd2b14]" />
                 <p>Sola Gham, Ahmedabad</p>
@@ -163,21 +145,17 @@ export default function Footer() {
                 <Mail size={16} className="text-[#cd2b14]" />
                 <p>info@welldonemetalworks.com</p>
               </div>
-
             </div>
-
           </div>
 
           {/* Legal */}
           <div>
-
             <h3 className="text-base font-semibold mb-4 flex items-center gap-2">
               <span className="w-2 h-2 bg-[#cd2b14] rounded-full"></span>
               Legal
             </h3>
 
             <ul className="space-y-2 text-sm">
-
               {legal.map((item, i) => (
                 <li key={i}>
                   <Link
@@ -188,11 +166,8 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-
             </ul>
-
           </div>
-
         </div>
 
         {/* Divider */}
@@ -200,19 +175,14 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center mt-5 text-sm text-gray-400 gap-3">
-
           <p>
-            © {new Date().getFullYear()} Welldone Metalworks. All rights reserved.
+            © {new Date().getFullYear()} Welldone Metalworks. All rights
+            reserved.
           </p>
 
-          <p>
-            Crafted with precision metal engineering.
-          </p>
-
+          <p>Crafted with precision metal engineering.</p>
         </div>
-
       </div>
-
     </footer>
   );
 }
