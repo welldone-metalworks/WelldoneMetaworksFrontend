@@ -3,7 +3,7 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppButton() {
-  const phoneNumber = "919649957598"; // WhatsApp Business number (no +, no spaces)
+  const phoneNumber = "919649957698"; // WhatsApp Business number (no +, no spaces)
 
   const message =
     "Hi, I need metal fabrication service in Ahmedabad. Please share details.";

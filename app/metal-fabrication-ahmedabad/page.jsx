@@ -13,7 +13,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 import { sendEnquiry } from "../../lib/api";
 export default function LandingPage() {
-  const phone = "919649957598";
+  const phone = "919649957698";
   const message =
     "Hi, I need metal fabrication service in Ahmedabad. Please share details.";
 

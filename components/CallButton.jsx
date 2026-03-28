@@ -3,7 +3,7 @@
 import { Phone } from "lucide-react";
 
 export default function CallButton() {
-  const phoneNumber = "919649957598";
+  const phoneNumber = "919649957698";
 
   return (
     <a
