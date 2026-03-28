@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
-import { sendEnquiry } from "../../lib/api"; 
+import { sendEnquiry } from "../../lib/api";
 export default function LandingPage() {
   const phone = "919649957598";
   const message =
@@ -58,7 +58,6 @@ export default function LandingPage() {
         phone: "",
         message: "",
       });
-
     } catch (error) {
       console.error(error);
 
@@ -67,7 +66,7 @@ export default function LandingPage() {
         success: false,
       });
     }
-}
+  };
   return (
     <div className="bg-white font-sans">
       {/* 🔥 PREMIUM HERO (SPLIT DESIGN) */}
@@ -421,40 +420,36 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 🔥 FINAL CTA */}
+      <section className="bg-[#cd2b14] text-white text-center py-12">
+        <h2 className="text-2xl font-bold">
+          Need Metal Fabrication Service in Ahmedabad?
+        </h2>
 
-     {/* 🔥 FINAL CTA */}
-<section className="bg-[#cd2b14] text-white text-center py-12">
-  <h2 className="text-2xl font-bold">
-    Need Metal Fabrication Service in Ahmedabad?
-  </h2>
+        <div className="mt-4 flex justify-center gap-4 flex-wrap">
+          <a
+            href={`tel:${phone}`}
+            className="bg-white text-[#cd2b14] px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
+          >
+            📞 Call Now
+          </a>
 
-  <div className="mt-4 flex justify-center gap-4 flex-wrap">
-    
-    <a
-      href={`tel:${phone}`}
-      className="bg-white text-[#cd2b14] px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
-    >
-      📞 Call Now
-    </a>
+          <a
+            href={whatsappUrl}
+            className="bg-green-500 text-white px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
+          >
+            💬 WhatsApp
+          </a>
 
-    <a
-      href={whatsappUrl}
-      className="bg-green-500 text-white px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
-    >
-      💬 WhatsApp
-    </a>
-
-    {/* 🏠 Home Button */}
-    <a
-      href="/"
-      className="bg-black text-white px-6 py-2.5 rounded-full font-medium shadow hover:bg-gray-800 hover:scale-105 transition"
-    >
-      🏠 Go to Home
-    </a>
-
-  </div>
-</section>
- 
+          {/* 🏠 Home Button */}
+          <a
+            href="/"
+            className="bg-black text-white px-6 py-2.5 rounded-full font-medium shadow hover:bg-gray-800 hover:scale-105 transition"
+          >
+            🏠 Go to Home
+          </a>
+        </div>
+      </section>
     </div>
   );
 }
