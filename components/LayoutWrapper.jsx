@@ -9,7 +9,7 @@ import CallButton from "./CallButton";
 export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
 
-  const isLandingPage = pathname === "/metal-fabrication-ahmedabad";
+  const isLandingPage = pathname.includes("metal-fabrication-ahmedabad");
 
   return (
     <>

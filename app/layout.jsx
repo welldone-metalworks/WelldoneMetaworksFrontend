@@ -1,10 +1,5 @@
 import "./globals.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import WhatsAppButton from "../components/WhatsAppButton";
-import CallButton from "../components/CallButton";
-import React from "react";
-import LayoutWrapper from "../components/LayoutWrapper"; // 👈 new
+import LayoutWrapper from "../components/LayoutWrapper";
 
 export const metadata = {
   metadataBase: new URL("https://welldone-metalworks.in"),

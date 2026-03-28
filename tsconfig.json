@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "app/privacy-policy/page.jsx", "app/sitemap.js"  ],
+, "app/privacy-policy/page.jsx", "app/sitemap.js", "app/layout.jsx"  ],
   "exclude": ["node_modules"]
 }
