@@ -7,7 +7,7 @@ import FAQ from "../components/Home/FAQ";
 import WhyChooseUs from "../components/About/WhyChooseUs";
 import ContactEnquiry from "../components/Home/ContactEnquiry";
 import MapEmbed from "../components/Contact/MapEmbed";
-
+import TrustSection from "../components/Home/TrustSection"
 export default function Home() {
   return (
     <div className="pt-24 overflow-x-hidden">
@@ -89,6 +89,7 @@ export default function Home() {
       <AboutHome />
       <ServicesHome />
       <FAQ />
+      <TrustSection />
       <WhyChooseUs />
       <ContactEnquiry />
       <MapEmbed />
