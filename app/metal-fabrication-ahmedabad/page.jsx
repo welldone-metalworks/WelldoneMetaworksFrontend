@@ -48,6 +48,13 @@ export default function LandingPage() {
     try {
       await sendEnquiry(formData);
 
+      // 🔥 GA Tracking
+      if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", "form_submit", {
+          event_category: "lead",
+          event_label: "enquiry_form",
+        });
+      }
       setStatus({
         loading: false,
         success: true,
@@ -107,6 +114,14 @@ export default function LandingPage() {
                 <a
                   href={`tel:${phone}`}
                   className="bg-[#cd2b14] hover:bg-red-700 px-6 py-3 rounded-lg flex items-center gap-2 shadow-xl transition hover:scale-105"
+                  onClick={() => {
+                    if (typeof window !== "undefined" && window.gtag) {
+                      window.gtag("event", "call_click", {
+                        event_category: "engagement",
+                        event_label: "call_button",
+                      });
+                    }
+                  }}
                 >
                   <Phone size={18} />
                   Call Now
@@ -116,6 +131,14 @@ export default function LandingPage() {
                   href={whatsappUrl}
                   target="_blank"
                   className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-lg flex items-center gap-2 shadow-xl transition hover:scale-105"
+                  onClick={() => {
+                    if (typeof window !== "undefined" && window.gtag) {
+                      window.gtag("event", "whatsapp_click", {
+                        event_category: "engagement",
+                        event_label: "whatsapp_button",
+                      });
+                    }
+                  }}
                 >
                   <FaWhatsapp />
                   Get Quote
@@ -430,6 +453,14 @@ export default function LandingPage() {
           <a
             href={`tel:${phone}`}
             className="bg-white text-[#cd2b14] px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
+            onClick={() => {
+              if (typeof window !== "undefined" && window.gtag) {
+                window.gtag("event", "call_click", {
+                  event_category: "engagement",
+                  event_label: "call_button",
+                });
+              }
+            }}
           >
             📞 Call Now
           </a>
@@ -437,6 +468,14 @@ export default function LandingPage() {
           <a
             href={whatsappUrl}
             className="bg-green-500 text-white px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
+            onClick={() => {
+              if (typeof window !== "undefined" && window.gtag) {
+                window.gtag("event", "whatsapp_click", {
+                  event_category: "engagement",
+                  event_label: "whatsapp_button",
+                });
+              }
+            }}
           >
             💬 WhatsApp
           </a>
