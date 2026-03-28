@@ -74,7 +74,7 @@ export default function LandingPage() {
         {/* Background Image (Right side) */}
         <div className="absolute inset-0">
           <img
-            src="/banner/banner05.webp"
+            src="/Banner/banner05.webp"
             className="w-full h-full object-cover opacity-70"
             alt="Metal Fabrication"
           />
@@ -263,15 +263,15 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                img: "/banner/banner01.webp",
+                img: "/Banner/banner01.webp",
                 title: "MS Shed Project",
               },
               {
-                img: "/banner/banner02.webp",
+                img: "/Banner/banner02.webp",
                 title: "Industrial Fabrication",
               },
               {
-                img: "/banner/banner03.webp",
+                img: "/Banner/banner03.webp",
                 title: "Custom Metal Work",
               },
             ].map((item, i) => (
