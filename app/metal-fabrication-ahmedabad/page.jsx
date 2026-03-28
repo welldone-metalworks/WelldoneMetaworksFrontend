@@ -50,9 +50,8 @@ export default function LandingPage() {
 
       // 🔥 GA Tracking
       if (typeof window !== "undefined" && window.gtag) {
-        window.gtag("event", "form_submit", {
-          event_category: "lead",
-          event_label: "enquiry_form",
+        window.gtag("event", "generate_lead", {
+          method: "form",
         });
       }
       setStatus({
@@ -116,9 +115,8 @@ export default function LandingPage() {
                   className="bg-[#cd2b14] hover:bg-red-700 px-6 py-3 rounded-lg flex items-center gap-2 shadow-xl transition hover:scale-105"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.gtag) {
-                      window.gtag("event", "call_click", {
-                        event_category: "engagement",
-                        event_label: "call_button",
+                      window.gtag("event", "generate_lead", {
+                        method: "phone_call",
                       });
                     }
                   }}
@@ -130,12 +128,12 @@ export default function LandingPage() {
                 <a
                   href={whatsappUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-lg flex items-center gap-2 shadow-xl transition hover:scale-105"
                   onClick={() => {
                     if (typeof window !== "undefined" && window.gtag) {
-                      window.gtag("event", "whatsapp_click", {
-                        event_category: "engagement",
-                        event_label: "whatsapp_button",
+                      window.gtag("event", "generate_lead", {
+                        method: "whatsapp",
                       });
                     }
                   }}
@@ -455,9 +453,8 @@ export default function LandingPage() {
             className="bg-white text-[#cd2b14] px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
             onClick={() => {
               if (typeof window !== "undefined" && window.gtag) {
-                window.gtag("event", "call_click", {
-                  event_category: "engagement",
-                  event_label: "call_button",
+                window.gtag("event", "generate_lead", {
+                  method: "phone_call",
                 });
               }
             }}
@@ -467,12 +464,13 @@ export default function LandingPage() {
 
           <a
             href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-green-500 text-white px-6 py-2.5 rounded-full font-medium shadow hover:scale-105 transition"
             onClick={() => {
               if (typeof window !== "undefined" && window.gtag) {
-                window.gtag("event", "whatsapp_click", {
-                  event_category: "engagement",
-                  event_label: "whatsapp_button",
+                window.gtag("event", "generate_lead", {
+                  method: "whatsapp",
                 });
               }
             }}
