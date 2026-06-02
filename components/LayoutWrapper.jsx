@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import WhatsAppButton from "./WhatsAppButton";
@@ -9,18 +10,33 @@ import CallButton from "./CallButton";
 export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
 
-  const isLandingPage = pathname.includes("metal-fabrication-ahmedabad");
+  const landingPages = [
+    "/gazebo",
+    "/pergola",
+    "/canopy",
+    "/metal-fabrication-ahmedabad",
+  ];
+
+  const isLandingPage = landingPages.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  const isAdminRoute = pathname.startsWith("/admin");
+
+  const hideWebsiteLayout =
+    isLandingPage || isAdminRoute;
 
   return (
     <>
-      {!isLandingPage && <Navbar />}
+      {!hideWebsiteLayout && <Navbar />}
 
       <main>{children}</main>
 
-      {!isLandingPage && <Footer />}
+      {!hideWebsiteLayout && <Footer />}
 
-      {!isLandingPage && <CallButton />}
-      {!isLandingPage && <WhatsAppButton />}
+      {!hideWebsiteLayout && <CallButton />}
+
+      {!hideWebsiteLayout && <WhatsAppButton />}
     </>
   );
 }
