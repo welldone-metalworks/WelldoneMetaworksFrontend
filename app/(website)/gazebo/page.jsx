@@ -46,7 +46,7 @@ export const metadata = {
 
   publisher: "Welldone Metalworks",
 
-  metadataBase: new URL("https://www.welldonemetalworks.com"),
+  metadataBase: new URL("https://www.welldone-metalworks.in"),
 
   alternates: {
     canonical: "/gazebo",
@@ -59,7 +59,7 @@ export const metadata = {
     description:
       "Luxury gazebo, pergola & canopy solutions designed for villas, rooftops & premium outdoor living spaces.",
 
-    url: "https://www.welldonemetalworks.com/gazebo",
+    url: "https://www.welldone-metalworks.in/gazebo",
 
     siteName: "Welldone Metalworks",
 
