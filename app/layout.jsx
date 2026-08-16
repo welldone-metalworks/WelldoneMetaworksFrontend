@@ -16,13 +16,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* Google Analytics */}
-
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-5S7MZ2457H"
           strategy="afterInteractive"
         />
 
-        <Script id="google-analytics" strategy="afterInteractive">
+        {/* Google Analytics + Google Ads Google Tag */}
+        <Script id="google-tags" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
 
@@ -33,6 +33,7 @@ export default function RootLayout({ children }) {
             gtag('js', new Date());
 
             gtag('config', 'G-5S7MZ2457H');
+            gtag('config', 'AW-18385196479');
           `}
         </Script>
       </head>
