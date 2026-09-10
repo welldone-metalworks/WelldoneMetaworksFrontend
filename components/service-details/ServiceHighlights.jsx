@@ -1,69 +1,113 @@
-// app/services/[slug]/service-details/ServiceHighlights.jsx
-'use client';
-import { motion } from 'framer-motion';
-import { CheckCircle, Sparkles } from 'lucide-react';
+"use client";
+
+import {
+  ArrowRight,
+  Check,
+  MoveUpRight,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ServiceHighlights({ data }) {
+  if (!data) return null;
+
   return (
-    <section className="relative py-10 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-      {/* Premium Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#cd2b14_0.8px,transparent_1px)] bg-[length:32px_32px] opacity-[0.06]" />
+    <section className="relative overflow-hidden bg-white py-10 sm:py-12 lg:py-14">
+      <div className="wm-container">
+        <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
+          {/* Intro */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="wm-eyebrow mb-5">
+              <span className="h-px w-7 bg-[var(--wm-primary)]" />
+              {data.number} / {data.eyebrow}
+            </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-3 bg-white shadow border border-gray-100 px-7 py-3.5 rounded-3xl mb-6">
-            <Sparkles className="w-5 h-5 text-[#cd2b14]" />
-            <span className="uppercase tracking-[3px] text-sm font-semibold text-[#cd2b14]">
-              WHY CHOOSE US
-            </span>
-          </div>
+            <h2 className="wm-heading max-w-md text-4xl leading-[1.05] sm:text-5xl">
+              {data.title}
+            </h2>
 
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-gray-900 tracking-tighter">
-            Key Highlights
-            <span className="block bg-gradient-to-r from-[#981d13] via-[#cd2b14] to-[#f87171] bg-clip-text text-transparent mt-2">
-              Built With Excellence
-            </span>
-          </h2>
+            <p className="wm-body mt-6 max-w-md text-sm sm:text-base">
+              {data.description}
+            </p>
 
-          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-            What makes our service truly exceptional
-          </p>
-        </div>
+            <div className="mt-9 border-t border-[var(--wm-border)] pt-5">
+              <div className="flex items-center gap-3">
+                <span className="flex h-9 w-9 items-center justify-center border border-[var(--wm-border-blue)] text-[var(--wm-primary)]">
+                  <MoveUpRight size={15} />
+                </span>
 
-        {/* 4 Column Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {data.map((highlight, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.08 }}
-              whileHover={{ y: -10, transition: { duration: 0.4 } }}
-              className="group bg-white border border-gray-100 hover:border-[#cd2b14]/30 rounded-3xl p-9 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full"
-            >
-              {/* Icon Container */}
-              <div className="mb-9">
-                <div className="inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-[#cd2b14] via-[#b72d2c] to-[#981d13] shadow-xl shadow-[#cd2b14]/20 group-hover:scale-110 transition-transform duration-500">
-                  <CheckCircle className="w-11 h-11 text-white" />
+                <div>
+                  <span className="block text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-muted)]">
+                    Approach
+                  </span>
+
+                  <span className="mt-1 block text-xs font-bold text-[var(--wm-heading)]">
+                    Project-specific fabrication
+                  </span>
                 </div>
               </div>
+            </div>
+          </motion.div>
 
-              {/* Highlight Text */}
-              <p className="flex-1 text-[1.1rem] leading-tight font-semibold text-gray-900 tracking-tight">
-                {highlight}
-              </p>
+          {/* Highlights */}
+          <div className="grid border-t border-[var(--wm-border)]">
+            {data.items?.map((item, index) => (
+              <motion.div
+                key={item.number}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.06,
+                }}
+                className="group grid gap-5 border-b border-[var(--wm-border)] py-6 sm:grid-cols-[60px_1fr_30px] sm:items-start"
+              >
+                {/* Number */}
+                <div>
+                  <span className="font-mono text-xs font-bold tracking-[0.12em] text-[var(--wm-primary)]">
+                    {item.number}
+                  </span>
+                </div>
 
-              {/* Premium Accent Line */}
-              <div className="mt-10 h-1 w-14 bg-gradient-to-r from-[#cd2b14] to-[#f87171] rounded-full group-hover:w-24 transition-all duration-500" />
-            </motion.div>
-          ))}
+                {/* Content */}
+                <div>
+                  <h3 className="text-lg font-extrabold tracking-tight text-[var(--wm-heading)] transition-colors duration-300 group-hover:text-[var(--wm-primary)]">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-2 max-w-xl text-sm leading-7 text-[var(--wm-body)]">
+                    {item.description}
+                  </p>
+                </div>
+
+                {/* Icon */}
+                <div className="hidden justify-end sm:flex">
+                  <span className="flex h-8 w-8 items-center justify-center border border-[var(--wm-border)] text-[var(--wm-primary)] transition-all duration-300 group-hover:border-[var(--wm-primary)] group-hover:bg-[var(--wm-primary)] group-hover:text-white">
+                    <Check size={14} strokeWidth={2.5} />
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom line */}
+        <div className="mt-8 flex items-center justify-between border-t border-[var(--wm-border)] pt-5">
+          <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-[var(--wm-muted)]">
+            WELLDONE METALWORKS / FABRICATION
+          </span>
+
+          <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-primary)]">
+            Project Requirements
+            <ArrowRight size={13} />
+          </span>
         </div>
       </div>
-
-      {/* Decorative Elements */}
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#cd2b14]/5 rounded-full blur-[100px] -z-10" />
-      <div className="absolute top-20 left-12 w-64 h-64 bg-amber-100/30 rounded-full blur-[90px] -z-10" />
     </section>
   );
 }

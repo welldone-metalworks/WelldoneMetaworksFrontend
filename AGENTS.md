@@ -18,7 +18,7 @@ The website should become:
 - More realistic
 - More conversion-focused
 - More visually impressive
-- More useful to visitors
+- More usefful to visitors
 - More locally relevant
 - More search-engine friendly
 - More AI/search-answer friendly

@@ -1,157 +1,138 @@
 "use client";
 
+import {
+  CheckCircle2,
+  MapPin,
+  Ruler,
+  Wrench,
+  Layers3,
+  ClipboardCheck,
+} from "lucide-react";
 import { motion } from "framer-motion";
-import { FaCogs, FaUsers, FaClock, FaShieldAlt } from "react-icons/fa";
 
-const features = [
+const reasons = [
   {
-    icon: <FaCogs size={26} />,
-    title: "Expert Craftsmanship",
-    desc: "Precision metal fabrication delivered by experienced professionals.",
+    number: "01",
+    icon: Wrench,
+    title: "Custom-Focused",
+    description:
+      "Fabrication is planned around the actual requirement, dimensions and intended application rather than a fixed standard template.",
   },
   {
-    icon: <FaUsers size={26} />,
-    title: "Customer First",
-    desc: "Every project is customized according to client needs.",
+    number: "02",
+    icon: Layers3,
+    title: "MS Specialization",
+    description:
+      "Welldone Metalworks focuses on mild-steel fabrication for the services currently offered.",
   },
   {
-    icon: <FaClock size={26} />,
-    title: "Fast Delivery",
-    desc: "Efficient workflow ensures projects are completed on schedule.",
+    number: "03",
+    icon: Ruler,
+    title: "Site Measurement",
+    description:
+      "Site measurement is available for suitable projects where dimensions and site conditions need to be assessed.",
   },
   {
-    icon: <FaShieldAlt size={26} />,
-    title: "Quality Assurance",
-    desc: "We use premium materials and strict quality control processes.",
+    number: "04",
+    icon: ClipboardCheck,
+    title: "Clear Requirements",
+    description:
+      "Important project details can be discussed and confirmed before fabrication begins.",
+  },
+  {
+    number: "05",
+    icon: MapPin,
+    title: "Local Coverage",
+    description:
+      "The primary service area is Ahmedabad and Gandhinagar, subject to the location and requirements of the individual project.",
+  },
+  {
+    number: "06",
+    icon: CheckCircle2,
+    title: "Installation Support",
+    description:
+      "Suitable fabricated works can be supported with on-site installation after fabrication.",
   },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="bg-white py-10 lg:py-12">
+      <div className="wm-container">
+        <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
+          {/* Left */}
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <div className="wm-eyebrow">
+              <span className="h-px w-7 bg-wm-primary" />
+              Why Welldone
+            </div>
 
-      <div className="max-w-[1280px] mx-auto px-6">
+            <h2 className="wm-heading mt-5 text-3xl leading-tight sm:text-4xl">
+              Built around the requirement, not a standard template.
+            </h2>
 
-        {/* Heading */}
-        <div className="text-center mb-20">
-
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-            Why Choose{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
-              Welldone Metalworks
-            </span>
-          </h2>
-
-          <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-            Trusted fabrication experts delivering durable, stylish,
-            and high-quality metal structures.
-          </p>
-
-        </div>
-
-        {/* Grid */}
-        <div className="grid md:grid-cols-3 gap-8 items-center">
-
-          {/* Left Features */}
-          <div className="flex flex-col gap-8">
-
-            {features.slice(0,2).map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ x: 6 }}
-                className="flex gap-4 bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition"
-              >
-
-                <div
-                  className="w-12 h-12 flex items-center justify-center rounded-lg text-white"
-                  style={{
-                    background:
-                      "linear-gradient(135deg,#981d13,#b72d2c,#cd2b14)",
-                  }}
-                >
-                  {feature.icon}
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900">
-                    {feature.title}
-                  </h3>
-
-                  <p className="text-gray-600 text-sm">
-                    {feature.desc}
-                  </p>
-                </div>
-
-              </motion.div>
-            ))}
-
-          </div>
-
-          {/* Center Highlight */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-[#981d13] via-[#b72d2c] to-[#cd2b14] text-white rounded-3xl p-10 text-center shadow-2xl"
-          >
-
-            <h3 className="text-2xl font-bold mb-4">
-              Trusted Fabrication Partner
-            </h3>
-
-            <p className="text-gray-100 text-sm leading-relaxed">
-              At Welldone Metalworks, we combine modern engineering with
-              expert craftsmanship to deliver metal fabrication solutions
-              that are strong, reliable, and visually impressive.
+            <p className="mt-5 max-w-md text-sm leading-7 text-wm-muted">
+              For custom fabrication, the details of the project matter.
+              These are the practical principles that shape how Welldone
+              Metalworks approaches its work.
             </p>
 
-          </motion.div>
+            <div className="mt-8 border-l-2 border-wm-primary bg-wm-surface-blue px-5 py-4">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-wm-primary">
+                Material scope
+              </p>
 
-          {/* Right Features */}
-          <div className="flex flex-col gap-8">
-
-            {features.slice(2).map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ x: -6 }}
-                className="flex gap-4 bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition"
-              >
-
-                <div
-                  className="w-12 h-12 flex items-center justify-center rounded-lg text-white"
-                  style={{
-                    background:
-                      "linear-gradient(135deg,#981d13,#b72d2c,#cd2b14)",
-                  }}
-                >
-                  {feature.icon}
-                </div>
-
-                <div>
-                  <h3 className="font-semibold text-gray-900">
-                    {feature.title}
-                  </h3>
-
-                  <p className="text-gray-600 text-sm">
-                    {feature.desc}
-                  </p>
-                </div>
-
-              </motion.div>
-            ))}
-
+              <p className="mt-2 text-sm font-semibold leading-6 text-wm-heading">
+                Mild Steel (MS) fabrication only. Stainless steel and aluminum
+                fabrication are not currently offered.
+              </p>
+            </div>
           </div>
 
+          {/* Right */}
+          <div className="border-t border-wm-border">
+            {reasons.map((reason, index) => {
+              const Icon = reason.icon;
+
+              return (
+                <motion.div
+                  key={reason.number}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: index * 0.04,
+                  }}
+                  className="group grid gap-5 border-b border-wm-border py-6 sm:grid-cols-[55px_45px_1fr] sm:items-start"
+                >
+                  <div className="text-xs font-extrabold tracking-[0.16em] text-wm-primary">
+                    {reason.number}
+                  </div>
+
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[9px] bg-wm-surface-icon transition-colors duration-200 group-hover:bg-wm-surface-blue">
+                    <Icon
+                      size={18}
+                      className="text-wm-primary"
+                      strokeWidth={2}
+                    />
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-extrabold text-wm-heading">
+                      {reason.title}
+                    </h3>
+
+                    <p className="mt-2 max-w-2xl text-sm leading-7 text-wm-muted">
+                      {reason.description}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
-
       </div>
-
     </section>
   );
 }

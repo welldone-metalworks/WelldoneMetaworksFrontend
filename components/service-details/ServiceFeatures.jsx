@@ -1,72 +1,139 @@
-// app/services/[slug]/service-details/ServiceFeatures.jsx
-'use client';
-import { motion } from 'framer-motion';
-import { Settings, Award, Zap, Shield, CheckCircle } from 'lucide-react';
+"use client";
 
-const iconMap = {
-  Settings: Settings,
-  Award: Award,
-  Zap: Zap,
-  Shield: Shield,
-};
+import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  ChevronRight,
+  Layers3,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ServiceFeatures({ data }) {
-  return (
-    <section className="py-10 bg-[#f8fafc]">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Premium Header */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-3 bg-white px-6 py-3 rounded-3xl border border-gray-100 shadow-sm mb-6">
-            <CheckCircle className="w-5 h-5 text-[#cd2b14]" />
-            <span className="text-[#cd2b14] uppercase tracking-widest text-sm font-semibold">
-              OUR CAPABILITIES
-            </span>
-          </div>
+  if (!data) return null;
 
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">
-            Advanced Features
-          </h2>
-          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-            Engineered for performance, built for reliability
-          </p>
+  return (
+    <section
+      id="service-scope"
+      className="relative overflow-hidden bg-[var(--wm-surface-blue)] py-10 sm:py-12 lg:py-14"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-70"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(22,135,197,0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(22,135,197,0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: "52px 52px",
+        }}
+      />
+
+      <div className="wm-container relative z-10">
+        {/* Header */}
+        <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="wm-eyebrow mb-5">
+              <span className="h-px w-7 bg-[var(--wm-primary)]" />
+              {data.number} / {data.eyebrow}
+            </div>
+
+            <h2 className="wm-heading max-w-xl text-4xl leading-[1.04] sm:text-5xl lg:text-[54px]">
+              {data.title}
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:ml-auto lg:max-w-xl"
+          >
+            <p className="wm-body text-sm sm:text-base">
+              {data.description}
+            </p>
+
+            <div className="mt-5 flex items-center gap-3 border-t border-[var(--wm-border-blue)] pt-4">
+              <Layers3
+                size={16}
+                className="text-[var(--wm-primary)]"
+              />
+
+              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--wm-muted)]">
+                Explore the service scope
+              </span>
+            </div>
+          </motion.div>
         </div>
 
-        {/* 3-Column Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {data.map((feature, index) => {
-            const IconComponent = iconMap[feature.icon] || Settings;
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -12 }}
-                className="group relative bg-white border border-gray-100 hover:border-[#cd2b14]/20 rounded-3xl p-10 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full"
+        {/* Sub-service directory */}
+        <div className="mt-12 border-y border-[var(--wm-border-blue)]">
+          {data.items?.map((item, index) => (
+            <motion.div
+              key={item.slug || item.title}
+              initial={{ opacity: 0, x: -15 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.05,
+              }}
+            >
+              <Link
+                href={item.href}
+                className="group grid gap-5 border-b border-[var(--wm-border-blue)] bg-white p-6 transition-all duration-300 last:border-b-0 hover:bg-[var(--wm-navy)] sm:grid-cols-[80px_1fr_42px] sm:items-center sm:px-8 sm:py-7"
               >
-                {/* Icon */}
-                <div className="mb-10">
-                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#cd2b14] to-[#b72d2c] flex items-center justify-center shadow-xl shadow-[#cd2b14]/20 group-hover:scale-110 transition-transform duration-500">
-                    <IconComponent className="w-10 h-10 text-white" />
-                  </div>
-                </div>
+                {/* Number */}
+                <span className="font-mono text-xs font-bold tracking-[0.15em] text-[var(--wm-primary)]">
+                  {item.number}
+                </span>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-5 tracking-tight">
-                  {feature.title}
-                </h3>
+                <span>
+                  <span className="block text-xl font-extrabold tracking-tight text-[var(--wm-heading)] transition-colors duration-300 group-hover:text-white sm:text-2xl">
+                    {item.title}
+                  </span>
 
-                <p className="text-gray-600 leading-relaxed flex-1">
-                  {feature.description}
-                </p>
+                  {item.description && (
+                    <span className="mt-2 block max-w-2xl text-sm leading-6 text-[var(--wm-body)] transition-colors duration-300 group-hover:text-slate-300">
+                      {item.description}
+                    </span>
+                  )}
 
-                {/* Accent Line */}
-                <div className="mt-10 h-1 w-12 bg-gradient-to-r from-[#cd2b14] to-[#f87171] rounded-full group-hover:w-20 transition-all duration-500" />
-              </motion.div>
-            );
-          })}
+                  <span className="mt-3 inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-primary)]">
+                    Explore service
+                    <ArrowRight size={12} />
+                  </span>
+                </span>
+
+                {/* Arrow */}
+                <span className="flex h-10 w-10 items-center justify-center border border-[var(--wm-border-blue)] text-[var(--wm-primary)] transition-all duration-300 group-hover:border-white/30 group-hover:bg-white/10 group-hover:text-white">
+                  <ChevronRight
+                    size={18}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </span>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Directory footer */}
+        <div className="mt-7 flex flex-col gap-3 border-t border-[var(--wm-border-blue)] pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-[var(--wm-muted)]">
+            {String(data.items?.length || 0).padStart(2, "0")} SERVICE AREAS
+          </span>
+
+          <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-primary)]">
+            Each requirement is project-specific
+            <ArrowUpRight size={13} />
+          </span>
         </div>
       </div>
     </section>

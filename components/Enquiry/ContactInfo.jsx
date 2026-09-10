@@ -1,102 +1,163 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import {
+  Clock3,
+  Mail,
+  MapPin,
+  Phone,
+  ArrowUpRight,
+} from "lucide-react";
+
+const contacts = [
+  {
+    icon: Phone,
+    label: "Phone",
+    title: "+91 96499 57698",
+    href: "tel:+919649957698",
+    action: "Call us",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    title: "info@welldonemetalworks.com",
+    href: "mailto:info@welldonemetalworks.com",
+    action: "Send email",
+  },
+  {
+    icon: MapPin,
+    label: "Service Area",
+    title: "Ahmedabad & Gandhinagar",
+    href: null,
+    action: "Service area",
+  },
+  {
+    icon: Clock3,
+    label: "Working Hours",
+    title: "9:00 AM – 7:00 PM",
+    href: null,
+    action: "Office hours",
+  },
+];
 
 export default function ContactInfo() {
-  const contacts = [
-    {
-      icon: <MapPin size={26} />,
-      title: "Our Office",
-      detail: "123 Business Street, New Delhi, India",
-    },
-    {
-      icon: <Phone size={26} />,
-      title: "Phone Number",
-      detail: "+91 98765 43210",
-    },
-    {
-      icon: <Mail size={26} />,
-      title: "Email Address",
-      detail: "info@company.com",
-    },
-    {
-      icon: <Clock size={26} />,
-      title: "Working Hours",
-      detail: "Mon - Sat : 9:00 AM - 6:00 PM",
-    },
-  ];
-
-  const container = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0 },
-  };
-
   return (
-    <section className="py-20 bg-[#f9fafb] relative overflow-hidden">
-      <div className="max-w-[1280px] mx-auto px-6">
-
-        {/* Heading */}
+    <section
+      id="contact-information"
+      className="relative overflow-hidden border-b border-wm-border bg-wm-surface-soft py-10 sm:py-12"
+    >
+      <div className="wm-container">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr] lg:items-end lg:gap-14"
         >
-          <h2 className="text-4xl font-bold text-[#111827]">
-            Get In Touch With Us
-          </h2>
+          <div>
+            <div className="wm-eyebrow">
+              <span className="h-px w-8 bg-wm-primary" />
+              02 / Contact
+            </div>
 
-          <p className="text-[#6b7280] mt-3 max-w-xl mx-auto">
-            Have a project in mind? Contact Welldone Metalworks for custom
-            fabrication, structural solutions, and premium metal work.
+            <h2 className="wm-heading mt-4 text-3xl sm:text-4xl">
+              Get in touch with{" "}
+              <span className="text-wm-primary">Welldone Metalworks.</span>
+            </h2>
+          </div>
+
+          <p className="max-w-2xl text-sm leading-7 text-wm-body sm:text-[15px]">
+            Ready to discuss a fabrication requirement? Contact us directly
+            or use the enquiry form below to share your project details.
           </p>
         </motion.div>
 
-        {/* Cards */}
+        {/* Contact Grid */}
         <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.55 }}
+          className="mt-10 grid border border-wm-border bg-white sm:grid-cols-2 lg:grid-cols-4"
         >
-          {contacts.map((item, idx) => (
-            <motion.div
-              key={idx}
-              variants={item}
-              whileHover={{ y: -8 }}
-              className="group relative p-8 rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100"
-            >
-              {/* Icon */}
-              <div
-                className="w-14 h-14 flex items-center justify-center rounded-xl text-white mb-6 shadow-md
-                bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]"
+          {contacts.map((contact, index) => {
+            const Icon = contact.icon;
+
+            const content = (
+              <>
+                <div className="flex items-center justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center bg-wm-surface-icon">
+                    <Icon
+                      size={18}
+                      strokeWidth={2}
+                      className="text-wm-primary"
+                    />
+                  </div>
+
+                  <span className="text-[9px] font-extrabold tracking-[0.16em] text-wm-border-blue">
+                    0{index + 1}
+                  </span>
+                </div>
+
+                <p className="mt-5 text-[9px] font-extrabold uppercase tracking-[0.18em] text-wm-muted">
+                  {contact.label}
+                </p>
+
+                <p className="mt-2 break-words text-sm font-extrabold leading-6 text-wm-heading">
+                  {contact.title}
+                </p>
+
+                <div className="mt-4 flex items-center gap-2 text-[10px] font-extrabold text-wm-primary">
+                  {contact.action}
+
+                  {contact.href && (
+                    <ArrowUpRight
+                      size={13}
+                      className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  )}
+                </div>
+              </>
+            );
+
+            if (contact.href) {
+              return (
+                <motion.a
+                  key={contact.label}
+                  href={contact.href}
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.2 }}
+                  className={`group relative p-6 transition-colors hover:bg-wm-surface-soft ${
+                    index < contacts.length - 1
+                      ? "border-b border-wm-border sm:border-r lg:border-b-0"
+                      : ""
+                  }`}
+                >
+                  {content}
+
+                  <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-wm-primary transition-all duration-300 group-hover:w-full" />
+                </motion.a>
+              );
+            }
+
+            return (
+              <motion.div
+                key={contact.label}
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.2 }}
+                className={`group relative p-6 transition-colors hover:bg-wm-surface-soft ${
+                  index < contacts.length - 1
+                    ? "border-b border-wm-border sm:border-r lg:border-b-0"
+                    : ""
+                }`}
               >
-                {item.icon}
-              </div>
+                {content}
 
-              {/* Text */}
-              <h3 className="text-lg font-semibold text-[#111827] mb-2">
-                {item.title}
-              </h3>
-
-              <p className="text-[#6b7280] text-sm leading-relaxed">
-                {item.detail}
-              </p>
-
-              {/* Hover Accent Line */}
-              <div className="absolute bottom-0 left-0 h-[3px] w-0 group-hover:w-full transition-all duration-300 bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] rounded-b-xl"></div>
-            </motion.div>
-          ))}
+                <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-wm-primary transition-all duration-300 group-hover:w-full" />
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

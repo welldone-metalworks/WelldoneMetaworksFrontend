@@ -4,8 +4,7 @@ import { usePathname } from "next/navigation";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import WhatsAppButton from "./WhatsAppButton";
-import CallButton from "./CallButton";
+import FloatingContact from "./FloatingContact";
 
 export default function LayoutWrapper({ children }) {
   const pathname = usePathname();
@@ -23,8 +22,7 @@ export default function LayoutWrapper({ children }) {
 
   const isAdminRoute = pathname.startsWith("/admin");
 
-  const hideWebsiteLayout =
-    isLandingPage || isAdminRoute;
+  const hideWebsiteLayout = isLandingPage || isAdminRoute;
 
   return (
     <>
@@ -34,9 +32,7 @@ export default function LayoutWrapper({ children }) {
 
       {!hideWebsiteLayout && <Footer />}
 
-      {!hideWebsiteLayout && <CallButton />}
-
-      {!hideWebsiteLayout && <WhatsAppButton />}
+      {!hideWebsiteLayout && <FloatingContact />}
     </>
   );
 }
