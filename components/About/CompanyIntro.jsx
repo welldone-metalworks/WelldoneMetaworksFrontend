@@ -1,172 +1,359 @@
-  "use client";
+"use client";
 
-  import Image from "next/image";
-  import { motion } from "framer-motion";
-  import { CheckCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowUpRight,
+  Check,
+  MapPin,
+  Ruler,
+  Wrench,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
-  export default function CompanyIntro() {
-    const features = [
-      "High Quality Materials",
-      "Expert Metal Fabrication",
-      "Custom Architectural Designs",
-      "Reliable Project Delivery",
-    ];
+/*
+|--------------------------------------------------------------------------
+| IMAGE
+|--------------------------------------------------------------------------
+| Replace this path with your actual fabrication image.
+|--------------------------------------------------------------------------
+*/
 
-    return (
-      <section className="relative w-full py-16 md:py-24 lg:py-28 bg-white overflow-hidden">
+const ABOUT_IMAGE = "/images/about-fabrication.jpg";
 
-        {/* Gradient Glow */}
-        <div className="absolute -top-32 -left-32 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-[#cd2b14]/20 blur-[120px] md:blur-[140px] rounded-full"></div>
-        <div className="absolute -bottom-32 -right-32 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-[#981d13]/20 blur-[120px] md:blur-[140px] rounded-full"></div>
+const points = [
+  "Custom mild-steel fabrication for residential and commercial requirements",
+  "Dimensions and fabrication planned around the actual project",
+  "Site measurement available for suitable projects",
+  "Installation support for suitable fabricated works",
+];
 
-        {/* Background Typography */}
-        <div className="absolute top-6 md:top-10 left-0 w-full text-center pointer-events-none">
-          <h1 className="text-[70px] sm:text-[100px] md:text-[150px] lg:text-[180px] font-extrabold text-gray-100 tracking-widest">
-            METAL
-          </h1>
-        </div>
+const capabilities = [
+  {
+    icon: Wrench,
+    label: "Core focus",
+    value: "Custom MS Fabrication",
+  },
+  {
+    icon: Ruler,
+    label: "Available",
+    value: "Site Measurement",
+  },
+  {
+    icon: MapPin,
+    label: "Local coverage",
+    value: "Ahmedabad & Gandhinagar",
+  },
+];
 
-        <div className="relative max-w-[1280px] mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+export default function CompanyIntro() {
+  return (
+    <section className="relative overflow-hidden bg-white py-10 sm:py-12 lg:py-14">
+      {/* =====================================================
+          BACKGROUND GRID
+      ===================================================== */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] opacity-60"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(22,135,197,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(22,135,197,0.035) 1px, transparent 1px)",
+          backgroundSize: "38px 38px",
+          maskImage:
+            "linear-gradient(to bottom left, black, transparent 72%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom left, black, transparent 72%)",
+        }}
+      />
 
-          {/* IMAGE SIDE */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            {/* Gradient Frame */}
-            <div className="p-[2px] rounded-3xl bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
-
-              <div className="rounded-3xl overflow-hidden shadow-2xl">
-                <Image
-                  src="/HomeImg/Sports.webp"
-                  alt="Metal Fabrication"
-                  width={700}
-                  height={500}
-                  className="w-full h-[280px] sm:h-[350px] md:h-[420px] lg:h-[500px] object-cover"
-                />
-              </div>
-
+      <div className="wm-container relative">
+        {/* =====================================================
+            SECTION INTRO
+        ===================================================== */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="mb-12 flex flex-col gap-5 border-b border-wm-border pb-7 sm:flex-row sm:items-end sm:justify-between"
+        >
+          <div>
+            <div className="wm-eyebrow">
+              <span className="h-px w-8 bg-wm-primary" />
+              01 / Who We Are
             </div>
 
-            {/* Floating Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="
-                absolute 
-                -bottom-6 right-4
-                sm:-bottom-8 sm:right-6
-                md:-bottom-10 md:-right-10
-                backdrop-blur-xl
-                bg-white/80
-                border border-gray-200
-                shadow-2xl
-                rounded-2xl
-                px-5 py-4
-                sm:px-6 sm:py-5
-              "
-            >
-              <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] bg-clip-text text-transparent">
-                15+
-              </p>
-              <p className="text-gray-600 text-xs sm:text-sm">
-                Years Experience
-              </p>
-            </motion.div>
-          </motion.div>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-wm-muted">
+              Understanding the requirement comes first. The fabrication
+              follows the project.
+            </p>
+          </div>
 
-          {/* CONTENT */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-
-            {/* Label */}
-            <span className="text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#cd2b14]">
-              About Welldone Metalworks
-            </span>
-
-            {/* Heading */}
-            <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold text-[#111827] leading-tight">
-              Engineering Durable
-              <span className="block bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] bg-clip-text text-transparent">
-                Metal Structures
-              </span>
-            </h2>
-
-            {/* Description */}
-            <p className="mt-5 sm:mt-6 text-gray-600 leading-relaxed text-base sm:text-lg">
-              At Welldone Metalworks, we specialize in delivering high-quality
-              metal fabrication solutions designed for durability, strength,
-              and aesthetic excellence. Our expert craftsmen combine modern
-              tools with traditional expertise to create structures that
-              stand the test of time.
+          <div className="hidden text-right sm:block">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-wm-muted">
+              Welldone Metalworks
             </p>
 
-            {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10">
-              {features.map((item, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ y: -5 }}
-                  className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl px-4 py-3 sm:px-5 sm:py-4 shadow-md hover:shadow-xl transition"
-                >
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] text-white">
-                    <CheckCircle size={16} />
+            <p className="mt-1 text-xs font-semibold text-wm-heading">
+              Custom MS Fabrication
+            </p>
+          </div>
+        </motion.div>
+
+        {/* =====================================================
+            MAIN EDITORIAL LAYOUT
+        ===================================================== */}
+        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
+          {/* ===================================================
+              LEFT — IMAGE COMPOSITION
+          =================================================== */}
+          <motion.div
+            initial={{ opacity: 0, x: -25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+            className="relative"
+          >
+            <div className="relative">
+              {/* Main image */}
+              <div className="relative overflow-hidden border border-wm-border-blue bg-wm-surface-soft p-2">
+                <div className="relative aspect-[0.88/1] overflow-hidden bg-wm-surface-soft sm:aspect-[0.95/1] lg:aspect-[0.88/1]">
+                  <Image
+                    src={ABOUT_IMAGE}
+                    alt="Custom mild-steel fabrication work by Welldone Metalworks"
+                    fill
+                    priority={false}
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    className="object-cover transition-transform duration-700 hover:scale-[1.025]"
+                  />
+
+                  {/* Image gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-wm-navy/75 via-wm-navy/10 to-transparent" />
+
+                  {/* Image information */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-7">
+                    <div className="flex items-end justify-between gap-5">
+                      <div>
+                        <div className="mb-2 flex items-center gap-2">
+                          <span className="h-px w-6 bg-wm-primary-light" />
+
+                          <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-wm-primary-light">
+                            Fabrication
+                          </span>
+                        </div>
+
+                        <h3 className="text-xl font-extrabold tracking-tight text-white sm:text-2xl">
+                          Made around the project.
+                        </h3>
+                      </div>
+
+                      <div className="hidden h-11 w-11 shrink-0 items-center justify-center border border-white/20 bg-white/10 backdrop-blur-sm sm:flex">
+                        <Wrench
+                          size={18}
+                          className="text-white"
+                        />
+                      </div>
+                    </div>
                   </div>
+                </div>
+              </div>
 
-                  <span className="text-gray-700 text-sm sm:text-base font-medium">
-                    {item}
-                  </span>
-                </motion.div>
-              ))}
+              {/* =================================================
+                  IMAGE FOOTER
+              ================================================= */}
+              <div className="grid grid-cols-2 border-x border-b border-wm-border-blue bg-wm-surface-soft">
+                <div className="border-r border-wm-border-blue px-4 py-4">
+                  <p className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-wm-muted">
+                    Material
+                  </p>
+
+                  <p className="mt-1.5 text-sm font-extrabold text-wm-heading">
+                    Mild Steel
+                  </p>
+                </div>
+
+                <div className="px-4 py-4">
+                  <p className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-wm-muted">
+                    Approach
+                  </p>
+
+                  <p className="mt-1.5 text-sm font-extrabold text-wm-heading">
+                    Requirement-led
+                  </p>
+                </div>
+              </div>
+
+              {/* Technical side label */}
+              <div className="absolute -left-3 top-16 hidden -translate-x-full lg:block">
+                <span className="text-[9px] font-extrabold uppercase tracking-[0.25em] text-wm-muted [writing-mode:vertical-rl]">
+                  Custom Fabrication
+                </span>
+              </div>
             </div>
+          </motion.div>
 
-            {/* CTA */}
-            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-4">
+          {/* ===================================================
+              RIGHT — CONTENT
+          =================================================== */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.07,
+                },
+              },
+            }}
+            className="lg:pt-2"
+          >
+            {/* Small label */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-wm-primary"
+            >
+              The company
+            </motion.div>
 
-              <motion.a
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.95 }}
-                href="#contact"
-                className="
-                  text-center
-                  bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]
-                  text-white px-7 py-3
-                  rounded-full
-                  font-semibold
-                  shadow-lg
-                  hover:shadow-xl
-                  transition
-                "
+            {/* Heading */}
+            <motion.h2
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              className="wm-heading mt-4 max-w-2xl text-3xl leading-[1.1] sm:text-4xl lg:text-[48px]"
+            >
+              Fabrication that starts with the{" "}
+              <span className="text-wm-primary">actual requirement.</span>
+            </motion.h2>
+
+            {/* Lead statement */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              className="mt-7 max-w-2xl border-l-2 border-wm-primary pl-5"
+            >
+              <p className="text-base font-semibold leading-7 text-wm-heading sm:text-lg sm:leading-8">
+                Welldone Metalworks provides custom mild-steel fabrication for
+                residential, commercial and practical outdoor requirements
+                across Ahmedabad and Gandhinagar.
+              </p>
+            </motion.div>
+
+            {/* =================================================
+                COMPANY STORY
+            ================================================= */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              className="mt-7 max-w-2xl space-y-4 text-sm leading-7 text-wm-body sm:text-[15px]"
+            >
+              <p>
+                Every fabrication requirement comes with its own dimensions,
+                available space and intended use. A gate, railing, shed,
+                gazebo or pergola may look straightforward from the outside,
+                but the details of the site can influence how the work needs
+                to be planned and fabricated.
+              </p>
+
+              <p>
+                Our approach is therefore based on understanding those details
+                first. Depending on the project, the process can include
+                discussing the requirement, checking dimensions, carrying out
+                site measurement where suitable, planning the fabrication,
+                producing the required mild-steel components and supporting
+                installation at the site.
+              </p>
+
+              <p>
+                The objective is simple: create metalwork that is appropriate
+                for the actual project instead of forcing a standard solution
+                into a space that may require something different.
+              </p>
+            </motion.div>
+
+
+            {/* =================================================
+                SERVICE LINK
+            ================================================= */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 12 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              className="mt-2"
+            >
+              <Link
+                href="/services"
+                className="group inline-flex items-center gap-2 text-sm font-extrabold text-wm-primary transition-colors hover:text-wm-primary-dark"
               >
-                Get Free Quote
-              </motion.a>
+                Explore our fabrication services
 
-              <a
-                href="#services"
-                className="
-                  text-center
-                  border border-gray-300
-                  px-7 py-3
-                  rounded-full
-                  font-semibold
-                  hover:border-[#cd2b14]
-                  hover:text-[#cd2b14]
-                  transition
-                "
-              >
-                View Services
-              </a>
-
-            </div>
-
+                <ArrowUpRight
+                  size={16}
+                  strokeWidth={2.3}
+                  className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
-      </section>
-    );
-  }
+
+        {/* =====================================================
+            CAPABILITY BAR
+        ===================================================== */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5 }}
+          className="mt-6 border-y border-wm-border bg-wm-surface-soft lg:mt-20"
+        >
+          <div className="grid sm:grid-cols-3">
+            {capabilities.map((item, index) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.value}
+                  className={`flex items-center gap-4 px-5 py-6 sm:px-7 ${
+                    index < capabilities.length - 1
+                      ? "border-b border-wm-border sm:border-b-0 sm:border-r"
+                      : ""
+                  }`}
+                >
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[9px] bg-wm-surface-icon">
+                    <Icon
+                      size={19}
+                      strokeWidth={2}
+                      className="text-wm-primary"
+                    />
+                  </div>
+
+                  <div>
+                    <p className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-wm-muted">
+                      {item.label}
+                    </p>
+
+                    <p className="mt-1.5 text-sm font-extrabold text-wm-heading">
+                      {item.value}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}

@@ -1,130 +1,234 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
+import { ArrowUpRight, ChevronDown, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 const faqs = [
   {
-    question: "What types of metal fabrication do you offer?",
+    question: "What type of metal fabrication does Welldone Metalworks provide?",
     answer:
-      "We specialize in custom steel, aluminum, and polycarbonate fabrication for residential and commercial projects including gazebos, railings, gates, and decorative panels.",
+      "Welldone Metalworks currently focuses on mild-steel (MS) fabrication. The work can include custom gates, railings, sheds, gazebos, pergolas and other suitable site-specific metalwork.",
   },
   {
-    question: "How can I get a quote for my project?",
+    question: "Do you provide stainless steel or aluminum fabrication?",
     answer:
-      "You can fill out our enquiry form or contact us directly. Our team will review your requirements and provide a detailed quotation quickly.",
+      "No. Our current fabrication offering is focused on mild steel. Stainless steel and aluminum fabrication are not currently offered.",
   },
   {
-    question: "Do you offer installation services?",
+    question: "Can the fabrication be made according to custom dimensions?",
     answer:
-      "Yes. Our experienced technicians handle full installation ensuring structural safety and professional finishing.",
+      "Yes. Custom fabrication can be planned around the dimensions, available space and intended use of the project.",
   },
   {
-    question: "Can I customize the designs?",
+    question: "Do you provide site measurement?",
     answer:
-      "Absolutely. All structures are fully customizable in terms of design, material, size, and finish.",
+      "Site measurement is available for suitable fabrication projects. The requirement and location can be discussed when you contact us.",
   },
   {
-    question: "What materials do you use?",
+    question: "Do you provide installation after fabrication?",
     answer:
-      "We use high-quality steel, aluminum, stainless steel, and polycarbonate to ensure durability and aesthetics.",
+      "Yes. Installation support is available for suitable fabricated works. The installation requirement can be confirmed when the project is discussed.",
   },
   {
-    question: "Do you provide maintenance services?",
+    question: "Which locations do you serve?",
     answer:
-      "Yes, we also provide repair, maintenance, and support services for fabricated structures.",
+      "Welldone Metalworks primarily serves Ahmedabad and Gandhinagar. Coverage for a specific project can depend on the location and fabrication requirement.",
+  },
+  {
+    question: "How can I request a quotation?",
+    answer:
+      "You can contact us by phone, WhatsApp or through the enquiry form. Sharing the service you need, project location, approximate dimensions and reference images can help us understand the requirement.",
   },
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="py-10 bg-gray-50">
+    <section className="border-t border-wm-border bg-wm-surface-soft py-10 sm:py-12">
+      <div className="wm-container">
 
-      {/* Heading */}
-      <div className="max-w-[1280px] mx-auto text-center  mb-16">
+        {/* Header */}
+        <div className="grid gap-6 border-b border-wm-border pb-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-16">
+          <div>
+            <div className="wm-eyebrow">
+              <span className="h-px w-7 bg-wm-primary" />
+              Frequently Asked Questions
+            </div>
 
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-          Frequently Asked{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
-            Questions
-          </span>
-        </h2>
+            <h2 className="mt-4 max-w-xl text-3xl font-extrabold leading-[1.08] tracking-[-0.04em] text-wm-heading sm:text-4xl lg:text-[42px]">
+              Before you start your fabrication project.
+            </h2>
+          </div>
 
-        <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          Everything you need to know about our metal fabrication services.
-        </p>
+          <div className="flex flex-col gap-4 lg:max-w-2xl lg:ml-auto">
+            <p className="text-sm leading-7 text-wm-body sm:text-[15px]">
+              Here are some of the common questions customers ask about MS
+              fabrication, custom dimensions, site measurement, installation
+              and service coverage.
+            </p>
 
-      </div>
-
-      {/* FAQ Grid */}
-      <div className="max-w-[1280px] mx-auto px-6 grid gap-6 md:grid-cols-2">
-
-        {faqs.map((faq, idx) => (
-          <motion.div
-            key={idx}
-            layout
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.05 }}
-            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition border border-gray-200 overflow-hidden"
-          >
-
-            {/* Question */}
-            <button
-              onClick={() => toggleFAQ(idx)}
-              className="w-full flex justify-between items-center p-6 text-left"
+            <Link
+              href="/contact"
+              className="group inline-flex w-fit items-center gap-2 text-xs font-bold text-wm-primary transition-colors hover:text-wm-primary-dark"
             >
+              Still have a question?
 
-              <h3 className="text-lg font-semibold text-gray-800 pr-6">
-                {faq.question}
-              </h3>
+              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-wm-border transition-all duration-300 group-hover:border-wm-primary">
+                <ArrowUpRight
+                  size={13}
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </span>
+            </Link>
+          </div>
+        </div>
 
-              <motion.div
-                animate={{ rotate: openIndex === idx ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-center justify-center w-9 h-9 rounded-full"
-                style={{
-                  background:
-                    "linear-gradient(135deg,#981d13,#b72d2c,#cd2b14)",
-                }}
+        {/* FAQ content */}
+        <div className="mt-8 grid gap-8 lg:grid-cols-[0.28fr_0.72fr] lg:gap-12">
+
+          {/* Side information */}
+          <div className="hidden lg:block">
+            <div className="sticky top-28">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-wm-surface-blue text-wm-primary">
+                <MessageCircle size={18} strokeWidth={1.8} />
+              </div>
+
+              <p className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-wm-primary">
+                Need clarity?
+              </p>
+
+              <p className="mt-3 text-sm leading-6 text-wm-muted">
+                Every fabrication project can have different dimensions,
+                materials, site conditions and installation requirements.
+              </p>
+
+              <Link
+                href="/enquiry"
+                className="group mt-5 inline-flex items-center gap-2 text-xs font-bold text-wm-navy transition-colors hover:text-wm-primary"
               >
-                {openIndex === idx ? (
-                  <Minus size={16} className="text-white" />
-                ) : (
-                  <Plus size={16} className="text-white" />
-                )}
-              </motion.div>
+                Discuss your requirement
 
-            </button>
+                <ArrowUpRight
+                  size={14}
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </Link>
+            </div>
+          </div>
 
-            {/* Answer */}
-            <AnimatePresence>
-              {openIndex === idx && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="px-6 pb-6 text-gray-600 leading-relaxed"
+          {/* Accordion */}
+          <div className="overflow-hidden rounded-2xl border border-wm-border bg-white">
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+
+              return (
+                <div
+                  key={faq.question}
+                  className={
+                    index !== faqs.length - 1
+                      ? "border-b border-wm-border"
+                      : ""
+                  }
                 >
-                  {faq.answer}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenIndex(isOpen ? null : index)
+                    }
+                    aria-expanded={isOpen}
+                    className="group flex w-full items-center gap-4 px-5 py-5 text-left transition-colors hover:bg-wm-surface-soft sm:px-6"
+                  >
+                    {/* Number */}
+                    <span
+                      className={`hidden w-7 shrink-0 text-[10px] font-extrabold tracking-[0.12em] sm:block ${
+                        isOpen
+                          ? "text-wm-primary"
+                          : "text-wm-muted"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
 
-          </motion.div>
-        ))}
+                    {/* Question */}
+                    <span
+                      className={`flex-1 text-sm font-bold leading-6 transition-colors sm:text-[15px] ${
+                        isOpen
+                          ? "text-wm-primary"
+                          : "text-wm-navy group-hover:text-wm-primary"
+                      }`}
+                    >
+                      {faq.question}
+                    </span>
 
+                    {/* Icon */}
+                    <span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ${
+                        isOpen
+                          ? "bg-wm-primary text-white"
+                          : "bg-wm-surface-icon text-wm-primary group-hover:bg-wm-surface-blue"
+                      }`}
+                    >
+                      <ChevronDown
+                        size={16}
+                        strokeWidth={1.8}
+                        className={`transition-transform duration-300 ${
+                          isOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </span>
+                  </button>
+
+                  {/* Answer */}
+                  <div
+                    className={`grid transition-all duration-300 ${
+                      isOpen
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="px-5 pb-5 sm:pl-[4.75rem] sm:pr-14">
+                        <div className="border-l-2 border-wm-primary/20 pl-4">
+                          <p className="text-sm leading-7 text-wm-muted">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom contact strip */}
+        <div className="mt-7 flex flex-col gap-4 border-t border-wm-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-bold text-wm-navy">
+              Have a fabrication requirement?
+            </p>
+
+            <p className="mt-1 text-xs text-wm-muted">
+              Share your location, dimensions or reference image with us.
+            </p>
+          </div>
+
+          <Link
+            href="/enquiry"
+            className="group inline-flex w-fit items-center gap-2 rounded-lg bg-wm-primary px-4 py-2.5 text-xs font-bold text-white transition-colors hover:bg-wm-primary-dark"
+          >
+            Request a Quote
+
+            <ArrowUpRight
+              size={14}
+              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </Link>
+        </div>
       </div>
-
     </section>
   );
 }

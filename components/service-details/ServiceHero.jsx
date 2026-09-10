@@ -1,115 +1,263 @@
-// service-details/ServiceHero.jsx
-'use client';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle2,
+  MapPin,
+  MoveRight,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ServiceHero({ data }) {
-  return (
-    <section className="relative min-h-[100dvh] flex items-center bg-[#0a0f1c] overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#cd2b14_0.7px,transparent_1px)] bg-[length:28px_28px] opacity-10" />
-      
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1c] via-[#111827] to-[#0a0f1c]" />
+  if (!data) return null;
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-20">
-        <div className="grid lg:grid-cols-12 gap-16 lg:gap-20 items-center">
-          
-          {/* Left Content */}
+  return (
+    <section className="relative overflow-hidden border-b border-[var(--wm-border)] bg-white">
+      {/* Technical background */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-70"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(22,135,197,0.035) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(22,135,197,0.035) 1px, transparent 1px)
+          `,
+          backgroundSize: "52px 52px",
+        }}
+      />
+
+      <div
+        className="pointer-events-none absolute -left-40 top-20 h-[500px] w-[500px] rounded-full blur-3xl"
+        style={{
+          background: "rgba(70,169,216,0.08)",
+        }}
+      />
+
+      <div className="wm-container relative z-10 pt-28 sm:pt-32 lg:pt-36">
+        {/* Breadcrumb / top metadata */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--wm-border)] pb-5"
+        >
+          <div className="flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--wm-muted)]">
+            <Link
+              href="/services"
+              className="transition-colors hover:text-[var(--wm-primary)]"
+            >
+              Services
+            </Link>
+
+            <span>/</span>
+
+            <span className="text-[var(--wm-primary)]">
+              {data.title}
+            </span>
+          </div>
+
+          <div className="font-mono text-[10px] font-bold tracking-[0.16em] text-[var(--wm-muted)]">
+            WM / SERVICE / {data.number}
+          </div>
+        </motion.div>
+
+        <div className="grid items-center gap-12 pb-16 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:pb-20">
+          {/* ============================================================
+              LEFT CONTENT
+          ============================================================ */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
-            className="lg:col-span-7 space-y-10"
+            initial={{ opacity: 0, x: -25 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-2xl"
           >
-            {/* Badge */}
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-3xl border border-white/20">
-              <Sparkles className="w-5 h-5 text-[#cd2b14]" />
-              <span className="uppercase tracking-widest text-sm font-semibold text-white/90">
-                {data.badge}
+            {/* Eyebrow */}
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-9 bg-[var(--wm-primary)]" />
+
+              <span className="wm-eyebrow">
+                {data.eyebrow}
               </span>
             </div>
 
-            {/* Headline with Brand Gradient */}
-            <h1 className="text-6xl md:text-7xl lg:text-[4.8rem] leading-[1.05] font-bold tracking-tighter text-white">
-              {data.title.split(' ').map((word, i) => (
-                <span 
-                  key={i}
-                  className={i === 1 || i === data.title.split(' ').length - 1 
-                    ? "bg-gradient-to-r from-[#981d13] via-[#cd2b14] to-[#f87171] bg-clip-text text-transparent" 
-                    : ""}
-                >
-                  {word}{' '}
-                </span>
-              ))}
+            {/* Number */}
+            <div className="mb-5 flex items-center gap-4">
+              <span className="font-mono text-xs font-bold tracking-[0.18em] text-[var(--wm-primary)]">
+                {data.number}
+              </span>
+
+              <span className="h-px w-12 bg-[var(--wm-border-blue)]" />
+            </div>
+
+            {/* Heading */}
+            <h1 className="wm-heading text-[46px] leading-[0.98] sm:text-[58px] lg:text-[68px] xl:text-[76px]">
+              {data.title}
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-300 max-w-xl leading-relaxed">
+            {/* Subtitle */}
+            <p className="mt-7 max-w-xl text-xl font-semibold leading-[1.45] tracking-[-0.02em] text-[var(--wm-heading)] sm:text-[22px]">
               {data.subtitle}
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-5 pt-6">
-              <motion.a
-                href="#contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#cd2b14] via-[#b72d2c] to-[#981d13] text-white px-10 py-5 rounded-3xl font-semibold text-lg shadow-xl shadow-[#cd2b14]/40 hover:brightness-110 transition-all duration-300"
-              >
-                Get Free Quote
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </motion.a>
+            {/* Description */}
+            <p className="wm-body mt-5 max-w-xl text-sm sm:text-base">
+              {data.description}
+            </p>
 
-              <motion.a
-                href="#gallery"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center gap-3 border-2 border-white/70 hover:border-white text-white px-9 py-5 rounded-3xl font-semibold text-lg backdrop-blur-md hover:bg-white/5 transition-all duration-300"
+            {/* Technical details */}
+            <div className="mt-8 grid max-w-xl grid-cols-2 border-y border-[var(--wm-border)] sm:grid-cols-3">
+              <div className="border-r border-[var(--wm-border)] py-4 pr-4">
+                <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--wm-muted)]">
+                  Material
+                </span>
+
+                <span className="mt-1 block text-sm font-bold text-[var(--wm-heading)]">
+                  {data.material}
+                </span>
+              </div>
+
+              <div className="border-r border-[var(--wm-border)] px-4 py-4">
+                <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--wm-muted)]">
+                  Application
+                </span>
+
+                <span className="mt-1 block text-sm font-bold text-[var(--wm-heading)]">
+                  {data.application}
+                </span>
+              </div>
+
+              <div className="col-span-2 py-4 pl-4 sm:col-span-1">
+                <span className="block text-[9px] font-bold uppercase tracking-[0.16em] text-[var(--wm-muted)]">
+                  Service Area
+                </span>
+
+                <span className="mt-1 flex items-center gap-1.5 text-sm font-bold text-[var(--wm-heading)]">
+                  <MapPin
+                    size={13}
+                    className="text-[var(--wm-primary)]"
+                  />
+                  Ahmedabad & Gandhinagar
+                </span>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href={data.primaryCta?.href || "/enquiry"}
+                className="group inline-flex items-center justify-center gap-3 bg-[var(--wm-primary)] px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.12em] text-white transition-colors duration-300 hover:bg-[var(--wm-primary-dark)]"
               >
-                View Our Work
-              </motion.a>
+                {data.primaryCta?.label || "Request an Enquiry"}
+
+                <ArrowRight
+                  size={16}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </Link>
+
+              <Link
+                href={data.secondaryCta?.href || "#service-scope"}
+                className="group inline-flex items-center justify-center gap-3 border border-[var(--wm-border-blue)] bg-white px-6 py-3.5 text-xs font-extrabold uppercase tracking-[0.12em] text-[var(--wm-heading)] transition-all duration-300 hover:border-[var(--wm-primary)] hover:text-[var(--wm-primary)]"
+              >
+                {data.secondaryCta?.label || "Explore Service Scope"}
+
+                <ArrowDown
+                  size={15}
+                  className="transition-transform duration-300 group-hover:translate-y-1"
+                />
+              </Link>
+            </div>
+
+            {/* Trust line */}
+            <div className="mt-7 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--wm-muted)]">
+              <CheckCircle2
+                size={14}
+                className="text-[var(--wm-primary)]"
+              />
+
+              Project-specific Mild Steel fabrication
             </div>
           </motion.div>
 
-          {/* Right Visual - Enhanced */}
+          {/* ============================================================
+              RIGHT IMAGE
+          ============================================================ */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="lg:col-span-5 relative"
+            initial={{ opacity: 0, x: 25 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="relative"
           >
-            <div className="relative">
-              {/* Main Image */}
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+            <div className="relative aspect-[1.08/1] overflow-hidden bg-[var(--wm-surface-blue)]">
+              {data.image && (
                 <Image
                   src={data.image}
-                  alt={data.title}
+                  alt={`${data.title} - Welldone Metalworks`}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
                   priority
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              )}
+
+              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(18,50,74,0.7)] via-transparent to-transparent" />
+
+              {/* Image corner marker */}
+              <div className="absolute left-5 top-5 border border-white/30 bg-[var(--wm-navy)]/80 px-3 py-2 backdrop-blur-sm">
+                <span className="font-mono text-[9px] font-bold tracking-[0.18em] text-white">
+                  WM / FABRICATION
+                </span>
               </div>
 
-              {/* Decorative Accents */}
-              <div className="absolute -top-8 -right-8 w-48 h-48 border border-[#cd2b14]/30 rounded-3xl -rotate-6" />
-              <div className="absolute -bottom-8 -left-8 w-40 h-40 border border-white/20 rounded-3xl rotate-12" />
+              {/* Bottom image information */}
+              <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7">
+                <div className="flex items-end justify-between gap-5">
+                  <div>
+                    <span className="block text-[9px] font-bold uppercase tracking-[0.18em] text-white/70">
+                      Service Category
+                    </span>
+
+                    <span className="mt-1 block text-sm font-bold text-white">
+                      {data.application}
+                    </span>
+                  </div>
+
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-white/30 bg-white/10 text-white backdrop-blur-sm">
+                    <ArrowUpRight size={17} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Technical side label */}
+            <div className="absolute -right-3 top-10 hidden lg:block">
+              <div className="flex items-center gap-3 bg-white px-3 py-3 shadow-[var(--wm-shadow-md)]">
+                <span className="h-2 w-2 bg-[var(--wm-primary)]" />
+
+                <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-[var(--wm-heading)]">
+                  PROJECT BASED
+                </span>
+              </div>
+            </div>
+
+            {/* Bottom technical bar */}
+            <div className="mt-3 flex items-center justify-between border-t border-[var(--wm-border)] pt-3">
+              <span className="font-mono text-[9px] font-bold tracking-[0.15em] text-[var(--wm-muted)]">
+                WELLDONE METALWORKS
+              </span>
+
+              <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-primary)]">
+                <MoveRight size={13} />
+                Ahmedabad
+              </span>
             </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs tracking-widest text-gray-400"
-      >
-        SCROLL TO EXPLORE
-        <div className="w-px h-12 bg-gradient-to-b from-transparent via-gray-400 to-transparent" />
-      </motion.div>
     </section>
   );
 }

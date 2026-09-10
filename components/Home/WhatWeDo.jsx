@@ -1,140 +1,253 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
 import {
+  ArrowUpRight,
+  Fence,
   Hammer,
-  Building,
-  Layers,
-  Shield,
-  Star,
+  Layers3,
+  Ruler,
+  Warehouse,
   Wrench,
 } from "lucide-react";
 
-const activities = [
+const workTypes = [
   {
-    icon: <Hammer size={28} className="text-white" />,
-    title: "Custom Fabrication",
-    description:
-      "We craft steel and metal structures tailored to your exact specifications for residential and commercial projects.",
-    details: [
-      "Bespoke steel and metal design",
-      "Residential & commercial projects",
-      "Precision welding and finishing",
-    ],
-    color: "from-cyan-500 to-blue-500",
+    icon: Fence,
+    number: "01",
+    title: "Gates",
+    text: "Custom mild-steel gates made to suit the entrance size, required strength and overall look of the property.",
+    href: "/services/gates-railings",
   },
   {
-    icon: <Building size={28} className="text-white" />,
-    title: "Gazebo & Outdoor Structures",
-    description:
-      "Design and build elegant gazebos, pergolas, and other outdoor structures that elevate any space.",
-    details: [
-      "Custom gazebo and pergola designs",
-      "Durable materials for outdoor use",
-      "Enhances garden aesthetics",
-    ],
-    color: "from-purple-500 to-pink-500",
+    icon: Layers3,
+    number: "02",
+    title: "Railings",
+    text: "Practical MS railings for staircases, balconies, terraces and other areas where safe and durable metalwork is required.",
+    href: "/services/gates-railings",
   },
   {
-    icon: <Layers size={28} className="text-white" />,
-    title: "Modular & Prefabricated Solutions",
-    description:
-      "Modular metal frameworks for quick installation, versatility, and long-lasting durability.",
-    details: [
-      "Fast and flexible installation",
-      "Prefabricated modules for efficiency",
-      "Long-lasting and durable design",
-    ],
-    color: "from-yellow-400 to-orange-500",
+    icon: Warehouse,
+    number: "03",
+    title: "Sheds & Canopies",
+    text: "MS structures for parking, storage and outdoor coverage, planned around the available space and site conditions.",
+    href: "/services/sheds-canopies",
   },
   {
-    icon: <Shield size={28} className="text-white" />,
-    title: "Security & Safety Installations",
-    description:
-      "We provide sturdy gates, railings, and fencing systems to ensure both safety and aesthetic appeal.",
-    details: [
-      "Gates, railings, and fencing",
-      "Enhanced security solutions",
-      "Stylish and robust design",
-    ],
-    color: "from-green-400 to-teal-500",
+    icon: Hammer,
+    number: "04",
+    title: "Gazebos",
+    text: "Outdoor metal structures fabricated according to the intended use, available area and project dimensions.",
+    href: "/services/gazebos-outdoor",
   },
   {
-    icon: <Star size={28} className="text-white" />,
-    title: "Premium Finishes & Coatings",
-    description:
-      "High-quality finishes and protective coatings for all metal surfaces, ensuring longevity and shine.",
-    details: [
-      "Protective powder coatings",
-      "Polished and aesthetic finishes",
-      "Long-lasting and corrosion-resistant",
-    ],
-    color: "from-red-400 to-pink-500",
+    icon: Ruler,
+    number: "05",
+    title: "Pergolas",
+    text: "Custom metal pergolas designed to add functional outdoor coverage while fitting naturally into the existing space.",
+    href: "/services/gazebos-outdoor",
   },
   {
-    icon: <Wrench size={28} className="text-white" />,
-    title: "Maintenance & Custom Support",
-    description:
-      "Ongoing maintenance, repairs, and custom support for all our fabricated structures.",
-    details: [
-      "Preventive maintenance",
-      "Repair services for metal structures",
-      "Custom support and consultation",
-    ],
-    color: "from-indigo-500 to-purple-500",
+    icon: Wrench,
+    number: "06",
+    title: "Custom Metalwork",
+    text: "Site-specific MS fabrication for requirements that need something different from a standard ready-made solution.",
+    href: "/services/custom-metal-fabrication",
   },
 ];
 
 export default function WhatWeDo() {
   return (
-    <section className="py-10 px-6 bg-gray-50 relative">
-      <div className="max-w-[1280px] mx-auto text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-          What We Do
-        </h2>
-        <p className="text-gray-700 mt-4 max-w-3xl mx-auto">
-          From design to installation, we provide complete fabrication
-          solutions that combine precision, durability, and style.
-        </p>
-      </div>
+    <section
+      id="what-we-do"
+      className="relative overflow-hidden bg-wm-surface-soft py-10 sm:py-12 lg:py-14"
+    >
+      {/* =====================================================
+          BACKGROUND DETAILS
+      ===================================================== */}
 
-      <div className="max-w-[1280px] mx-auto grid gap-10 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {activities.map((activity, idx) => (
-          <motion.div
-            key={idx}
-            whileHover={{ y: -8, scale: 1.02 }}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: idx * 0.1 }}
-            className="relative bg-white rounded-3xl shadow-lg p-8 overflow-hidden border border-gray-200"
-          >
-            {/* Decorative shapes */}
-            <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-gradient-to-tr from-cyan-200 to-blue-300 opacity-20 rotate-12 pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-gradient-to-tr from-pink-200 to-yellow-300 opacity-20 -rotate-12 pointer-events-none" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.035]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#0f4c6e 1px, transparent 1px), linear-gradient(90deg, #0f4c6e 1px, transparent 1px)",
+          backgroundSize: "52px 52px",
+        }}
+      />
 
-            {/* Icon */}
-            <div
-              className={`w-16 h-16 flex items-center justify-center rounded-full mb-4 bg-gradient-to-tr ${activity.color} shadow-lg`}
-            >
-              {activity.icon}
+      <div className="pointer-events-none absolute -right-40 top-20 h-[420px] w-[420px] rounded-full border-[70px] border-wm-primary/[0.025]" />
+
+      <div className="pointer-events-none absolute -left-52 bottom-0 h-[420px] w-[420px] rounded-full border border-wm-primary/[0.05]" />
+
+      <div className="wm-container relative">
+
+        {/* =====================================================
+            SECTION HEADER
+        ===================================================== */}
+
+        <div className="grid items-end gap-8 lg:grid-cols-[1fr_0.72fr] lg:gap-20">
+
+          {/* Heading */}
+          <div>
+            <div className="wm-eyebrow">
+              <span className="h-px w-8 bg-wm-primary" />
+              What We Do
             </div>
 
-            <h3 className="text-2xl font-bold mb-3">
-              {activity.title}
-            </h3>
+            <h2 className="mt-5 max-w-3xl text-3xl font-extrabold leading-[1.12] tracking-[-0.04em] text-wm-heading sm:text-4xl lg:text-[46px]">
+              Metal fabrication built around the way your project actually
+              <span className="text-wm-primary"> needs to work.</span>
+            </h2>
+          </div>
 
-            <p className="text-gray-700 text-sm mb-3">
-              {activity.description}
+          {/* Supporting copy */}
+          <div className="lg:pb-1">
+
+            <p className="text-sm leading-7 text-wm-body sm:text-base">
+              We fabricate practical mild-steel structures for residential,
+              commercial and outdoor requirements. Each job is considered
+              around its dimensions, purpose and site conditions rather than
+              treated as a standard product.
             </p>
 
-            <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
-              {activity.details.map((detail, index) => (
-                <li key={index}>{detail}</li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
+            <div className="mt-5 flex items-center gap-3">
+
+              <span className="h-px w-10 bg-wm-primary/50" />
+
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-wm-muted">
+                Ahmedabad & Gandhinagar
+              </span>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* =====================================================
+            SERVICES GRID
+        ===================================================== */}
+
+        <div className="mt-12 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+
+          {workTypes.map((item, index) => {
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.title}
+                href={item.href}
+                className={`group relative overflow-hidden rounded-[22px] border border-wm-border bg-white transition-all duration-300 hover:-translate-y-1 hover:border-wm-primary/25 hover:shadow-[0_22px_55px_rgba(15,76,110,0.10)] ${
+                  index === 0
+                    ? "sm:col-span-2 lg:col-span-1"
+                    : ""
+                }`}
+              >
+
+                {/* Top accent */}
+                <div className="absolute left-0 right-0 top-0 h-[2px] origin-left scale-x-0 bg-wm-primary transition-transform duration-500 group-hover:scale-x-100" />
+
+                <div className="p-6 sm:p-7">
+
+                  {/* =================================================
+                      CARD HEADER
+                  ================================================= */}
+
+                  <div className="flex items-start justify-between">
+
+                    {/* Icon */}
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-wm-surface-icon text-wm-primary ring-1 ring-wm-primary/5 transition-all duration-300 group-hover:bg-wm-primary group-hover:text-white group-hover:shadow-[0_10px_25px_rgba(22,135,197,0.20)]">
+                      <Icon
+                        size={22}
+                        strokeWidth={1.7}
+                      />
+                    </div>
+
+                    {/* Number */}
+                    <span className="text-[11px] font-bold tracking-[0.12em] text-slate-300 transition-colors duration-300 group-hover:text-wm-primary/40">
+                      {item.number}
+                    </span>
+
+                  </div>
+
+                  {/* =================================================
+                      CONTENT
+                  ================================================= */}
+
+                  <h3 className="mt-6 text-[19px] font-bold tracking-[-0.02em] text-wm-navy transition-colors duration-300 group-hover:text-wm-primary">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-2.5 min-h-[72px] text-sm leading-6 text-wm-muted">
+                    {item.text}
+                  </p>
+
+                  {/* Divider */}
+                  <div className="my-5 h-px bg-wm-border transition-colors duration-300 group-hover:bg-wm-primary/15" />
+
+                  {/* Link */}
+                  <div className="flex items-center justify-between">
+
+                    <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-wm-primary">
+                      View service
+                    </span>
+
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full border border-wm-border text-wm-muted transition-all duration-300 group-hover:border-wm-primary group-hover:bg-wm-primary group-hover:text-white">
+                      <ArrowUpRight
+                        size={14}
+                        strokeWidth={1.8}
+                        className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      />
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </Link>
+            );
+          })}
+
+        </div>
+
+        {/* =====================================================
+            BOTTOM SERVICE STRIP
+        ===================================================== */}
+
+        <div className="mt-7 rounded-[20px] border border-wm-border bg-white px-5 py-4 shadow-[0_10px_35px_rgba(15,76,110,0.04)] sm:px-6">
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+            <div className="flex items-center gap-3">
+
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-wm-surface-blue text-wm-primary">
+                <Wrench
+                  size={16}
+                  strokeWidth={1.7}
+                />
+              </div>
+
+              <p className="text-xs leading-5 text-wm-muted sm:text-sm">
+                Have a fabrication requirement that is not listed above?
+              </p>
+
+            </div>
+
+            <Link
+              href="/services/custom-metal-fabrication"
+              className="group inline-flex shrink-0 items-center gap-2 text-xs font-bold text-wm-primary transition-colors hover:text-wm-primary-dark"
+            >
+              Discuss Custom Work
+
+              <ArrowUpRight
+                size={15}
+                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </Link>
+
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

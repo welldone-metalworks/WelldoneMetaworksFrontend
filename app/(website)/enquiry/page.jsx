@@ -1,29 +1,38 @@
-import HeroSection from "../../../components/About/HeroSection";
-import ContactInfo from "../../../components/Enquiry/ContactInfo";
-import EnquiryForm from "../../../components/Enquiry/EnquiryForm";
+import EnquiryHero from "@/components/Enquiry/EnquiryHero";
+import ContactInfo from "@/components/Enquiry/ContactInfo";
+import EnquiryForm from "@/components/Enquiry/EnquiryForm";
+import EnquiryProcess from "@/components/Enquiry/EnquiryProcess";
+import EnquiryCTA from "@/components/Enquiry/EnquiryCTA";
 
 export const metadata = {
   title:
     "Request a Quote | Metal Fabrication Services in Ahmedabad | Welldone Metalworks",
+
   description:
-    "Send your enquiry to Welldone Metalworks for custom metal fabrication services in Ahmedabad including gazebo structures, railings, security gates and architectural metalwork.",
+    "Send your enquiry to Welldone Metalworks for custom mild-steel metal fabrication services in Ahmedabad and Gandhinagar, including gates, railings, garden structures, gazebos and roofing structures.",
+
   keywords:
-    "metal fabrication enquiry Ahmedabad, custom metal fabrication quote Ahmedabad, gazebo fabrication enquiry Ahmedabad",
+    "metal fabrication enquiry Ahmedabad, custom metal fabrication quote Ahmedabad, mild steel fabrication Ahmedabad, metal fabrication Gandhinagar, fabrication enquiry Ahmedabad",
 
   openGraph: {
     title: "Request a Metal Fabrication Quote | Welldone Metalworks",
+
     description:
-      "Contact Welldone Metalworks for custom metal fabrication enquiries and project discussions in Ahmedabad.",
+      "Contact Welldone Metalworks to discuss your custom mild-steel fabrication requirement in Ahmedabad and Gandhinagar.",
+
     url: "https://welldone-metalworks.in/enquiry",
+
     siteName: "Welldone Metalworks",
+
     images: [
       {
         url: "https://welldone-metalworks.in/Banner/banner02.webp",
         width: 1200,
         height: 630,
-        alt: "Metal Fabrication Enquiry",
+        alt: "Welldone Metalworks - Metal Fabrication Enquiry",
       },
     ],
+
     locale: "en_IN",
     type: "website",
   },
@@ -35,8 +44,7 @@ export const metadata = {
 
 export default function EnquiryPage() {
   return (
-    <div className="pt-24">
-
+    <main>
       {/* Enquiry Page Schema */}
       <script
         type="application/ld+json"
@@ -47,7 +55,7 @@ export default function EnquiryPage() {
             name: "Metal Fabrication Enquiry",
             url: "https://welldone-metalworks.in/enquiry",
             description:
-              "Send your enquiry to Welldone Metalworks for custom metal fabrication services in Ahmedabad.",
+              "Send your enquiry to Welldone Metalworks for custom mild-steel metal fabrication services in Ahmedabad and Gandhinagar.",
           }),
         }}
       />
@@ -63,28 +71,41 @@ export default function EnquiryPage() {
             image: "https://welldone-metalworks.in/Banner/banner02.webp",
             url: "https://welldone-metalworks.in",
             telephone: "+91 96499 57698",
+
+            email: "info@welldonemetalworks.com",
+
             address: {
               "@type": "PostalAddress",
               addressLocality: "Ahmedabad",
               addressRegion: "Gujarat",
               addressCountry: "IN",
             },
-            areaServed: "Ahmedabad",
-            serviceType: "Metal Fabrication Services",
+
+            areaServed: [
+              {
+                "@type": "City",
+                name: "Ahmedabad",
+              },
+              {
+                "@type": "City",
+                name: "Gandhinagar",
+              },
+            ],
+
+            serviceType: "Mild Steel Metal Fabrication Services",
           }),
         }}
       />
 
-      <HeroSection
-        title="Enquiry Form"
-        breadcrumb="Enquiry"
-        bgImage="/Banner/banner02.webp"
-      />
+      <EnquiryHero />
 
       <ContactInfo />
 
       <EnquiryForm />
 
-    </div>
+      <EnquiryProcess />
+
+      <EnquiryCTA />
+    </main>
   );
 }

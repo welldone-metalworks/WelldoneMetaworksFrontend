@@ -1,70 +1,274 @@
-// components/service-details/ServiceMaterials.jsx
-'use client';
-import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+"use client";
+
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Layers3,
+  ShieldCheck,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ServiceMaterials({ data }) {
-  if (!data || !Array.isArray(data) || data.length === 0) {
-    return (
-      <div className="py-20 text-center text-gray-500">
-        No materials data available.
-      </div>
-    );
-  }
+  if (!data) return null;
+
+  const materials = data.items || [];
 
   return (
-    <section className="relative py-28 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#cd2b14_0.7px,transparent_1px)] bg-[length:35px_35px] opacity-5" />
+    <section className="relative overflow-hidden border-y border-[var(--wm-border)] bg-white py-10 sm:py-12 lg:py-14">
+      {/* ============================================================
+          TECHNICAL BACKGROUND
+      ============================================================ */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-60"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(22,135,197,0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(22,135,197,0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: "52px 52px",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-6 relative">
-        {/* Premium Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-3 bg-white shadow border border-gray-100 px-7 py-3.5 rounded-3xl mb-6">
-            <Sparkles className="w-5 h-5 text-[#cd2b14]" />
-            <span className="uppercase tracking-[3px] text-sm font-semibold text-[#cd2b14]">
-              PREMIUM MATERIALS
-            </span>
-          </div>
+      {/* Background material mark */}
+      <div
+        className="pointer-events-none absolute -right-8 top-10 select-none font-mono text-[170px] font-bold leading-none tracking-[-0.08em] text-[var(--wm-primary)] opacity-[0.035] sm:text-[230px] lg:text-[300px]"
+        aria-hidden="true"
+      >
+        MS
+      </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">
-            Materials We Work With
-          </h2>
-          <p className="mt-5 text-lg text-gray-600 max-w-2xl mx-auto">
-            Carefully selected for strength, beauty, and long-term performance
-          </p>
-        </div>
+      <div className="wm-container relative z-10">
+        {/* ============================================================
+            HEADER
+        ============================================================ */}
+        <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
+          {/* Left intro */}
+          <motion.div
+            initial={{ opacity: 0, x: -25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.65 }}
+          >
+            {/* Eyebrow */}
+            <div className="wm-eyebrow mb-5">
+              <span className="h-px w-8 bg-[var(--wm-primary)]" />
 
-        {/* Materials Showcase Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {data.map((material, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -12, scale: 1.02 }}
-              className="group relative bg-white border border-gray-100 hover:border-[#cd2b14] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500"
-            >
-              {/* Top Accent Bar */}
-              <div className="h-2 bg-gradient-to-r from-[#cd2b14] via-[#b72d2c] to-[#981d13]" />
+              {data.number ? `${data.number} / ` : ""}
+              {data.eyebrow || "Materials"}
+            </div>
 
-              <div className="p-10 text-center">
-                {/* Material Icon / Visual */}
-                <div className="mx-auto mb-8 w-24 h-24 flex items-center justify-center bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 group-hover:border-[#cd2b14]/30 transition-colors">
-                  <span className="text-6xl drop-shadow-md">🔩</span>
+            {/* Heading */}
+            <h2 className="wm-heading max-w-xl text-4xl leading-[1.02] sm:text-5xl lg:text-[56px]">
+              {data.title || "Material selected for the project."}
+            </h2>
+
+            {/* Description */}
+            {data.description && (
+              <p className="wm-body mt-6 max-w-md text-sm sm:text-base">
+                {data.description}
+              </p>
+            )}
+
+            {/* Material identity */}
+            <div className="mt-9 border-t border-[var(--wm-border)] pt-6">
+              <div className="flex items-start gap-4">
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center border border-[var(--wm-border-blue)] bg-[var(--wm-surface-blue)]">
+                  <Layers3
+                    size={22}
+                    strokeWidth={1.5}
+                    className="text-[var(--wm-primary)]"
+                  />
+
+                  <span className="absolute -right-1 -top-1 h-2 w-2 bg-[var(--wm-primary)]" />
                 </div>
 
-                {/* Material Name */}
-                <h3 className="text-2xl font-semibold text-gray-900 tracking-tight">
-                  {material}
-                </h3>
+                <div>
+                  <span className="block font-mono text-[9px] font-bold tracking-[0.17em] text-[var(--wm-primary)]">
+                    PRIMARY MATERIAL
+                  </span>
 
-                {/* Subtitle */}
-                <p className="text-sm text-gray-500 mt-2">Premium Grade</p>
+                  <h3 className="mt-1 text-xl font-extrabold tracking-tight text-[var(--wm-heading)]">
+                    Mild Steel
+                  </h3>
+
+                  <p className="mt-1 max-w-sm text-xs leading-5 text-[var(--wm-muted)]">
+                    Fabrication material considered according to the
+                    requirements of the project.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Technical footer */}
+            <div className="mt-8 flex items-center gap-3">
+              <span className="h-1.5 w-1.5 bg-[var(--wm-primary)]" />
+
+              <span className="font-mono text-[9px] font-bold tracking-[0.16em] text-[var(--wm-muted)]">
+                WM / MATERIAL / MS
+              </span>
+            </div>
+          </motion.div>
+
+          {/* ========================================================
+              RIGHT MATERIAL CONTENT
+          ======================================================== */}
+          <div>
+            {/* Top specification bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center justify-between border-y border-[var(--wm-border)] py-4"
+            >
+              <span className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-[var(--wm-muted)]">
+                Material Information
+              </span>
+
+              <span className="font-mono text-[9px] font-bold tracking-[0.16em] text-[var(--wm-primary)]">
+                {String(materials.length).padStart(2, "0")} TYPES
+              </span>
+            </motion.div>
+
+            {/* Material list */}
+            <div className="border-b border-[var(--wm-border)]">
+              {materials.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{
+                    duration: 0.55,
+                    delay: index * 0.07,
+                  }}
+                  className="group relative border-b border-[var(--wm-border)] last:border-b-0"
+                >
+                  {/* Hover background */}
+                  <div className="pointer-events-none absolute inset-0 bg-[var(--wm-surface-blue)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                  <div className="relative flex gap-5 px-1 py-7 sm:gap-7 sm:px-2 sm:py-8">
+                    {/* Number */}
+                    <div className="w-8 shrink-0 pt-1 sm:w-10">
+                      <span className="font-mono text-[10px] font-bold tracking-[0.15em] text-[var(--wm-primary)]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    {/* Material icon */}
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center border border-[var(--wm-border-blue)] bg-white text-[var(--wm-primary)] transition-all duration-300 group-hover:border-[var(--wm-primary)] group-hover:bg-[var(--wm-primary)] group-hover:text-white">
+                      <Layers3
+                        size={18}
+                        strokeWidth={1.5}
+                      />
+                    </div>
+
+                    {/* Material information */}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-5">
+                        <div>
+                          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-muted)]">
+                            MATERIAL / {String(index + 1).padStart(2, "0")}
+                          </span>
+
+                          <h3 className="mt-1.5 text-xl font-extrabold tracking-tight text-[var(--wm-heading)] transition-colors duration-300 group-hover:text-[var(--wm-primary)] sm:text-2xl">
+                            {item.title}
+                          </h3>
+                        </div>
+
+                        <ArrowUpRight
+                          size={17}
+                          className="mt-1 shrink-0 text-[var(--wm-border-blue)] transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[var(--wm-primary)]"
+                        />
+                      </div>
+
+                      {item.description && (
+                        <p className="mt-3 max-w-xl text-sm leading-7 text-[var(--wm-body)]">
+                          {item.description}
+                        </p>
+                      )}
+
+                      {/* Material suitability */}
+                      <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+                        <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-muted)]">
+                          <Check
+                            size={13}
+                            className="text-[var(--wm-primary)]"
+                          />
+                          Project suitable
+                        </span>
+
+                        <span className="hidden h-3 w-px bg-[var(--wm-border-blue)] sm:block" />
+
+                        <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-muted)]">
+                          <ShieldCheck
+                            size={13}
+                            className="text-[var(--wm-primary)]"
+                          />
+                          Fabrication focused
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* ======================================================
+                MATERIAL NOTE
+            ====================================================== */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="mt-6 grid gap-px border border-[var(--wm-border)] bg-[var(--wm-border)] sm:grid-cols-[1fr_0.85fr]"
+            >
+              <div className="bg-[var(--wm-surface-soft)] p-6 sm:p-7">
+                <span className="font-mono text-[9px] font-bold tracking-[0.16em] text-[var(--wm-primary)]">
+                  MATERIAL / CONSIDERATION
+                </span>
+
+                <p className="mt-3 text-sm font-bold leading-6 text-[var(--wm-heading)]">
+                  Material selection is considered around the intended
+                  application and project requirement.
+                </p>
+              </div>
+
+              <div className="bg-[var(--wm-navy)] p-6 sm:p-7">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[9px] font-bold tracking-[0.16em] text-[var(--wm-primary-light)]">
+                    FABRICATION
+                  </span>
+
+                  <ArrowUpRight
+                    size={16}
+                    className="text-[var(--wm-primary-light)]"
+                  />
+                </div>
+
+                <p className="mt-3 text-sm font-bold leading-6 text-white">
+                  Dimensions and application are considered before fabrication.
+                </p>
               </div>
             </motion.div>
-          ))}
+          </div>
+        </div>
+
+        {/* ============================================================
+            BOTTOM TECHNICAL BAR
+        ============================================================ */}
+        <div className="mt-10 flex flex-col gap-3 border-t border-[var(--wm-border)] pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <span className="font-mono text-[9px] font-bold tracking-[0.16em] text-[var(--wm-muted)]">
+            WELLDONE METALWORKS / MATERIAL SPECIFICATION
+          </span>
+
+          <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.15em] text-[var(--wm-primary)]">
+            Material → Application → Fabrication
+            <ArrowRight size={13} />
+          </span>
         </div>
       </div>
     </section>
