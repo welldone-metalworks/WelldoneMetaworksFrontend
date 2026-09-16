@@ -18,8 +18,8 @@ export default function LayoutWrapper({ children }) {
 
   const isLandingPage = landingPages.some((route) =>
     pathname.startsWith(route)
-  );
-
+  );     
+// Add Commnet 
   const isAdminRoute = pathname.startsWith("/admin");
 
   const hideWebsiteLayout = isLandingPage || isAdminRoute;
