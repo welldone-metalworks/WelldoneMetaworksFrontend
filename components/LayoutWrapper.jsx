@@ -13,7 +13,7 @@ export default function LayoutWrapper({ children }) {
     "/gazebo",
     "/pergola",
     "/canopy",
-    "/metal-fabrication-ahmedabad",
+,
   ];
 
   const isLandingPage = landingPages.some((route) =>
