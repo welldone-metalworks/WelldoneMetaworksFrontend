@@ -27,7 +27,7 @@ const areas = [
 
 export default function AhmedabadServiceArea() {
   return (
-    <section className="relative overflow-hidden bg-[var(--wm-surface-blue)] py-210 lg:py-14">
+    <section className="relative overflow-hidden bg-[var(--wm-surface-blue)] py-10 lg:py-14">
       {/* Technical background */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.45]"
