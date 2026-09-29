@@ -8,7 +8,7 @@ import Process from "@/components/Gazebo/Process";
 import Testimonials from "@/components/Gazebo/Testimonials";
 import FAQ from "@/components/Gazebo/FAQ";
 import CTA from "@/components/Gazebo/CTA";
-
+import ServiceArea from "../../../components/Gazebo/ServiceArea";
 //
 // SEO METADATA
 //
@@ -180,6 +180,8 @@ export default function GazeboPage() {
 
         <Features />
 
+        <ServiceArea />
+        
         <Gallery />
 
         <Lifestyle />
