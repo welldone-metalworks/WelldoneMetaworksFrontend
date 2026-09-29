@@ -17,7 +17,7 @@ export const metadata = {
     "Premium Gazebo, Pergola & Canopy Structures | Welldone Metalworks",
 
   description:
-    "Welldone Metalworks provides premium gazebo, pergola & canopy structures for villas, rooftops, farmhouses & luxury outdoor with modern architectural designs.",
+    "Premium gazebo, pergola & canopy structures in Ahmedabad for villas, rooftops and outdoor spaces. Custom MS fabrication by Welldone Metalworks.",
 
   keywords: [
     "Gazebo Structure",
