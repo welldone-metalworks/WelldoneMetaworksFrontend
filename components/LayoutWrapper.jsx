@@ -13,6 +13,7 @@ export default function LayoutWrapper({ children }) {
     "/gazebo",
     "/pergola",
     "/canopy",
+    "/metal-staircase-ahmedabad",
     "/metal-fabrication-ahmedabad",
   ];
 
