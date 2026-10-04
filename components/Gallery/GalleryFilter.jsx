@@ -4,11 +4,18 @@ import { motion } from "framer-motion";
 
 const categories = [
   "All",
-  "Garden Structure",
-  "Gazebo Structure",
-  "Railing Structure",
-  "Heavy Conventional",
-  "Polycarbonate Roofing",
+  "Gates",
+  "Railings",
+  "Staircases",
+  "Sheds & Canopies",
+  "Gazebos & Outdoor",
+  "Custom Fabrication",
+  "Doors",
+  "Industrial & Storage",
+  "Architectural Metalwork",
+  "Welding",
+  "Window Grills",
+  "Other Metalwork",
 ];
 
 export default function GalleryFilter({
@@ -18,6 +25,10 @@ export default function GalleryFilter({
   return (
     <aside className="lg:sticky lg:top-24 lg:self-start">
       <div className="border border-wm-border bg-white">
+        {/* =====================================================
+            FILTER HEADER
+        ===================================================== */}
+
         <div className="border-b border-wm-border px-5 py-5">
           <p className="text-[10px] font-extrabold uppercase tracking-[0.22em] text-wm-primary">
             Explore Work
@@ -27,6 +38,10 @@ export default function GalleryFilter({
             Filter by fabrication type
           </p>
         </div>
+
+        {/* =====================================================
+            CATEGORY LIST
+        ===================================================== */}
 
         <div className="p-2">
           {categories.map((category) => {
@@ -50,12 +65,21 @@ export default function GalleryFilter({
                   <motion.span
                     layoutId="gallery-filter-active"
                     className="h-1.5 w-1.5 bg-white"
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                    }}
                   />
                 )}
               </button>
             );
           })}
         </div>
+
+        {/* =====================================================
+            MATERIAL INFORMATION
+        ===================================================== */}
 
         <div className="border-t border-wm-border px-5 py-4">
           <p className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-wm-muted">
@@ -64,6 +88,25 @@ export default function GalleryFilter({
 
           <p className="mt-1 text-xs font-bold text-wm-heading">
             Mild Steel Fabrication
+          </p>
+
+          <p className="mt-1 text-[10px] leading-4 text-wm-muted">
+            Custom MS fabrication for residential,
+            commercial and industrial projects.
+          </p>
+        </div>
+
+        {/* =====================================================
+            LOCATION
+        ===================================================== */}
+
+        <div className="border-t border-wm-border px-5 py-4">
+          <p className="text-[9px] font-extrabold uppercase tracking-[0.18em] text-wm-muted">
+            Service Area
+          </p>
+
+          <p className="mt-1 text-xs font-bold text-wm-heading">
+            Ahmedabad & Gandhinagar
           </p>
         </div>
       </div>
