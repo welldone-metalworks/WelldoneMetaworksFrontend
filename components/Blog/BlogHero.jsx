@@ -1,47 +1,133 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  MoveRight,
+} from "lucide-react";
 
 const BlogHero = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#07111f] via-[#0b1728] to-[#07111f] text-white py-28 px-6">
-      {/* Glow */}
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[#cd2b14]/20 blur-[120px] rounded-full"></div>
+    <section className="relative isolate overflow-hidden bg-[#12324a] px-4 py-20 text-white sm:px-6 sm:py-24 lg:py-28">
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="max-w-3xl">
-          <span className="inline-block bg-gradient-to-r from-[#981d13] to-[#cd2b14] px-5 py-2 rounded-full text-sm font-semibold tracking-wide shadow-lg">
-            Welldone Metalworks Blog
-          </span>
+      {/* =====================================================
+          BACKGROUND GRID
+      ===================================================== */}
 
-          <h1 className="text-5xl md:text-7xl font-black leading-tight mt-6">
-            Industrial Insights & Engineering Knowledge
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)",
+          backgroundSize: "42px 42px",
+        }}
+      />
+
+      {/* =====================================================
+          DECORATIVE ELEMENTS
+      ===================================================== */}
+
+      <div className="pointer-events-none absolute -right-32 -top-32 h-[420px] w-[420px] rounded-full border-[70px] border-[#1687c5]/10" />
+
+      <div className="pointer-events-none absolute -bottom-32 -left-32 h-[360px] w-[360px] rounded-full bg-[#1687c5]/10 blur-3xl" />
+
+      <div className="pointer-events-none absolute right-[18%] top-[30%] h-24 w-24 rounded-full bg-[#46a9d8]/10 blur-2xl" />
+
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
+
+      <div className="relative z-10 mx-auto w-full max-w-[1280px]">
+
+        <div className="max-w-4xl">
+
+          {/* Eyebrow */}
+          <div className="mb-6 flex items-center gap-3">
+
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/10 text-[#46a9d8] backdrop-blur-sm">
+              <BookOpen size={19} />
+            </span>
+
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#46a9d8]">
+                Welldone Metalworks
+              </p>
+
+              <p className="mt-0.5 text-xs text-white/55">
+                Fabrication Knowledge Centre
+              </p>
+            </div>
+
+          </div>
+
+          {/* Heading */}
+          <h1 className="max-w-4xl text-4xl font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl xl:text-[68px]">
+            Metal Fabrication
+            <span className="block text-[#46a9d8]">
+              Insights & Expertise
+            </span>
           </h1>
 
-          <p className="text-gray-300 text-lg md:text-xl mt-8 leading-relaxed">
-            Explore premium articles about stainless steel products,
-            industrial applications, fabrication technology, engineering
-            solutions, and metal industry innovations.
+          {/* Description */}
+          <p className="mt-7 max-w-2xl text-base leading-7 text-white/70 sm:text-lg sm:leading-8">
+            Practical guides, fabrication insights and project
+            knowledge covering mild steel fabrication, structural
+            work, gates, railings, staircases, sheds and custom
+            metal structures.
           </p>
 
-          <div className="flex flex-wrap gap-5 mt-10">
+          {/* Actions */}
+          <div className="mt-9 flex flex-wrap gap-3">
+
             <Link
-              href="/contact"
-              className="group bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] px-8 py-4 rounded-full font-semibold flex items-center gap-3 hover:scale-105 transition-all duration-300 shadow-2xl"
+              href="#latest-articles"
+              className="group inline-flex items-center gap-2.5 rounded-xl bg-[#1687c5] px-6 py-3.5 text-sm font-bold text-white shadow-[0_10px_30px_rgba(22,135,197,0.25)] transition-all duration-300 hover:bg-[#0b6fa8] hover:shadow-[0_14px_35px_rgba(22,135,197,0.35)]"
             >
-              Contact Us
-              <ArrowRight className="group-hover:translate-x-1 transition-all duration-300" />
+              Explore Articles
+              <ArrowRight
+                size={17}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
             </Link>
 
             <Link
-              href="/products"
-              className="border border-white/20 hover:border-[#cd2b14] px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:bg-white/10"
+              href="/contact"
+              className="group inline-flex items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/10"
             >
-              Explore Products
+              Discuss Your Project
+              <MoveRight
+                size={17}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
             </Link>
+
           </div>
+
         </div>
+
+        {/* Bottom indicators */}
+        <div className="mt-14 grid max-w-3xl grid-cols-2 gap-3 border-t border-white/10 pt-6 sm:grid-cols-4">
+
+          {[
+            "MS Fabrication",
+            "Structural Work",
+            "Staircases",
+            "Industrial Sheds",
+          ].map((item) => (
+            <div
+              key={item}
+              className="text-xs font-semibold text-white/55"
+            >
+              <span className="mr-2 text-[#46a9d8]">
+                /
+              </span>
+              {item}
+            </div>
+          ))}
+
+        </div>
+
       </div>
     </section>
   );

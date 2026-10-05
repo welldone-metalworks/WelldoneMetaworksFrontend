@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 import {
   ArrowRight,
+  Check,
+  CheckCircle2,
   Eye,
   EyeOff,
   Lock,
@@ -19,10 +21,10 @@ import api from "@/lib/api";
 export default function AdminRegister() {
   const router = useRouter();
 
-  const [showPassword, setShowPassword] =
-    useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -30,21 +32,56 @@ export default function AdminRegister() {
     password: "",
   });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setError("");
+    setSuccess("");
+  };
+
   const submit = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
+
+    setError("");
+    setSuccess("");
+
+    if (form.name.trim().length < 2) {
+      setError("Please enter your full name.");
+      return;
+    }
+
+    if (form.password.length < 6) {
+      setError("Password must contain at least 6 characters.");
+      return;
+    }
 
     setLoading(true);
 
     try {
-      await api.post("/auth/register", form);
+      await api.post("/auth/register", {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        password: form.password,
+      });
 
-      alert("Admin Registered Successfully");
+      setSuccess(
+        "Account created successfully. Redirecting..."
+      );
 
-      router.push("/admin/login");
+      setTimeout(() => {
+        router.push("/admin/login");
+      }, 1200);
     } catch (err) {
-      alert(
-        err.response?.data?.message ||
-          "Register failed"
+      setError(
+        err?.response?.data?.message ||
+          "Unable to create the account. Please try again."
       );
     } finally {
       setLoading(false);
@@ -52,284 +89,405 @@ export default function AdminRegister() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#f8fafc]">
+    <main className="h-screen w-full overflow-hidden bg-white">
+      <div className="grid h-full w-full lg:grid-cols-[46%_54%]">
 
-      {/* LEFT SIDE */}
-      <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-gradient-to-br from-[#981d13] via-[#b72d2c] to-[#cd2b14]">
+        {/* =====================================================
+            LEFT PANEL
+        ===================================================== */}
+        <section className="relative hidden h-full overflow-hidden bg-[#12324a] lg:block">
 
-        {/* Glow */}
-        <div className="absolute top-[-100px] right-[-80px] w-[320px] h-[320px] bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute left-0 top-0 h-full w-1 bg-[#1687c5]" />
 
-        <div className="absolute bottom-[-120px] left-[-80px] w-[350px] h-[350px] bg-black/20 rounded-full blur-3xl"></div>
+          {/* Grid */}
+          <div
+            className="absolute inset-0 opacity-[0.035]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.8) 1px, transparent 1px)",
+              backgroundSize: "42px 42px",
+            }}
+          />
 
-        {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center px-20 text-white">
+          {/* Circles */}
+          <div className="absolute -right-32 -top-32 h-[420px] w-[420px] rounded-full border border-white/10" />
 
-          {/* Badge */}
-          <div className="inline-flex items-center gap-3 bg-white/10 border border-white/20 backdrop-blur-md px-5 py-3 rounded-2xl w-fit mb-8">
+          <div className="absolute -right-20 -top-20 h-[300px] w-[300px] rounded-full border border-[#1687c5]/20" />
 
-            <ShieldCheck size={20} />
+          <div className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-[#1687c5]/10 blur-3xl" />
 
-            <span className="font-medium">
-              Business Management System
-            </span>
-          </div>
+          <div className="relative z-10 flex h-full flex-col justify-between px-10 py-8 xl:px-14">
 
-          {/* Heading */}
-          <h1 className="text-6xl font-black leading-tight">
-            Create Your
-            <span className="block text-white/90">
-              Admin Account
-            </span>
-          </h1>
+            {/* Brand */}
+            <div className="flex items-center gap-3">
 
-          <p className="text-lg text-white/80 mt-8 max-w-xl leading-relaxed">
-            Register securely and access your
-            professional business dashboard for
-            managing SEO blogs, customer leads,
-            projects, services, and analytics.
-          </p>
-
-          {/* Features */}
-          <div className="grid grid-cols-2 gap-5 mt-14">
-
-            <div className="bg-white/10 border border-white/10 backdrop-blur-md p-5 rounded-3xl">
-              <h3 className="font-bold text-lg">
-                SEO Blog CMS
-              </h3>
-
-              <p className="text-sm text-white/70 mt-2">
-                Manage high-ranking SEO blogs.
-              </p>
-            </div>
-
-            <div className="bg-white/10 border border-white/10 backdrop-blur-md p-5 rounded-3xl">
-              <h3 className="font-bold text-lg">
-                Customer Leads
-              </h3>
-
-              <p className="text-sm text-white/70 mt-2">
-                Track all enquiry submissions.
-              </p>
-            </div>
-
-            <div className="bg-white/10 border border-white/10 backdrop-blur-md p-5 rounded-3xl">
-              <h3 className="font-bold text-lg">
-                Analytics
-              </h3>
-
-              <p className="text-sm text-white/70 mt-2">
-                Monitor business growth metrics.
-              </p>
-            </div>
-
-            <div className="bg-white/10 border border-white/10 backdrop-blur-md p-5 rounded-3xl">
-              <h3 className="font-bold text-lg">
-                Secure Access
-              </h3>
-
-              <p className="text-sm text-white/70 mt-2">
-                Protected admin authentication.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {/* RIGHT SIDE */}
-      <div className="flex-1 flex items-center justify-center px-6 py-10">
-
-        <div className="w-full max-w-md">
-
-          {/* Card */}
-          <div className="bg-white shadow-2xl rounded-[35px] p-10 border border-gray-100">
-
-            {/* Logo */}
-            <div className="flex justify-center">
-              <div className="w-24 h-24 rounded-[28px] bg-gradient-to-br from-[#981d13] via-[#b72d2c] to-[#cd2b14] flex items-center justify-center text-white text-4xl font-black shadow-xl">
-                W
+              <div className="flex h-11 w-11 items-center justify-center bg-[#1687c5] text-sm font-black text-white">
+                WM
               </div>
+
+              <div>
+                <div className="text-sm font-bold tracking-wide text-white">
+                  WELLDONE
+                </div>
+
+                <div className="text-[10px] font-semibold tracking-[0.2em] text-white/45">
+                  METALWORKS
+                </div>
+              </div>
+
             </div>
 
-            {/* Heading */}
-            <div className="text-center mt-8">
-              <h2 className="text-4xl font-black text-gray-800">
-                Create Account
+            {/* Main */}
+            <div className="max-w-[520px]">
+
+              <div className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#46a9d8]">
+
+                <span className="h-px w-8 bg-[#1687c5]" />
+
+                Administration
+              </div>
+
+              <h1 className="text-[42px] font-black leading-[1.05] tracking-[-0.045em] text-white xl:text-[52px]">
+
+                One workspace,
+                <span className="block text-[#46a9d8]">
+                  complete control.
+                </span>
+
+              </h1>
+
+              <p className="mt-6 max-w-[460px] text-sm leading-7 text-white/55 xl:text-base">
+                Set up your administrator access and manage
+                the digital operations of Welldone Metalworks
+                from one professional workspace.
+              </p>
+
+              {/* Benefits */}
+              <div className="mt-8 space-y-4">
+
+                <Benefit
+                  title="Manage SEO Blogs"
+                  text="Create, edit and publish website content."
+                />
+
+                <Benefit
+                  title="Manage Enquiries"
+                  text="Keep customer requests organized."
+                />
+
+                <Benefit
+                  title="Manage Website Content"
+                  text="Control projects, services and gallery."
+                />
+
+                <Benefit
+                  title="Secure Administration"
+                  text="Protected access to business tools."
+                />
+
+              </div>
+
+            </div>
+
+            {/* Bottom */}
+            <div className="flex items-center justify-between border-t border-white/10 pt-5 text-[10px] uppercase tracking-[0.15em] text-white/35">
+
+              <span>Welldone Metalworks</span>
+
+              <span>Admin System / 2026</span>
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* =====================================================
+            RIGHT REGISTER
+        ===================================================== */}
+        <section className="relative flex h-full items-center justify-center overflow-hidden bg-[#f8fcfe] px-6">
+
+          <div className="absolute left-0 top-0 h-1 w-full bg-[#1687c5] lg:hidden" />
+
+          <div className="w-full max-w-[430px]">
+
+            {/* Mobile brand */}
+            <div className="mb-6 flex items-center gap-3 lg:hidden">
+
+              <div className="flex h-10 w-10 items-center justify-center bg-[#1687c5] text-xs font-black text-white">
+                WM
+              </div>
+
+              <div>
+                <div className="text-sm font-bold text-[#12324a]">
+                  Welldone Metalworks
+                </div>
+
+                <div className="text-[9px] font-bold tracking-[0.18em] text-[#64748b]">
+                  ADMINISTRATION
+                </div>
+              </div>
+
+            </div>
+
+            {/* Header */}
+            <div className="mb-5">
+
+              <div className="mb-4 flex h-11 w-11 items-center justify-center border border-[#dceff7] bg-white text-[#1687c5] shadow-sm">
+                <User size={20} />
+              </div>
+
+              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#1687c5]">
+                Administrator Setup
+              </p>
+
+              <h2 className="mt-2 text-[32px] font-black tracking-[-0.04em] text-[#12324a]">
+                Create account.
               </h2>
 
-              <p className="text-gray-500 mt-3 leading-relaxed">
-                Register to access your professional
-                admin dashboard.
+              <p className="mt-2 text-sm leading-6 text-[#64748b]">
+                Set up your secure administration credentials.
               </p>
+
             </div>
+
+            {/* Error */}
+            {error && (
+              <div className="mb-4 border-l-2 border-red-500 bg-red-50 px-4 py-2.5 text-xs leading-5 text-red-700">
+                {error}
+              </div>
+            )}
+
+            {/* Success */}
+            {success && (
+              <div className="mb-4 flex items-center gap-2 border-l-2 border-green-500 bg-green-50 px-4 py-2.5 text-xs leading-5 text-green-700">
+
+                <CheckCircle2 size={15} />
+
+                {success}
+
+              </div>
+            )}
 
             {/* Form */}
             <form
               onSubmit={submit}
-              className="mt-10 space-y-5"
+              className="space-y-3.5"
             >
 
               {/* Name */}
-              <div>
-                <label className="text-sm font-semibold text-gray-700 block mb-2">
-                  Full Name
-                </label>
-
-                <div className="flex items-center h-14 border border-gray-200 rounded-2xl px-4 focus-within:border-[#b72d2c] transition-all">
-
-                  <User
-                    size={18}
-                    className="text-gray-400"
-                  />
-
-                  <input
-                    type="text"
-                    placeholder="Enter full name"
-                    required
-                    className="w-full px-3 outline-none bg-transparent"
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        name: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
+              <Field
+                label="Full Name"
+                icon={<User size={16} />}
+              >
+                <input
+                  name="name"
+                  type="text"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Enter full name"
+                  autoComplete="name"
+                  required
+                  className="h-full w-full bg-transparent px-3 text-sm text-[#12324a] outline-none placeholder:text-[#94a3b8]"
+                />
+              </Field>
 
               {/* Email */}
-              <div>
-                <label className="text-sm font-semibold text-gray-700 block mb-2">
-                  Email Address
-                </label>
-
-                <div className="flex items-center h-14 border border-gray-200 rounded-2xl px-4 focus-within:border-[#b72d2c] transition-all">
-
-                  <Mail
-                    size={18}
-                    className="text-gray-400"
-                  />
-
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                    className="w-full px-3 outline-none bg-transparent"
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        email: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
+              <Field
+                label="Email Address"
+                icon={<Mail size={16} />}
+              >
+                <input
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="admin@example.com"
+                  autoComplete="email"
+                  required
+                  className="h-full w-full bg-transparent px-3 text-sm text-[#12324a] outline-none placeholder:text-[#94a3b8]"
+                />
+              </Field>
 
               {/* Password */}
               <div>
-                <label className="text-sm font-semibold text-gray-700 block mb-2">
+
+                <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-[#12324a]">
                   Password
                 </label>
 
-                <div className="flex items-center h-14 border border-gray-200 rounded-2xl px-4 focus-within:border-[#b72d2c] transition-all">
+                <div className="flex h-12 items-center border border-[#dceff7] bg-white transition-all focus-within:border-[#1687c5] focus-within:ring-4 focus-within:ring-[#1687c5]/10">
 
                   <Lock
-                    size={18}
-                    className="text-gray-400"
+                    size={16}
+                    className="ml-4 text-[#94a3b8]"
                   />
 
                   <input
-                    type={
-                      showPassword
-                        ? "text"
-                        : "password"
-                    }
-                    placeholder="Create password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="Minimum 6 characters"
+                    autoComplete="new-password"
+                    minLength={6}
                     required
-                    className="w-full px-3 outline-none bg-transparent"
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        password:
-                          e.target.value,
-                      })
-                    }
+                    className="h-full w-full bg-transparent px-3 text-sm text-[#12324a] outline-none placeholder:text-[#94a3b8]"
                   />
 
                   <button
                     type="button"
                     onClick={() =>
-                      setShowPassword(
-                        !showPassword
-                      )
+                      setShowPassword((prev) => !prev)
                     }
-                    className="text-gray-400"
+                    className="mr-3 text-[#94a3b8] transition hover:text-[#1687c5]"
                   >
                     {showPassword ? (
-                      <EyeOff size={18} />
+                      <EyeOff size={16} />
                     ) : (
-                      <Eye size={18} />
+                      <Eye size={16} />
                     )}
                   </button>
+
                 </div>
+
+              </div>
+
+              {/* Security note */}
+              <div className="flex items-start gap-3 border border-[#dceff7] bg-white px-4 py-3">
+
+                <ShieldCheck
+                  size={17}
+                  className="mt-0.5 shrink-0 text-[#1687c5]"
+                />
+
+                <p className="text-[10px] leading-5 text-[#64748b]">
+                  Use a strong password and keep your administrator
+                  credentials private.
+                </p>
+
               </div>
 
               {/* Terms */}
-              <div className="flex items-start gap-3 text-sm text-gray-600">
+              <label className="flex items-start gap-2.5 pt-1 text-[10px] leading-4 text-[#64748b]">
 
                 <input
                   type="checkbox"
                   required
-                  className="mt-1"
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-[#1687c5]"
                 />
 
-                <p>
-                  I agree to the terms and conditions
-                  and admin access policies.
-                </p>
-              </div>
+                <span>
+                  I understand that this account provides access
+                  to the Welldone Metalworks administration system.
+                </span>
 
-              {/* Button */}
+              </label>
+
+              {/* Submit */}
               <button
+                type="submit"
                 disabled={loading}
-                className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#981d13] via-[#b72d2c] to-[#cd2b14] text-white font-bold text-lg shadow-xl hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3"
+                className="group flex h-12 w-full items-center justify-center gap-3 bg-[#12324a] text-sm font-bold text-white transition-all hover:bg-[#1687c5] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading
-                  ? "Creating Account..."
-                  : "Create Admin Account"}
 
-                {!loading && (
-                  <ArrowRight size={20} />
+                {loading ? (
+                  <>
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    Creating account...
+                  </>
+                ) : (
+                  <>
+                    Create administrator account
+
+                    <ArrowRight
+                      size={17}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </>
                 )}
+
               </button>
+
             </form>
 
             {/* Login */}
-            <div className="mt-8 text-center">
+            <div className="mt-5 border-t border-[#dceff7] pt-4 text-center">
 
-              <p className="text-gray-500">
+              <p className="text-xs text-[#64748b]">
                 Already have an account?
               </p>
 
               <Link
                 href="/admin/login"
-                className="inline-flex items-center gap-2 mt-3 font-bold text-[#b72d2c] hover:underline"
+                className="mt-1.5 inline-flex items-center gap-2 text-xs font-black text-[#1687c5] hover:text-[#0b6fa8]"
               >
-                Login Here
-
-                <ArrowRight size={18} />
+                Sign in to dashboard
+                <ArrowRight size={14} />
               </Link>
+
             </div>
+
+
+
           </div>
 
-          {/* Footer */}
-          <p className="text-center text-sm text-gray-500 mt-6">
-            © 2026 Welldone Metalworks. All rights
-            reserved.
-          </p>
-        </div>
+        </section>
+
       </div>
+    </main>
+  );
+}
+
+/* ============================================================
+   FIELD
+============================================================ */
+
+function Field({ label, icon, children }) {
+  return (
+    <div>
+
+      <label className="mb-2 block text-xs font-bold uppercase tracking-wide text-[#12324a]">
+        {label}
+      </label>
+
+      <div className="flex h-12 items-center border border-[#dceff7] bg-white transition-all focus-within:border-[#1687c5] focus-within:ring-4 focus-within:ring-[#1687c5]/10">
+
+        <span className="ml-4 shrink-0 text-[#94a3b8]">
+          {icon}
+        </span>
+
+        {children}
+
+      </div>
+
+    </div>
+  );
+}
+
+/* ============================================================
+   BENEFIT
+============================================================ */
+
+function Benefit({ title, text }) {
+  return (
+    <div className="flex items-start gap-3">
+
+      <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center border border-[#1687c5]/30 text-[#46a9d8]">
+        <Check size={13} />
+      </div>
+
+      <div>
+
+        <h3 className="text-xs font-bold text-white">
+          {title}
+        </h3>
+
+        <p className="mt-1 text-[10px] leading-4 text-white/40">
+          {text}
+        </p>
+
+      </div>
+
     </div>
   );
 }

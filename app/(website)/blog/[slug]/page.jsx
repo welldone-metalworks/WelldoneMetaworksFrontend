@@ -1,82 +1,83 @@
-import Image from "next/image";
 import Link from "next/link";
-
 import {
-  CalendarDays,
+  ArrowLeft,
   ArrowRight,
-  Clock3,
+  CalendarDays,
+  CheckCircle2,
   ChevronRight,
+  Clock3,
+  Tag,
 } from "lucide-react";
 
 import serverApi from "@/lib/serverApi";
+import { getImageUrl } from "@/lib/imageUrl";
 
 import BlogContent from "@/components/Blog/BlogContent";
 import BlogSidebar from "@/components/Blog/BlogSidebar";
 import ShareButtons from "@/components/Blog/ShareButtons";
 import RelatedBlogs from "@/components/Blog/RelatedBlogs";
 
-//
-// FETCH SINGLE BLOG
-//
+/* =========================================================
+   DATE FORMAT
+========================================================= */
+
+function formatDate(date) {
+  if (!date) {
+    return "Recently Published";
+  }
+
+  try {
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return "Recently Published";
+  }
+}
+
+/* =========================================================
+   READING TIME
+========================================================= */
+
+function getReadingTime(content = "") {
+  const plainText = String(content)
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const words = plainText ? plainText.split(/\s+/).filter(Boolean).length : 0;
+
+  const minutes = Math.max(1, Math.ceil(words / 200));
+
+  return `${minutes} min read`;
+}
+
+/* =========================================================
+   FETCH BLOG DATA
+========================================================= */
+
 async function fetchBlog(slug) {
   try {
-    const [
-      blogRes,
-      categoriesRes,
-      tagsRes,
-      blogsRes,
-    ] = await Promise.all([
+    const [blogRes, categoriesRes, tagsRes, blogsRes] = await Promise.all([
       serverApi.get(`/blogs/${slug}`),
-
       serverApi.get("/categories"),
-
       serverApi.get("/tags"),
-
       serverApi.get("/blogs"),
     ]);
 
     return {
-      //
-      // SINGLE BLOG
-      //
-      blog:
-        blogRes?.data || null,
+      blog: blogRes?.data || null,
 
-      //
-      // CATEGORIES
-      //
-      categories:
-        Array.isArray(
-          categoriesRes?.data
-        )
-          ? categoriesRes.data
-          : [],
+      categories: Array.isArray(categoriesRes?.data) ? categoriesRes.data : [],
 
-      //
-      // TAGS
-      //
-      tags:
-        Array.isArray(
-          tagsRes?.data
-        )
-          ? tagsRes.data
-          : [],
+      tags: Array.isArray(tagsRes?.data) ? tagsRes.data : [],
 
-      //
-      // RELATED BLOGS
-      //
-      relatedBlogs:
-        Array.isArray(
-          blogsRes?.data
-        )
-          ? blogsRes.data
-          : [],
+      relatedBlogs: Array.isArray(blogsRes?.data) ? blogsRes.data : [],
     };
   } catch (error) {
-    console.log(
-      "SINGLE BLOG ERROR:",
-      error
-    );
+    console.error("SINGLE BLOG ERROR:", error);
 
     return {
       blog: null,
@@ -87,381 +88,478 @@ async function fetchBlog(slug) {
   }
 }
 
-//
-// SEO METADATA
-//
-export async function generateMetadata({
-  params,
-}) {
-  //
-  // NEXTJS 16 PARAMS FIX
-  //
-  const resolvedParams =
-    await params;
+/* =========================================================
+   SEO METADATA
+========================================================= */
 
-  const slug =
-    resolvedParams.slug;
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
 
-  const data =
-    await fetchBlog(slug);
+  const { blog } = await fetchBlog(slug);
 
-  const blog = data.blog;
+  if (!blog) {
+    return {
+      title: "Blog | Welldone Metalworks",
+      description:
+        "Metal fabrication insights and project knowledge from Welldone Metalworks.",
+    };
+  }
+
+  const title =
+    blog?.metaTitle ||
+    blog?.title ||
+    "Metal Fabrication Blog | Welldone Metalworks";
+
+  const description =
+    blog?.metaDescription ||
+    blog?.excerpt ||
+    "Explore metal fabrication insights, MS fabrication guides and practical project knowledge from Welldone Metalworks.";
+
+  const imageUrl = getImageUrl(blog?.featuredImage);
+
+  const canonicalUrl =
+    blog?.canonical || `https://welldone-metalworks.in/blog/${slug}`;
 
   return {
-    title:
-      blog?.metaTitle ||
-      blog?.title ||
-      "Blog | Welldone Metalworks",
+    title,
+    description,
 
-    description:
-      blog?.metaDescription ||
-      "Industrial engineering insights and stainless steel blogs.",
+    keywords: Array.isArray(blog?.keywords)
+      ? blog.keywords
+      : blog?.keywords || [],
 
-    keywords:
-      blog?.keywords || [],
+    alternates: {
+      canonical: canonicalUrl,
+    },
 
     openGraph: {
-      title:
-        blog?.metaTitle ||
-        blog?.title,
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: "Welldone Metalworks",
+      type: "article",
 
-      description:
-        blog?.metaDescription,
+      publishedTime: blog?.publishedAt || blog?.createdAt,
+
+      modifiedTime: blog?.updatedAt,
 
       images: [
         {
-          url:
-            blog?.featuredImage
-              ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${blog.featuredImage.replace(
-                  /\\/g,
-                  "/"
-                )}`
-              : "/placeholder.jpg",
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: blog?.title || "Welldone Metalworks",
         },
       ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [imageUrl],
     },
   };
 }
 
-export default async function SingleBlogPage({
-  params,
-}) {
-  //
-  // NEXTJS 16 PARAMS FIX
-  //
-  const resolvedParams =
-    await params;
+/* =========================================================
+   PAGE
+========================================================= */
 
-  const slug =
-    resolvedParams.slug;
+export default async function SingleBlogPage({ params }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
 
-  const {
-    blog,
-    categories,
-    tags,
-    relatedBlogs,
-  } = await fetchBlog(slug);
+  const { blog, categories, tags, relatedBlogs } = await fetchBlog(slug);
 
-  //
-  // BLOG NOT FOUND
-  //
+  /* =======================================================
+     NOT FOUND
+  ======================================================= */
+
   if (!blog) {
     return (
-      <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-gray-50 px-6">
-        <div className="text-center">
-          <h1 className="text-5xl md:text-7xl font-black text-gray-900">
-            Blog Not Found
+      <main className="flex min-h-[70vh] items-center justify-center bg-[#f8fcfe] px-4 sm:px-6">
+        <div className="mx-auto max-w-xl text-center">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#eaf7fd] text-[#1687c5]">
+            <span className="text-2xl font-black">W</span>
+          </div>
+
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-[#1687c5]">
+            Welldone Metalworks
+          </p>
+
+          <h1 className="mt-3 text-4xl font-black tracking-tight text-[#12324a] sm:text-5xl">
+            Article Not Found
           </h1>
 
-          <p className="text-gray-500 text-lg mt-5 max-w-xl mx-auto">
-            The requested blog
-            could not be found
-            or may have been
+          <p className="mt-4 text-sm leading-7 text-[#64748b]">
+            The article you are looking for could not be found or may have been
             removed.
           </p>
 
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 mt-10 bg-[#981d13] hover:bg-[#7d170f] text-white px-7 py-4 rounded-full font-semibold transition-all duration-300"
+            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#1687c5] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-[#0b6fa8]"
           >
-            Back To Blogs
-
-            <ArrowRight
-              size={18}
-            />
+            <ArrowLeft size={16} />
+            Back to Blog
           </Link>
         </div>
-      </section>
+      </main>
     );
   }
 
-  //
-  // SAFE IMAGE
-  //
-  const imageSrc =
-    blog?.featuredImage
-      ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${blog.featuredImage.replace(
-          /\\/g,
-          "/"
-        )}`
-      : "/placeholder.jpg";
+  /* =======================================================
+     DATA
+  ======================================================= */
 
-  //
-  // RELATED BLOGS
-  //
-  const filteredRelatedBlogs =
-    relatedBlogs
-      .filter(
-        (item) =>
-          item._id !==
-          blog._id
-      )
-      .slice(0, 3);
+  const imageSrc = getImageUrl(blog?.featuredImage);
+
+  const readingTime = getReadingTime(blog?.content);
+
+  const publishedDate = blog?.publishedAt || blog?.createdAt;
+
+  /* =======================================================
+     RELATED BLOGS
+  ======================================================= */
+
+  const filteredRelatedBlogs = relatedBlogs
+    .filter(
+      (item) =>
+        item?._id !== blog?._id &&
+        (item?.status === "published" || !item?.status),
+    )
+    .filter(
+      (item) =>
+        !blog?.category?._id || item?.category?._id === blog?.category?._id,
+    )
+    .slice(0, 3);
+
+  const finalRelatedBlogs =
+    filteredRelatedBlogs.length > 0
+      ? filteredRelatedBlogs
+      : relatedBlogs
+          .filter(
+            (item) =>
+              item?._id !== blog?._id &&
+              (item?.status === "published" || !item?.status),
+          )
+          .slice(0, 3);
+
+  /* =======================================================
+     ARTICLE JSON-LD
+  ======================================================= */
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+
+    headline: blog?.title,
+
+    description: blog?.metaDescription || blog?.excerpt || "",
+
+    image: [imageSrc],
+
+    datePublished: blog?.publishedAt || blog?.createdAt,
+
+    dateModified: blog?.updatedAt || blog?.publishedAt || blog?.createdAt,
+
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://welldone-metalworks.in/blog/${slug}`,
+    },
+
+    publisher: {
+      "@type": "Organization",
+      name: "Welldone Metalworks",
+      url: "https://welldone-metalworks.in",
+    },
+
+    author: {
+      "@type": "Organization",
+      name: "Welldone Metalworks",
+    },
+  };
+
+  /* =======================================================
+     BREADCRUMB JSON-LD
+  ======================================================= */
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://welldone-metalworks.in/",
+      },
+
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://welldone-metalworks.in/blog",
+      },
+
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: blog?.title,
+        item: `https://welldone-metalworks.in/blog/${slug}`,
+      },
+    ],
+  };
 
   return (
-    <section className="bg-[#f8f8f8] overflow-hidden">
-      {/* HERO SECTION */}
-      <div className="relative isolate">
-        {/* BG */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#1e293b]" />
+    <main className="min-h-screen bg-white text-[#12324a]">
+      {/* ===================================================
+          STRUCTURED DATA
+      =================================================== */}
 
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,#cd2b14,transparent_30%)]" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
 
-        <div className="absolute inset-0 opacity-10 bg-[url('/grid.svg')]" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-20">
-          {/* BREADCRUMB */}
-          <div className="flex items-center flex-wrap gap-2 text-sm text-gray-300 mb-8">
-            <Link
-              href="/"
-              className="hover:text-white transition"
-            >
+      {/* ===================================================
+          ARTICLE HERO
+      =================================================== */}
+
+      <section className="relative overflow-hidden bg-[#12324a] px-4 pb-16 pt-10 text-white sm:px-6 lg:pb-20 lg:pt-12">
+        {/* Grid background */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+
+        {/* Decorative ring */}
+        <div className="pointer-events-none absolute -right-32 -top-32 h-[400px] w-[400px] rounded-full border-[65px] border-[#1687c5]/10" />
+
+        <div className="relative mx-auto w-full max-w-[1280px]">
+          {/* Breadcrumb */}
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-9 flex flex-wrap items-center gap-1.5 text-xs text-white/50"
+          >
+            <Link href="/" className="transition hover:text-white">
               Home
             </Link>
 
-            <ChevronRight
-              size={15}
-            />
+            <ChevronRight size={13} />
 
-            <Link
-              href="/blog"
-              className="hover:text-white transition"
-            >
-              Blogs
+            <Link href="/blog" className="transition hover:text-white">
+              Blog
             </Link>
 
-            <ChevronRight
-              size={15}
-            />
+            <ChevronRight size={13} />
 
-            <span className="text-white">
+            <span className="max-w-[260px] truncate text-white/80 sm:max-w-md">
               {blog?.title}
             </span>
-          </div>
+          </nav>
 
-          {/* CATEGORY */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/10 px-5 py-2 rounded-full">
-            <span className="w-2 h-2 rounded-full bg-[#cd2b14]" />
+          {/* Category */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3.5 py-2 backdrop-blur-sm">
+            <span className="h-2 w-2 rounded-full bg-[#46a9d8]" />
 
-            <span className="text-sm font-semibold text-white">
-              {blog
-                ?.category
-                ?.name ||
-                "Industrial"}
+            <span className="text-xs font-bold text-white">
+              {blog?.category?.name || "Metal Fabrication"}
             </span>
           </div>
 
-          {/* TITLE */}
-          <h1 className="max-w-5xl text-4xl md:text-6xl lg:text-7xl font-black leading-[1.1] text-white mt-8">
+          {/* Title */}
+          <h1 className="mt-6 max-w-5xl text-4xl font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl xl:text-[64px]">
             {blog?.title}
           </h1>
 
-          {/* META */}
-          <div className="flex flex-wrap items-center gap-8 mt-10 text-gray-300">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-white/10 border border-white/10 flex items-center justify-center">
-                <CalendarDays
-                  size={18}
-                />
-              </div>
+          {/* Excerpt */}
+          {blog?.excerpt && (
+            <p className="mt-6 max-w-3xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
+              {blog.excerpt}
+            </p>
+          )}
+
+          {/* Meta */}
+          <div className="mt-8 flex flex-wrap gap-5">
+            <div className="inline-flex items-center gap-2.5">
+              <CalendarDays size={17} className="text-[#46a9d8]" />
 
               <div>
-                <p className="text-xs uppercase tracking-widest text-gray-400">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/40">
                   Published
                 </p>
 
-                <p className="font-medium text-white">
-                  {blog?.createdAt
-                    ? new Date(
-                        blog.createdAt
-                      ).toDateString()
-                    : "Recently Published"}
+                <p className="mt-0.5 text-sm font-semibold text-white/85">
+                  {formatDate(publishedDate)}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-white/10 border border-white/10 flex items-center justify-center">
-                <Clock3
-                  size={18}
-                />
-              </div>
+            <div className="inline-flex items-center gap-2.5">
+              <Clock3 size={17} className="text-[#46a9d8]" />
 
               <div>
-                <p className="text-xs uppercase tracking-widest text-gray-400">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/40">
                   Reading Time
                 </p>
 
-                <p className="font-medium text-white">
-                  5 Min Read
+                <p className="mt-0.5 text-sm font-semibold text-white/85">
+                  {readingTime}
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* MAIN CONTENT */}
-      <div className="relative -mt-10 z-10">
-        <div className="max-w-7xl mx-auto px-6 pb-24">
-          <div className="grid lg:grid-cols-[1fr_360px] gap-10 items-start">
-            {/* LEFT */}
-            <div>
-              {/* FEATURE IMAGE */}
-              <div className="relative h-[300px] md:h-[650px] rounded-[35px] overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.18)] border border-white/50">
-                <Image
-                  src={imageSrc}
-                  alt={
-                    blog?.title ||
-                    "Industrial Blog"
-                  }
-                  fill
-                  priority
-                  className="object-cover"
-                />
+      {/* ===================================================
+          ARTICLE AREA
+      =================================================== */}
 
-                {/* OVERLAY */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-              </div>
+      <section className="bg-[#f8fcfe] px-4 py-10 sm:px-6 lg:py-14">
+        <div className="mx-auto w-full max-w-[1280px]">
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
+            {/* =================================================
+                LEFT CONTENT
+            ================================================= */}
 
-              {/* ARTICLE CARD */}
-              <div className="bg-white rounded-[35px] shadow-[0_10px_60px_rgba(0,0,0,0.06)] p-7 md:p-12 mt-10 border border-gray-100">
-                {/* INTRO */}
-                <div className="mb-12">
-                  <div className="w-20 h-[4px] rounded-full bg-gradient-to-r from-[#981d13] to-[#cd2b14]" />
-
-                  <p className="text-lg leading-9 text-gray-600 mt-7">
-                    {blog?.metaDescription ||
-                      "Explore detailed industrial fabrication insights, engineering solutions, and professional manufacturing guidance from Welldone Metalworks."}
-                  </p>
-                </div>
-
-                {/* BLOG CONTENT */}
-                <div className="blog-content">
-                  <BlogContent
-                    content={
-                      blog?.content
-                    }
+            <article className="min-w-0">
+              {/* Featured Image */}
+              <div className="relative overflow-hidden rounded-2xl border border-[#dceff7] bg-white shadow-[0_15px_45px_rgba(15,76,110,0.10)]">
+                <div className="relative aspect-[16/9] min-h-[260px] w-full sm:min-h-[420px] lg:min-h-[520px]">
+                  <img
+                    src={imageSrc}
+                    alt={blog?.title || "Welldone Metalworks blog"}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading="eager"
                   />
                 </div>
+              </div>
 
-                {/* TAGS */}
-                {blog?.tags
-                  ?.length > 0 && (
-                  <div className="mt-14 pt-10 border-t border-gray-100">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-5">
-                      Related Tags
-                    </h3>
+              {/* Article */}
+              <div className="mt-7 rounded-2xl border border-[#dceff7] bg-white p-6 shadow-[0_8px_30px_rgba(15,76,110,0.05)] sm:p-8 lg:p-10">
+                {/* Intro */}
+                {(blog?.metaDescription || blog?.excerpt) && (
+                  <div className="mb-10 rounded-xl border border-[#dceff7] bg-[#f8fcfe] p-5 sm:p-6">
+                    <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[#1687c5]">
+                      <CheckCircle2 size={15} />
+                      Article Overview
+                    </div>
 
-                    <div className="flex flex-wrap gap-3">
-                      {blog.tags.map(
-                        (
-                          tag,
-                          index
-                        ) => (
-                          <span
-                            key={
-                              index
-                            }
-                            className="px-5 py-2 rounded-full bg-gray-100 hover:bg-[#981d13] hover:text-white transition-all duration-300 text-sm font-semibold text-gray-700"
+                    <p className="text-sm leading-7 text-[#475569] sm:text-base">
+                      {blog?.metaDescription || blog?.excerpt}
+                    </p>
+                  </div>
+                )}
+
+                {/* Content */}
+                <BlogContent content={blog?.content} />
+
+                {/* Tags */}
+                {blog?.tags?.length > 0 && (
+                  <div className="mt-12 border-t border-[#dceff7] pt-8">
+                    <div className="mb-4 flex items-center gap-2">
+                      <Tag size={17} className="text-[#1687c5]" />
+
+                      <h3 className="text-lg font-black text-[#12324a]">
+                        Related Topics
+                      </h3>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {blog.tags.map((tag, index) => {
+                        const tagName = tag?.name || tag;
+
+                        const tagSlug = tag?.slug || "";
+
+                        return (
+                          <Link
+                            key={tag?._id || index}
+                            href={tagSlug ? `/blog/tag/${tagSlug}` : "/blog"}
+                            className="rounded-lg border border-[#dceff7] bg-[#f8fcfe] px-3 py-2 text-xs font-semibold text-[#475569] transition hover:border-[#bfe4f3] hover:bg-[#eff9fe] hover:text-[#1687c5]"
                           >
-                            #
-                            {tag?.name ||
-                              tag}
-                          </span>
-                        )
-                      )}
+                            #{tagName}
+                          </Link>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
 
-                {/* SHARE */}
-                <div className="mt-14 pt-10 border-t border-gray-100">
-                  <ShareButtons
-                    blog={blog}
-                  />
+                {/* Share */}
+                <div className="mt-10">
+                  <ShareButtons blog={blog} />
                 </div>
               </div>
 
-              {/* RELATED BLOGS */}
-              <div className="mt-16">
-                <RelatedBlogs
-                  blogs={
-                    filteredRelatedBlogs
-                  }
-                />
-              </div>
-            </div>
+              {/* Related Blogs */}
+              {finalRelatedBlogs.length > 0 && (
+                <div className="mt-10">
+                  <RelatedBlogs blogs={finalRelatedBlogs} />
+                </div>
+              )}
+            </article>
 
-            {/* SIDEBAR */}
-            <div className="lg:sticky lg:top-28">
-              <div className="space-y-8">
-                <BlogSidebar
-                  categories={
-                    categories
-                  }
-                  tags={tags}
-                />
+            {/* =================================================
+                SIDEBAR
+            ================================================= */}
 
-                {/* CTA BOX */}
-                <div className="relative overflow-hidden rounded-[30px] bg-gradient-to-br from-[#981d13] to-[#cd2b14] p-8 shadow-[0_20px_60px_rgba(152,29,19,0.35)]">
-                  <div className="absolute top-0 right-0 w-44 h-44 rounded-full bg-white/10 blur-3xl" />
+            <aside className="lg:sticky lg:top-24">
+              <div className="space-y-5">
+                <BlogSidebar categories={categories} tags={tags} />
 
-                  <h3 className="text-3xl font-black text-white leading-tight relative z-10">
-                    Need Industrial
-                    Fabrication
-                    Solutions?
-                  </h3>
+                {/* CTA */}
+                <div className="relative overflow-hidden rounded-2xl bg-[#12324a] p-6 text-white shadow-[0_15px_40px_rgba(18,50,74,0.15)]">
+                  <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full border-[28px] border-[#1687c5]/20" />
 
-                  <p className="text-white/80 leading-8 mt-5 relative z-10">
-                    Contact
-                    Welldone
-                    Metalworks for
-                    premium
-                    engineering,
-                    stainless steel
-                    fabrication and
-                    industrial
-                    structure
-                    solutions.
-                  </p>
+                  <div className="relative">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#46a9d8]">
+                      Have a Project?
+                    </p>
 
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 mt-8 bg-white text-[#981d13] hover:bg-black hover:text-white px-7 py-4 rounded-full font-bold transition-all duration-300 relative z-10"
-                  >
-                    Get Free Quote
+                    <h3 className="mt-2 text-2xl font-black leading-tight">
+                      Need Custom Metal Fabrication?
+                    </h3>
 
-                    <ArrowRight
-                      size={18}
-                    />
-                  </Link>
+                    <p className="mt-3 text-sm leading-6 text-white/60">
+                      Discuss your requirements for mild steel fabrication,
+                      structural work, gates, staircases or sheds.
+                    </p>
+
+                    <Link
+                      href="/contact"
+                      className="group mt-5 inline-flex items-center gap-2 rounded-xl bg-[#1687c5] px-4 py-3 text-xs font-bold text-white transition hover:bg-[#0b6fa8]"
+                    >
+                      Discuss Your Project
+                      <ArrowRight
+                        size={14}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            </aside>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }
