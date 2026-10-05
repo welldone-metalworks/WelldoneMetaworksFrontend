@@ -614,7 +614,7 @@ export default function PrivacyPolicy() {
               </div>
             </div>
           </div>
-
+            {/* Footer Start here */}
           {/* Footer */}
           <div className="mt-7 flex flex-col gap-3 border-t border-[var(--wm-border-blue)] pt-5 sm:flex-row sm:items-center sm:justify-between">
             <span className="font-mono text-[9px] font-bold tracking-[0.16em] text-[var(--wm-muted)]">
