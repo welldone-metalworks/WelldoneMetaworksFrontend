@@ -15,7 +15,7 @@ export default function AdminLayout({ children }) {
       router.push("/admin/login");
     }
   }, []);
-
+//  Added Some comments to the code for better understanding of the layout structure
   return (
     <div className="flex min-h-screen bg-gray-100">
       
