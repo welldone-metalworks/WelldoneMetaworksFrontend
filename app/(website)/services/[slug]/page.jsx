@@ -52,7 +52,7 @@ export async function generateMetadata({ params }) {
     ],
 
     alternates: {
-      canonical: `https://welldone-metalworks.in/services/${service.slug}`,
+      canonical: `https://www.welldone-metalworks.in/services/${service.slug}`,
     },
 
     openGraph: {
