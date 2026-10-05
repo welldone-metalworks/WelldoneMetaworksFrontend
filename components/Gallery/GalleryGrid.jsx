@@ -255,9 +255,8 @@ const galleryData = [
   ======================================================= */
 
   ...createImages(
-    "metal-fabrication-miscellaneous",
+    "",
     1,
-    "Other Metalwork",
     "Miscellaneous Metalwork"
   ),
 ];
