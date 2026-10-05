@@ -8,59 +8,46 @@ import BlogSidebar from "@/components/Blog/BlogSidebar";
 import serverApi from "@/lib/serverApi";
 
 export const metadata = {
-  title:
-    "Industrial Blog | Welldone Metalworks",
-
+  title: "Metal Fabrication Blog | Welldone Metalworks",
   description:
-    "Industrial engineering insights, stainless steel blogs, fabrication guides, and manufacturing knowledge from Welldone Metalworks.",
+    "Explore metal fabrication insights, MS fabrication guides, structural fabrication, gates, railings, staircases, sheds and industrial metalwork from Welldone Metalworks.",
+  alternates: {
+    canonical: "https://welldone-metalworks.in/blog",
+  },
+  openGraph: {
+    title: "Metal Fabrication Blog | Welldone Metalworks",
+    description:
+      "Explore metal fabrication insights, MS fabrication guides and practical metalwork knowledge from Welldone Metalworks.",
+    url: "https://welldone-metalworks.in/blog",
+    siteName: "Welldone Metalworks",
+    type: "website",
+  },
 };
 
-//
-// FETCH DATA
-//
 async function fetchData() {
   try {
-    const [
-      blogsRes,
-      categoriesRes,
-      tagsRes,
-    ] = await Promise.all([
-      serverApi.get("/blogs"),
-
-      serverApi.get(
-        "/categories"
-      ),
-
-      serverApi.get("/tags"),
-    ]);
+    const [blogsRes, categoriesRes, tagsRes] =
+      await Promise.all([
+        serverApi.get("/blogs"),
+        serverApi.get("/categories"),
+        serverApi.get("/tags"),
+      ]);
 
     return {
-      blogs:
-        Array.isArray(
-          blogsRes?.data
-        )
-          ? blogsRes.data
-          : [],
+      blogs: Array.isArray(blogsRes?.data)
+        ? blogsRes.data
+        : [],
 
-      categories:
-        Array.isArray(
-          categoriesRes?.data
-        )
-          ? categoriesRes.data
-          : [],
+      categories: Array.isArray(categoriesRes?.data)
+        ? categoriesRes.data
+        : [],
 
-      tags:
-        Array.isArray(
-          tagsRes?.data
-        )
-          ? tagsRes.data
-          : [],
+      tags: Array.isArray(tagsRes?.data)
+        ? tagsRes.data
+        : [],
     };
   } catch (error) {
-    console.log(
-      "BLOG PAGE ERROR:",
-      error
-    );
+    console.error("BLOG PAGE ERROR:", error);
 
     return {
       blogs: [],
@@ -77,105 +64,145 @@ export default async function BlogPage() {
     tags,
   } = await fetchData();
 
-  //
-  // FEATURED BLOG
-  //
+  const publishedBlogs = blogs.filter(
+    (blog) =>
+      blog?.status === "published" ||
+      !blog?.status
+  );
+
   const featuredBlog =
-    Array.isArray(blogs)
-      ? blogs.find(
-          (blog) =>
-            blog?.featured
-        ) || blogs[0]
-      : null;
+    publishedBlogs.find(
+      (blog) => blog?.featured
+    ) ||
+    publishedBlogs[0] ||
+    null;
+
+  const latestBlogs = publishedBlogs
+    .filter(
+      (blog) =>
+        blog?._id !== featuredBlog?._id
+    )
+    .slice(0, 6);
+
+  const remainingBlogs = publishedBlogs;
 
   return (
-    <>
-      {/* HERO */}
+    <main className="min-h-screen bg-white text-[#12324a]">
+
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
       <BlogHero />
 
-      {/* FEATURED BLOG */}
+      {/* =====================================================
+          FEATURED BLOG
+      ===================================================== */}
+
       {featuredBlog && (
-        <section className="py-24 px-6 bg-white">
-          <div className="max-w-7xl mx-auto">
-            <FeaturedBlog
-              blog={featuredBlog}
-            />
+        <section className="bg-white px-4 py-14 sm:px-6 lg:py-20">
+          <div className="mx-auto w-full max-w-[1280px]">
+            <FeaturedBlog blog={featuredBlog} />
           </div>
         </section>
       )}
 
-      {/* LATEST BLOGS */}
-      <LatestBlogs
-        blogs={blogs}
-      />
+      {/* =====================================================
+          LATEST BLOGS
+      ===================================================== */}
 
-      {/* TRENDING BLOGS */}
-      <TrendingBlogs
-        blogs={blogs}
-      />
+      {latestBlogs.length > 0 && (
+        <LatestBlogs blogs={latestBlogs} />
+      )}
 
-      {/* ALL BLOGS */}
-      <section className="py-24 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-[1fr_350px] gap-12">
-            {/* LEFT SIDE */}
-            <div>
-              {/* SECTION HEADER */}
-              <div className="mb-14">
-                <p className="uppercase tracking-widest text-[#cd2b14] font-semibold">
-                  Latest Articles
+      {/* =====================================================
+          TRENDING BLOGS
+      ===================================================== */}
+
+      {publishedBlogs.length > 2 && (
+        <TrendingBlogs blogs={publishedBlogs} />
+      )}
+
+      {/* =====================================================
+          ALL BLOGS
+      ===================================================== */}
+
+      <section className="bg-[#f8fcfe] px-4 py-16 sm:px-6 lg:py-20">
+        <div className="mx-auto w-full max-w-[1280px]">
+
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
+
+            {/* LEFT */}
+            <div className="min-w-0">
+
+              {/* Header */}
+              <div className="mb-9">
+
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="h-px w-8 bg-[#1687c5]" />
+
+                  <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#1687c5]">
+                    Knowledge Centre
+                  </span>
+                </div>
+
+                <h2 className="text-3xl font-black tracking-tight text-[#12324a] sm:text-4xl">
+                  Latest Metal Fabrication Articles
+                </h2>
+
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-[#64748b] sm:text-base">
+                  Practical insights, fabrication guides and
+                  industry knowledge to help you make better
+                  decisions for your metalwork projects.
                 </p>
 
-                <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-3 leading-tight">
-                  Explore Industrial
-                  Blogs
-                </h2>
               </div>
 
-              {/* BLOG GRID */}
-              {blogs.length >
-              0 ? (
-                <div className="grid md:grid-cols-2 gap-8">
-                  {blogs.map(
-                    (blog) => (
-                      <BlogCard
-                        key={
-                          blog?._id
-                        }
-                        blog={
-                          blog
-                        }
-                      />
-                    )
-                  )}
+              {/* Blog Grid */}
+              {remainingBlogs.length > 0 ? (
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  {remainingBlogs.map((blog) => (
+                    <BlogCard
+                      key={blog?._id}
+                      blog={blog}
+                    />
+                  ))}
                 </div>
               ) : (
-                <div className="bg-white rounded-[30px] p-12 shadow-xl border border-gray-100 text-center">
-                  <h3 className="text-3xl font-black text-gray-900">
-                    No Blogs Found
+                <div className="rounded-2xl border border-[#dceff7] bg-white px-6 py-16 text-center shadow-[0_10px_35px_rgba(15,76,110,0.06)]">
+
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eaf7fd] text-[#1687c5]">
+                    <span className="text-xl font-black">
+                      W
+                    </span>
+                  </div>
+
+                  <h3 className="mt-5 text-2xl font-black text-[#12324a]">
+                    No Articles Available
                   </h3>
 
-                  <p className="text-gray-500 mt-4 text-lg">
-                    Blogs will
-                    appear here
-                    once created
-                    from admin
-                    panel.
+                  <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#64748b]">
+                    New fabrication articles and project
+                    insights will appear here soon.
                   </p>
+
                 </div>
               )}
+
             </div>
 
-            {/* SIDEBAR */}
-            <BlogSidebar
-              categories={
-                categories
-              }
-              tags={tags}
-            />
+            {/* RIGHT */}
+            <aside className="lg:sticky lg:top-28 lg:self-start">
+              <BlogSidebar
+                categories={categories}
+                tags={tags}
+              />
+            </aside>
+
           </div>
         </div>
       </section>
-    </>
+
+    </main>
   );
 }

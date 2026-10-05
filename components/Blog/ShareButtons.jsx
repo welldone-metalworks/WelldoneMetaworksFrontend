@@ -1,134 +1,139 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import {
   Facebook,
-  Twitter,
   Linkedin,
   Link2,
+  Check,
 } from "lucide-react";
 
-export default function ShareButtons({
-  blog,
-}) {
-  //
-  // SAFE CLIENT URL
-  //
-  const [currentUrl, setCurrentUrl] =
-    useState("");
+import { useEffect, useState } from "react";
+
+export default function ShareButtons({ blog }) {
+  const [currentUrl, setCurrentUrl] = useState("");
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    setCurrentUrl(
-      window.location.href
-    );
+    setCurrentUrl(window.location.href);
   }, []);
 
-  //
-  // ENCODED VALUES
-  //
   const encodedUrl =
-    encodeURIComponent(
-      currentUrl
-    );
+    encodeURIComponent(currentUrl);
 
   const encodedTitle =
-    encodeURIComponent(
-      blog?.title || ""
-    );
+    encodeURIComponent(blog?.title || "");
 
-  //
-  // SHARE LINKS
-  //
   const facebookShare =
     `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-
-  const twitterShare =
-    `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
 
   const linkedinShare =
     `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
 
-  //
-  // COPY LINK
-  //
+  const whatsappShare =
+    `https://wa.me/?text=${encodeURIComponent(
+      `${blog?.title || "Read this article"} ${currentUrl}`
+    )}`;
+
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(
         currentUrl
       );
 
-      alert(
-        "Blog link copied successfully!"
-      );
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
     } catch (error) {
-      console.log(error);
+      console.error(
+        "Copy link failed:",
+        error
+      );
     }
   };
 
   return (
-    <div>
-      {/* TITLE */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-[3px] rounded-full bg-gradient-to-r from-[#981d13] to-[#cd2b14]" />
+    <div className="border-t border-[#dceff7] pt-7">
 
-        <h3 className="text-2xl font-black text-gray-900">
+      <div className="mb-4">
+
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#1687c5]">
+          Share
+        </p>
+
+        <h3 className="mt-1 text-lg font-black text-[#12324a]">
           Share This Article
         </h3>
+
       </div>
 
-      {/* BUTTONS */}
-      <div className="flex flex-wrap items-center gap-4">
-        {/* FACEBOOK */}
+      <div className="flex flex-wrap gap-2.5">
+
+        {/* Facebook */}
+
         <a
           href={facebookShare}
           target="_blank"
           rel="noopener noreferrer"
-          className="group w-14 h-14 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center shadow-lg hover:scale-110 transition-all duration-300"
+          aria-label="Share on Facebook"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dceff7] bg-white text-[#475569] transition-all hover:border-[#1687c5] hover:bg-[#eff9fe] hover:text-[#1687c5]"
         >
-          <Facebook
-            size={22}
-            className="group-hover:rotate-12 transition-all"
-          />
+          <Facebook size={17} />
         </a>
 
-        {/* TWITTER */}
-        <a
-          href={twitterShare}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group w-14 h-14 rounded-2xl bg-black text-white flex items-center justify-center shadow-lg hover:scale-110 transition-all duration-300"
-        >
-          <Twitter
-            size={22}
-            className="group-hover:rotate-12 transition-all"
-          />
-        </a>
+        {/* LinkedIn */}
 
-        {/* LINKEDIN */}
         <a
           href={linkedinShare}
           target="_blank"
           rel="noopener noreferrer"
-          className="group w-14 h-14 rounded-2xl bg-[#0077B5] text-white flex items-center justify-center shadow-lg hover:scale-110 transition-all duration-300"
+          aria-label="Share on LinkedIn"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dceff7] bg-white text-[#475569] transition-all hover:border-[#1687c5] hover:bg-[#eff9fe] hover:text-[#1687c5]"
         >
-          <Linkedin
-            size={22}
-            className="group-hover:rotate-12 transition-all"
-          />
+          <Linkedin size={17} />
         </a>
 
-        {/* COPY LINK */}
-        <button
-          onClick={copyLink}
-          className="group w-14 h-14 rounded-2xl bg-gray-100 text-gray-700 flex items-center justify-center shadow-lg hover:bg-[#981d13] hover:text-white hover:scale-110 transition-all duration-300"
+        {/* WhatsApp */}
+
+        <a
+          href={whatsappShare}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Share on WhatsApp"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dceff7] bg-white text-[#475569] transition-all hover:border-[#1687c5] hover:bg-[#eff9fe] hover:text-[#1687c5]"
         >
-          <Link2
-            size={22}
-            className="group-hover:rotate-12 transition-all"
-          />
+          <span className="text-[11px] font-black">
+            WA
+          </span>
+        </a>
+
+        {/* Copy */}
+
+        <button
+          type="button"
+          onClick={copyLink}
+          aria-label="Copy article link"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dceff7] bg-white text-[#475569] transition-all hover:border-[#1687c5] hover:bg-[#eff9fe] hover:text-[#1687c5]"
+        >
+          {copied ? (
+            <Check
+              size={17}
+              className="text-[#15803d]"
+            />
+          ) : (
+            <Link2 size={17} />
+          )}
         </button>
+
       </div>
+
+      {copied && (
+        <p className="mt-2 text-xs font-semibold text-[#15803d]">
+          Article link copied.
+        </p>
+      )}
+
     </div>
   );
 }

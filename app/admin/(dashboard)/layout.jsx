@@ -2,6 +2,7 @@
 
 import Sidebar from "@/components/admin/Sidebar";
 import Header from "@/components/admin/Header";
+
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -14,23 +15,39 @@ export default function AdminLayout({ children }) {
     if (!token) {
       router.push("/admin/login");
     }
-  }, []);
-//  Added Some comments to the code for better understanding of the layout structure
+  }, [router]);
+
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      
-      {/* Sidebar */}
+    <div className="min-h-screen overflow-x-hidden bg-[#f8fcfe]">
+
+      {/* =====================================================
+          FIXED SIDEBAR
+      ===================================================== */}
+
       <Sidebar />
 
-      {/* Main Area */}
-      <div className="flex-1 flex flex-col">
-        
-        {/* Header */}
+      {/* =====================================================
+          MAIN APPLICATION AREA
+      ===================================================== */}
+
+      <div className="min-h-screen min-w-0 lg:ml-[248px]">
+
+        {/* =================================================
+            HEADER
+        ================================================= */}
+
         <Header />
 
-        {/* Page Content */}
-        <main className="p-6">
-          {children}
+        {/* =================================================
+            PAGE CONTENT
+        ================================================= */}
+
+        <main className="min-w-0 px-4 py-5 sm:px-6 lg:px-8 lg:py-6">
+
+          <div className="mx-auto w-full max-w-[1280px]">
+            {children}
+          </div>
+
         </main>
 
       </div>

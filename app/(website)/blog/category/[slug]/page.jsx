@@ -1,91 +1,104 @@
+import Link from "next/link";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  FolderOpen,
+  Sparkles,
+} from "lucide-react";
+
 import BlogCard from "@/components/Blog/BlogCard";
 import BlogSidebar from "@/components/Blog/BlogSidebar";
 
 import serverApi from "@/lib/serverApi";
 
-//
-// SEO METADATA
-//
-export async function generateMetadata({
-  params,
-}) {
-  //
-  // NEXTJS 16 FIX
-  //
-  const resolvedParams =
-    await params;
+/* =========================================================
+   HELPERS
+========================================================= */
 
-  const slug =
-    resolvedParams?.slug || "";
+function formatCategoryName(slug = "") {
+  return slug
+    .replaceAll("-", " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
-  const formattedSlug =
-    slug.replaceAll(
-      "-",
-      " "
-    );
+/* =========================================================
+   SEO METADATA
+========================================================= */
+
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug || "";
+
+  const categoryName = formatCategoryName(slug);
 
   return {
-    title: `${formattedSlug} Blogs | Welldone Metalworks`,
+    title: `${categoryName} | Metal Fabrication Blog | Welldone Metalworks`,
 
-    description: `Explore industrial blogs related to ${formattedSlug}.`,
+    description: `Explore ${categoryName.toLowerCase()} articles, fabrication insights, project guidance and practical metalwork information from Welldone Metalworks.`,
+
+    alternates: {
+      canonical: `https://welldone-metalworks.in/blog/category/${slug}`,
+    },
+
+    openGraph: {
+      title: `${categoryName} | Metal Fabrication Blog | Welldone Metalworks`,
+      description: `Explore ${categoryName.toLowerCase()} articles, fabrication insights and practical metalwork information from Welldone Metalworks.`,
+      url: `https://welldone-metalworks.in/blog/category/${slug}`,
+      type: "website",
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: `${categoryName} | Welldone Metalworks`,
+      description: `Explore ${categoryName.toLowerCase()} articles and metal fabrication insights.`,
+    },
   };
 }
 
-//
-// FETCH CATEGORY BLOGS
-//
-async function fetchCategoryBlogs(
-  slug
-) {
+/* =========================================================
+   FETCH CATEGORY BLOGS
+========================================================= */
+
+async function fetchCategoryBlogs(slug) {
   try {
-    const [
-      blogsRes,
-      categoriesRes,
-      tagsRes,
-    ] = await Promise.all([
-      serverApi.get(
-        `/blogs/category/${slug}`
-      ),
+    const [blogsRes, categoriesRes, tagsRes] =
+      await Promise.all([
+        serverApi.get(`/blogs/category/${slug}`),
+        serverApi.get("/categories"),
+        serverApi.get("/tags"),
+      ]);
 
-      serverApi.get(
-        "/categories"
-      ),
+    const blogs = Array.isArray(blogsRes?.data)
+      ? blogsRes.data
+      : [];
 
-      serverApi.get("/tags"),
-    ]);
+    /*
+     * Keep only published articles for the public website.
+     *
+     * The fallback allows compatibility with older blog records
+     * that may not yet have a status field.
+     */
+    const publishedBlogs = blogs.filter(
+      (blog) =>
+        blog?.status === "published" ||
+        !blog?.status
+    );
 
     return {
-        //
-        // BLOGS
-        //
-        blogs: Array.isArray(
-          blogsRes?.data
-        )
-          ? blogsRes.data
-          : [],
-      
-        //
-        // CATEGORIES
-        //
-        categories:
-          Array.isArray(
-            categoriesRes?.data
-          )
-            ? categoriesRes.data
-            : [],
-      
-        //
-        // TAGS
-        //
-        tags: Array.isArray(
-          tagsRes?.data
-        )
-          ? tagsRes.data
-          : [],
-      };
+      blogs: publishedBlogs,
+
+      categories: Array.isArray(categoriesRes?.data)
+        ? categoriesRes.data
+        : [],
+
+      tags: Array.isArray(tagsRes?.data)
+        ? tagsRes.data
+        : [],
+    };
   } catch (error) {
-    console.log(
-      "CATEGORY PAGE ERROR:",
+    console.error(
+      "CATEGORY BLOG PAGE ERROR:",
       error
     );
 
@@ -97,152 +110,259 @@ async function fetchCategoryBlogs(
   }
 }
 
+/* =========================================================
+   PAGE
+========================================================= */
+
 export default async function CategoryPage({
   params,
 }) {
-  //
-  // NEXTJS 16 FIX
-  //
-  const resolvedParams =
-    await params;
+  const resolvedParams = await params;
 
-  const slug =
-    resolvedParams?.slug || "";
+  const slug = resolvedParams?.slug || "";
 
-  //
-  // FORMATTED TITLE
-  //
-  const formattedSlug =
-    slug.replaceAll(
-      "-",
-      " "
-    );
+  const categoryName = formatCategoryName(slug);
 
   const {
     blogs,
     categories,
     tags,
-  } =
-    await fetchCategoryBlogs(
-      slug
-    );
+  } = await fetchCategoryBlogs(slug);
 
   return (
-    <section className="min-h-screen bg-[#f8f8f8] py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
-        <div className="relative overflow-hidden rounded-[35px] bg-gradient-to-br from-[#111827] via-[#0f172a] to-[#1f2937] px-8 md:px-14 py-16 mb-16 shadow-[0_20px_80px_rgba(0,0,0,0.15)]">
-          {/* GLOW */}
-          <div className="absolute top-0 right-0 w-72 h-72 bg-[#cd2b14]/20 blur-3xl rounded-full" />
+    <main className="min-h-screen bg-[#f8fcfe]">
+      {/* =====================================================
+          CATEGORY HERO
+      ===================================================== */}
 
-          <div className="relative z-10">
-            {/* SUBTITLE */}
-            <p className="uppercase tracking-[0.3em] text-[#ff7b67] font-semibold text-sm">
-              Industrial Blog
-              Category
-            </p>
+      <section className="relative overflow-hidden border-b border-[#dceff7] bg-[#12324a]">
+        {/* Background Grid */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
+            backgroundSize: "42px 42px",
+          }}
+        />
 
-            {/* TITLE */}
-            <h1 className="text-4xl md:text-6xl font-black text-white mt-5 capitalize leading-tight">
-              {formattedSlug}
+        {/* Decorative Glow */}
+        <div className="pointer-events-none absolute -right-32 -top-32 h-[420px] w-[420px] rounded-full bg-[#1687c5]/25 blur-3xl" />
+
+        <div className="pointer-events-none absolute -bottom-40 -left-32 h-[420px] w-[420px] rounded-full bg-[#46a9d8]/10 blur-3xl" />
+
+        {/* Decorative Ring */}
+        <div className="pointer-events-none absolute right-[8%] top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full border border-[#46a9d8]/10 lg:block" />
+
+        <div className="pointer-events-none absolute right-[11%] top-1/2 hidden h-52 w-52 -translate-y-1/2 rounded-full border border-[#46a9d8]/10 lg:block" />
+
+        <div className="relative mx-auto w-full max-w-[1280px] px-5 py-16 sm:px-6 md:py-20 lg:px-8">
+          {/* Breadcrumb */}
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-8 flex flex-wrap items-center gap-2 text-sm"
+          >
+            <Link
+              href="/"
+              className="text-white/55 transition hover:text-white"
+            >
+              Home
+            </Link>
+
+            <span className="text-white/25">/</span>
+
+            <Link
+              href="/blog"
+              className="text-white/55 transition hover:text-white"
+            >
+              Blog
+            </Link>
+
+            <span className="text-white/25">/</span>
+
+            <span className="font-medium text-[#46a9d8]">
+              {categoryName}
+            </span>
+          </nav>
+
+          <div className="max-w-4xl">
+            {/* Eyebrow */}
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#46a9d8]/25 bg-white/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#46a9d8]">
+              <FolderOpen className="h-4 w-4" />
+              Blog Category
+            </div>
+
+            {/* Heading */}
+            <h1 className="text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+              {categoryName}
             </h1>
 
-            {/* DESCRIPTION */}
-            <p className="text-gray-300 text-lg mt-6 max-w-3xl leading-8">
-              Explore premium
-              industrial
-              engineering,
-              fabrication,
-              warehouse and
-              stainless steel
-              manufacturing
-              blogs related to{" "}
-              <span className="text-white font-semibold capitalize">
-                {
-                  formattedSlug
-                }
+            {/* Description */}
+            <p className="mt-6 max-w-3xl text-base leading-8 text-white/70 sm:text-lg">
+              Explore practical insights, fabrication guidance,
+              project considerations and expert knowledge related
+              to{" "}
+              <span className="font-semibold text-white">
+                {categoryName}
               </span>
               .
             </p>
+
+            {/* Stats / Back */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white">
+                <BookOpen className="h-4 w-4 text-[#46a9d8]" />
+
+                {blogs.length}{" "}
+                {blogs.length === 1
+                  ? "Article"
+                  : "Articles"}
+              </div>
+
+              <Link
+                href="/blog"
+                className="group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white/75 transition hover:border-[#46a9d8]/30 hover:bg-white/[0.08] hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+
+                All Articles
+              </Link>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* CONTENT */}
-        <div className="grid lg:grid-cols-[1fr_360px] gap-10 items-start">
-          {/* BLOGS */}
-          <div>
-            {blogs.length >
-            0 ? (
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
+
+      <section className="mx-auto w-full max-w-[1280px] px-5 py-12 sm:px-6 md:py-16 lg:px-8">
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
+          {/* =================================================
+              ARTICLES
+          ================================================= */}
+
+          <div className="min-w-0">
+            {blogs.length > 0 ? (
               <>
-                {/* RESULT COUNT */}
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl md:text-3xl font-black text-gray-900">
-                    Latest Articles
-                  </h2>
+                {/* Section Header */}
+                <div className="mb-8 flex flex-col gap-4 border-b border-[#dceff7] pb-6 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <div className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.15em] text-[#1687c5]">
+                      <Sparkles className="h-4 w-4" />
 
-                  <div className="bg-white px-5 py-3 rounded-2xl border border-gray-200 shadow-sm text-sm font-semibold text-gray-700">
-                    {
-                      blogs.length
-                    }{" "}
-                    Articles Found
+                      Latest Insights
+                    </div>
+
+                    <h2 className="text-2xl font-black tracking-tight text-[#12324a] sm:text-3xl">
+                      Articles in {categoryName}
+                    </h2>
+                  </div>
+
+                  <div className="inline-flex w-fit items-center rounded-xl border border-[#dceff7] bg-white px-4 py-2.5 text-sm font-semibold text-[#64748b] shadow-[0_4px_18px_rgba(15,76,110,0.05)]">
+                    {blogs.length}{" "}
+                    {blogs.length === 1
+                      ? "article"
+                      : "articles"}{" "}
+                    found
                   </div>
                 </div>
 
-                {/* BLOG GRID */}
-                <div className="grid md:grid-cols-2 gap-8">
-                  {blogs.map(
-                    (
-                      blog
-                    ) => (
-                      <BlogCard
-                        key={
-                          blog._id
-                        }
-                        blog={
-                          blog
-                        }
-                      />
-                    )
-                  )}
+                {/* Blog Grid */}
+                <div className="grid gap-7 md:grid-cols-2">
+                  {blogs.map((blog) => (
+                    <BlogCard
+                      key={blog._id}
+                      blog={blog}
+                    />
+                  ))}
+                </div>
+
+                {/* Bottom CTA */}
+                <div className="mt-10 overflow-hidden rounded-2xl border border-[#dceff7] bg-white shadow-[0_10px_35px_rgba(15,76,110,0.07)]">
+                  <div className="relative p-6 sm:p-8">
+                    <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-[#eff9fe] blur-2xl" />
+
+                    <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <p className="text-sm font-bold uppercase tracking-[0.14em] text-[#1687c5]">
+                          Need a Fabrication Solution?
+                        </p>
+
+                        <h3 className="mt-2 text-xl font-black text-[#12324a]">
+                          Have a project in mind?
+                        </h3>
+
+                        <p className="mt-2 max-w-xl text-sm leading-6 text-[#64748b]">
+                          Discuss your mild steel fabrication,
+                          structural, staircase, gate, railing or
+                          custom metalwork requirements with
+                          Welldone Metalworks.
+                        </p>
+                      </div>
+
+                      <Link
+                        href="/contact"
+                        className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#1687c5] px-5 py-3.5 text-sm font-bold text-white shadow-[0_8px_24px_rgba(22,135,197,0.22)] transition hover:bg-[#0b6fa8]"
+                      >
+                        Discuss Your Project
+
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </>
             ) : (
-              <div className="bg-white rounded-[35px] p-14 shadow-[0_10px_50px_rgba(0,0,0,0.06)] border border-gray-100 text-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-[#981d13] to-[#cd2b14] flex items-center justify-center text-white text-3xl font-black mx-auto">
-                  !
+              /* =================================================
+                 EMPTY STATE
+              ================================================= */
+
+              <div className="relative overflow-hidden rounded-3xl border border-[#dceff7] bg-white px-6 py-16 text-center shadow-[0_10px_40px_rgba(15,76,110,0.06)] sm:px-10">
+                <div className="pointer-events-none absolute left-1/2 top-0 h-48 w-48 -translate-x-1/2 rounded-full bg-[#eff9fe] blur-3xl" />
+
+                <div className="relative mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-[#eaf7fd] text-[#1687c5]">
+                  <BookOpen className="h-9 w-9" />
                 </div>
 
-                <h2 className="text-4xl font-black text-gray-900 mt-8">
-                  No Blogs Found
+                <h2 className="relative mt-7 text-3xl font-black text-[#12324a]">
+                  No Articles Found
                 </h2>
 
-                <p className="text-gray-500 text-lg mt-5 leading-8 max-w-xl mx-auto">
-                  There are
-                  currently no
-                  blogs available
-                  under this
-                  category.
-                  Please check
-                  back later for
-                  more industrial
-                  insights and
-                  updates.
+                <p className="relative mx-auto mt-4 max-w-xl text-base leading-7 text-[#64748b]">
+                  There are currently no published articles
+                  available in the{" "}
+                  <span className="font-semibold text-[#475569]">
+                    {categoryName}
+                  </span>{" "}
+                  category. Check back later for new fabrication
+                  insights and project guidance.
                 </p>
+
+                <Link
+                  href="/blog"
+                  className="group relative mt-7 inline-flex items-center gap-2 rounded-xl bg-[#1687c5] px-5 py-3.5 text-sm font-bold text-white transition hover:bg-[#0b6fa8]"
+                >
+                  Browse All Articles
+
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
               </div>
             )}
           </div>
 
-          {/* SIDEBAR */}
-          <div className="lg:sticky lg:top-28">
+          {/* =================================================
+              SIDEBAR
+          ================================================= */}
+
+          <aside className="lg:sticky lg:top-28">
             <BlogSidebar
-              categories={
-                categories
-              }
+              categories={categories}
               tags={tags}
             />
-          </div>
+          </aside>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }

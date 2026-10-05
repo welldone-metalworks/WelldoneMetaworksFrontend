@@ -1,121 +1,81 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, Clock3 } from "lucide-react";
 
-import {
-  CalendarDays,
-  ArrowRight,
-} from "lucide-react";
+import BlogCard from "./BlogCard";
 
-const LatestBlogs = ({
-  blogs = [],
-}) => {
-  // ONLY LATEST 3 BLOGS
-  const latestBlogs =
-    blogs.slice(0, 3);
+const LatestBlogs = ({ blogs = [] }) => {
+  const latestBlogs = blogs.slice(0, 3);
+
+  if (!latestBlogs.length) {
+    return null;
+  }
 
   return (
-    <section className="py-24 px-6 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-[#f8fcfe] px-4 py-16 sm:px-6 lg:py-20">
+
+      <div className="mx-auto w-full max-w-[1280px]">
+
         {/* HEADER */}
-        <div className="flex items-center justify-between mb-14">
+
+        <div className="mb-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+
           <div>
-            <p className="text-[#cd2b14] font-semibold uppercase tracking-widest">
-              Latest Articles
+
+            <div className="mb-3 flex items-center gap-3">
+              <span className="h-px w-8 bg-[#1687c5]" />
+
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#1687c5]">
+                Latest Articles
+              </span>
+            </div>
+
+            <h2 className="text-3xl font-black tracking-tight text-[#12324a] sm:text-4xl">
+              Fresh From Our Knowledge Centre
+            </h2>
+
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#64748b]">
+              Practical fabrication insights and useful information
+              for residential, commercial and industrial projects.
             </p>
 
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mt-3">
-              Latest Blog Updates
-            </h2>
           </div>
 
           <Link
             href="/blog"
-            className="hidden md:flex items-center gap-2 text-[#981d13] font-semibold hover:gap-3 transition-all"
+            className="group inline-flex w-fit items-center gap-2 text-sm font-bold text-[#1687c5]"
           >
-            View All
+            View All Articles
 
             <ArrowRight
-              size={18}
+              size={16}
+              className="transition-transform duration-300 group-hover:translate-x-1"
             />
           </Link>
+
         </div>
 
         {/* BLOGS */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {latestBlogs.map(
-            (blog) => {
-              //
-              // SAFE IMAGE
-              //
-              const imageSrc =
-                blog?.featuredImage
-                  ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${blog.featuredImage.replace(
-                      /\\/g,
-                      "/"
-                    )}`
-                  : "/placeholder.jpg";
 
-              return (
-                <Link
-                  href={`/blog/${blog.slug}`}
-                  key={
-                    blog._id
-                  }
-                  className="group bg-white rounded-[30px] overflow-hidden shadow-xl border border-gray-100 hover:scale-[1.02] transition-all duration-300"
-                >
-                  {/* IMAGE */}
-                  <div className="relative h-[260px] overflow-hidden">
-                    <Image
-                      src={
-                        imageSrc
-                      }
-                      alt={
-                        blog.title
-                      }
-                      fill
-                      className="object-cover group-hover:scale-110 transition-all duration-500"
-                    />
-
-                    <div className="absolute top-5 left-5 bg-gradient-to-r from-[#981d13] to-[#cd2b14] text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                      {blog
-                        ?.category
-                        ?.name ||
-                        "Industrial"}
-                    </div>
-                  </div>
-
-                  {/* CONTENT */}
-                  <div className="p-8">
-                    <div className="flex items-center gap-2 text-gray-500 text-sm mb-4">
-                      <CalendarDays
-                        size={16}
-                      />
-
-                      {new Date(
-                        blog.createdAt
-                      ).toDateString()}
-                    </div>
-
-                    <h3 className="text-2xl font-bold text-gray-900 leading-snug group-hover:text-[#981d13] transition-all">
-                      {blog.title}
-                    </h3>
-
-                    <div className="mt-6 flex items-center gap-2 text-[#981d13] font-semibold">
-                      Read More
-
-                      <ArrowRight
-                        size={18}
-                      />
-                    </div>
-                  </div>
-                </Link>
-              );
-            }
-          )}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {latestBlogs.map((blog) => (
+            <BlogCard
+              key={blog?._id}
+              blog={blog}
+            />
+          ))}
         </div>
+
+        {/* Small info row */}
+
+        <div className="mt-7 flex items-center gap-2 text-xs font-medium text-[#64748b]">
+          <Clock3 size={14} className="text-[#1687c5]" />
+          New fabrication insights added regularly
+        </div>
+
       </div>
+
     </section>
   );
 };
