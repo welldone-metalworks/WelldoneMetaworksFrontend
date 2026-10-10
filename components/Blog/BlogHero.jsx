@@ -9,7 +9,7 @@ import {
 
 const BlogHero = () => {
   return (
-    <section className="relative isolate overflow-hidden bg-[#12324a] px-4 py-20 text-white sm:px-6 sm:py-24 lg:py-28">
+    <section className="relative isolate overflow-hidden bg-[#12324a] pt-26 sm:pt-28 lg:pt-30 px-4 py-10 text-white sm:px-6 sm:py-12 lg:py-14">
 
       {/* =====================================================
           BACKGROUND GRID
