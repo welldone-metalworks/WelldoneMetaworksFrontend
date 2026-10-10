@@ -8,7 +8,7 @@ const RelatedBlogs = ({ blogs = [] }) => {
   }
 
   return (
-    <section className="border-t border-[#dceff7] py-16 lg:py-20">
+    <section className="border-t border-[#dceff7] py-10 sm:py-12 lg:py-14">
 
       {/* HEADER */}
 

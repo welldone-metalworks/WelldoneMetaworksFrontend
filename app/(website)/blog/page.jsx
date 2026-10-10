@@ -227,7 +227,7 @@ export default async function BlogPage() {
       ===================================================== */}
 
       {featuredBlog && (
-        <section className="bg-white px-4 py-14 sm:px-6 lg:py-20">
+        <section className="bg-white px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
           <div className="mx-auto w-full max-w-[1280px]">
             <FeaturedBlog blog={featuredBlog} />
           </div>
@@ -254,7 +254,7 @@ export default async function BlogPage() {
           ALL BLOGS
       ===================================================== */}
 
-      <section className="bg-[#f8fcfe] px-4 py-16 sm:px-6 lg:py-20">
+      <section className="bg-[#f8fcfe] px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
         <div className="mx-auto w-full max-w-[1280px]">
 
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">

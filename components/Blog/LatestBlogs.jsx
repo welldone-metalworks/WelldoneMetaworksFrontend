@@ -13,7 +13,7 @@ const LatestBlogs = ({ blogs = [] }) => {
   }
 
   return (
-    <section className="bg-[#f8fcfe] px-4 py-16 sm:px-6 lg:py-20">
+    <section className="bg-[#f8fcfe] px-4 py-10 sm:px-6 sm:py-12 lg:py-14">
 
       <div className="mx-auto w-full max-w-[1280px]">
 

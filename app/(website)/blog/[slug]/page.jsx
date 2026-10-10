@@ -338,7 +338,7 @@ export default async function SingleBlogPage({ params }) {
           ARTICLE HERO
       =================================================== */}
 
-      <section className="relative overflow-hidden bg-[#12324a] px-4 pb-16 pt-10 text-white sm:px-6 lg:pb-20 lg:pt-12">
+      <section className="relative overflow-hidden bg-[#12324a] px-4 pb-16 pt-10 text-white sm:px-6 pt-26 sm:pt-28 lg:pb-14 lg:pt-30">
         {/* Grid background */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.05]"
