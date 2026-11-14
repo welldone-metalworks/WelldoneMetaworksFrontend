@@ -1,3 +1,7 @@
+// Happy Diwali 
+// Labh Pacham Subh Mahurat 
+
+
 import Home from "../pages-ui/Home";
 import { headers } from "next/headers";
 
